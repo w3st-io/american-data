@@ -152,7 +152,8 @@
 							<label for="card_number">Credit Card Number</label>
 							<div
 								id="billsby-number"
-								style="width:225px; height:35px; border: 2px solid"
+								class="w-100 form-control"
+								style="height:35px; border: 2px solid"
 							></div>
 						</div>
 
@@ -183,23 +184,25 @@
 							<label for="card_cvv">CVV</label>
 							<div
 								id="billsby-cvv"
-								style="width:60px; height:35px; border: 2px solid "
+								class="form-control w-100"
+								style="height:35px; border: 2px solid "
 							></div>
 						</div>
 
-						<!-- Signature -->
+						<!-- sign -->
 						<div class="col-12">
-							<!-- Signature -->
 							<div class="signature-wrap my-3 w-100">
 								<small>Please draw your signature with your mouse in the white box below</small>
+
+								<!-- BCPAINT INSERT -->
 								<div id="bcPaint"></div>
 							</div>
 							
 							<input
-							type="hidden"
-							name="sign"
-							id="sign"
-							value=""
+								type="hidden"
+								name="sign"
+								id="sign"
+								value=""
 							/>
 						</div>
 						
@@ -267,7 +270,8 @@
 		</div>
 	</div>
 </section>
-	
+
+
 <!-- Footer -->
 <?php include('footer.php'); ?>
 
@@ -288,37 +292,9 @@
 </script>
 
 
-
-<!-- [SCRIPT] Personal Functions -->
-<script>
-	// [FUNCTION] //
-	function submitPaymentFormPart2() {
-		// [INIT] //
-		var requiredFields = {}
-
-		// Get required, non-sensitive, values from host page
-		requiredFields['email'] = document.getElementById('email').value
-		requiredFields['card_name'] = document.getElementById('card_name').value
-		requiredFields['card_exp_month'] = document.getElementById('card_exp_month').value
-		requiredFields['card_exp_year'] = document.getElementById('card_exp_year').value
-		requiredFields['signature'] = document.getElementById('bcPaintCanvas').toDataURL('image/png')
-
-		let signInput = document.getElementById('sign')
-
-		signInput.value = requiredFields['signature']
-
-		console.log('requiredFields', requiredFields)
-
-		return true
-	}
-</script>
-
-
-
-<!-- [BILLSBY] ---------------->
+<!-- [SCRIPT] -->
 <script>
 	billsbyTokens.init("billsby-number", "billsby-cvv");
-
 
 	async function submitPaymentForm() {
 		// [INIT] //
@@ -329,9 +305,14 @@
 		requiredFields['month'] = document.getElementById("card_exp_month").value
 		requiredFields['year'] = document.getElementById("card_exp_year").value
 
-		billsbyTokens.tokenizeCreditCard(requiredFields)
+		// Set Value for Signature
+		let sign = document.getElementById('bcPaintCanvas').toDataURL('image/png')
+		let signElement = document.getElementById('sign')
+		console.log(sign);
+		signElement.value = sign
 
-		return false 
+
+		billsbyTokens.tokenizeCreditCard(requiredFields)
 	}
 
 
