@@ -128,9 +128,22 @@
 							<input
 								type="email"
 								id="email"
-								class="form-control"
 								name="email"
 								value="<?php echo $email; ?>"
+								class="form-control"
+								required
+							>
+						</div>
+
+						<!-- Phone -->
+						<div class="col-12">
+							<label for="phone">Phone Number</label>
+							<input
+								type="input"
+								id="phone"
+								name="phone"
+								class="form-control"
+								value=""
 								required
 							>
 						</div>
@@ -284,6 +297,7 @@
 <!-- [SCRIPT][INIT] -->
 <script>
 	// [FORMAT] This sets the template for the input fields //
+	$('#phone').mask('999 999 9999')
 	$('#card_exp_month').mask('99')
 	$('#card_exp_year').mask('9999')
 	
