@@ -2,11 +2,14 @@
 // [REQUIRE] Personal //
 require_once('./api/billsby/index.php');
 
+
 // [INCLUDE] //
 include('./connection.php');
 
 
+// [BILLSBY]
 $BillsBy = new BillsBy();
+
 
 // [INIT] //
 $payment_method_token = $_POST['payment_method_token'];
