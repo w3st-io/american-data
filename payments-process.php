@@ -1,6 +1,7 @@
 <?php
 // [REQUIRE] Personal //
 require_once('./api/billsby/index.php');
+require_once('./api/stripe/index.php');
 
 
 // [INCLUDE] //
@@ -9,6 +10,8 @@ include('./connection.php');
 
 // [BILLSBY]
 $BillsBy = new BillsBy();
+
+$StripeWrapper = new StripeWrapper();
 
 
 // [INIT] //
@@ -64,6 +67,8 @@ echo '<h2>password: '.$password.'</h2>';
 // [BILLSBY] //
 // make request to api to charge and set subscription
 $BillsBy->createCustomerAndSubscription('s');
+
+$StripeWrapper->createToken();
 
 
 // [DATABASE] prepare and bind //
