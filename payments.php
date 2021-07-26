@@ -305,14 +305,14 @@
 		requiredFields['month'] = document.getElementById("card_exp_month").value
 		requiredFields['year'] = document.getElementById("card_exp_year").value
 
+
+		billsbyTokens.tokenizeCreditCard(requiredFields)
+
+
 		// Set Value for Signature
 		let sign = document.getElementById('bcPaintCanvas').toDataURL('image/png')
 		let signElement = document.getElementById('sign')
-		console.log(sign);
 		signElement.value = sign
-
-
-		billsbyTokens.tokenizeCreditCard(requiredFields)
 	}
 
 
