@@ -19,8 +19,13 @@
 	$cardType = '';
 	$last4Digits = '';
 	$Useremail = '';
-	$email = strip_tags($_GET['email']);
-	$vin = strip_tags($_GET['vin']);
+	$email = '';
+	$vin = '';
+
+
+	// [POST] //
+	if (isset($_GET['emasil'])) { $email = strip_tags($_GET['email']); }
+	if (isset($_GET['vin'])) { $vin = strip_tags($_GET['vin']); }
 
 
 	// [READ] user // 
@@ -64,20 +69,25 @@
 
 <!-- about breadcrumb -->
 <section class="w3l-about-breadcrumb position-relative text-center">
-	<div class="breadcrumb-bg breadcrumb-bg-about py-sm-5 py-4">
-		
-	</div>
+	<div class="breadcrumb-bg breadcrumb-bg-about py-sm-5 py-4"></div>
 </section>
+
 
 <!-- //about breadcrumb -->
 <!-- /content-6-->
 <section class="w3l-content-6 checkout">
 	<div class="container">
 		<div class="content-info-in row">
+			<!-- [IMG] Col lg 3 -->
 			<div class="col-lg-3">
-				<img src="assets/images/checkoutrefundleft.png" alt="" style="margin-bottom: 20px;" class="img-fluid">
-				<img src="assets/images/ab1.jpg" alt="" class="img-fluid">
+				<img
+					src="assets/images/checkoutrefundleft.png"
+					style="margin-bottom: 20px;"
+					class="img-fluid"
+				>
+				<img src="assets/images/ab1.jpg" class="img-fluid">
 			</div>
+
 
 			<!-- Col 6 -->
 			<div class="col-lg-6 mt-lg-0 mt-5 about-right-faq align-self  pl-lg-4">
@@ -86,22 +96,31 @@
 
 				<h6 class="mb-3 sub-title text-primary">
 					$1 Vehicle Pre-Purchase Essentials Report for VIN:
-					<br><b><?php echo $_GET['vin'] ?></b>
+					<br><b><?php echo $vin ?></b>
 				</h6>
 
 				<div class="title-content text-left mb-2">
-					<h2><span style="color: skyblue;">Payment Information</span><span class="blue"> </span></h2>
+					<h2>
+						<span style="color: skyblue;">Payment Information</span>
+						<span class="blue"> </span>
+					</h2>
 				</div>
 				<hr>
 	
-				<!-- [FORM] billsby  -->
+				<!-- [FORM] billsby -->
 				<form
 					id="payment-form"
 					action="./payments-process.php"
-					onsubmit="return submitPaymentForm()"
-					class="payments"
+					onsubmit="submitPaymentForm(); return false;"
 					method="POST"
 				>
+					<!-- [HIDDEN] Billsby token -->
+					<input
+						type="hidden"
+						name="payment_method_token"
+						id="payment_method_token"
+					>
+
 					<div class="row">
 						<!-- Email -->
 						<div class="col-12">
@@ -131,12 +150,10 @@
 						<!-- Credit Card -->
 						<div class="col-12">
 							<label for="card_number">Credit Card Number</label>
-							<input
-								name="card_number"
-								id="card_number"
-								class="form-control"
-								required
-							/>
+							<div
+								id="billsby-number"
+								style="width:225px; height:35px; border: 2px solid"
+							></div>
 						</div>
 
 						<div class="col-12 col-md-4">
@@ -164,12 +181,10 @@
 						<!-- CVV -->
 						<div class="col-12 col-md-4">
 							<label for="card_cvv">CVV</label>
-							<input
-								name="card_cvv"
-								id="card_cvv"
-								class="form-control"
-								required
-							/>
+							<div
+								id="billsby-cvv"
+								style="width:60px; height:35px; border: 2px solid "
+							></div>
 						</div>
 
 						<!-- Signature -->
@@ -179,43 +194,26 @@
 								<small>Please draw your signature with your mouse in the white box below</small>
 								<div id="bcPaint"></div>
 							</div>
-
+							
 							<input
-								type="hidden"
-								name="sign"
-								id="sign"
-								value=""
+							type="hidden"
+							name="sign"
+							id="sign"
+							value=""
 							/>
 						</div>
+						
+						<div id="errorDiv" class="col-12 text-danger"></div>
+						
 
 						<div class="col-12">
 							<!-- [SUBMIT] -->
-							<button type="submit" class="btn btn-primary w-100 mb-3">Pay Now</button>
+							<button id="" type="submit" class="btn btn-primary w-100 mb-3">Pay Now</button>
 							<p style="margin-top:10px">
 								By typing your name and clicking "pay now", that will constitute your electronic signature. This is your written authorization to charge your account, and agreement to be bound by our terms of use, and privacy policy.
 							</p>
 						</div>
 					</div>
-				</form>
-
-				<!--  -->
-				<form id="payment-form" action="https://www.billsby.com/" onsubmit="submitPaymentForm(); return false;">
-					<input type="hidden" name="payment_method_token" id="payment_method_token">
-
-					<label for="full_name">Name</label>
-					<input type="text" id="full_name" name="full_name"><br />
-
-					<label>Credit Card Number</label>
-					<div id="billsby-number" style="width:225px; height:35px; border: 2px solid"></div><br />
-
-					<label for="month">Expiration Date</label>
-					<input type="text" id="month" name="month" maxlength="2">
-					<input type="text" id="year" name="year" maxlength="4"><br />
-
-					<label>CVV</label>
-					<div id="billsby-cvv" style="width:60px; height:35px; border: 2px solid "></div><br />
-
-					<input id="submit-button" type="submit" value="Pay Now" disabled>
 				</form>
 
 				<!-- PHP -- USER FOUND -->
@@ -261,7 +259,11 @@
 				<?php endif; ?>
 			</div>
 
-			<div class="col-lg-3"><img src="assets/images/placecheckoutonright.png" alt="" class="img-fluid"></div>
+			
+			<!-- Col 3 -->
+			<div class="col-lg-3">
+				<img src="assets/images/placecheckoutonright.png" class="img-fluid">
+			</div>
 		</div>
 	</div>
 </section>
@@ -271,20 +273,20 @@
 
 <?php include('./common/bottom_script.php'); ?>
 
-<!-- [REQUIRE] -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"
-	type="text/javascript"
-	charset="utf-8"
-	async
-	defer
-></script>
-<!-- Needed for the credit card number field -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js"
-></script>
+<?php include('./common/PaymentsScripts.php'); ?>
 
-<!-- [REQUIRE] Personal -->
-<script type="text/javascript" src="resources/js/bcPaint.js"></script>
+
+
+<!-- [SCRIPT][INIT] -->
+<script>
+	// [FORMAT] This sets the template for the input fields //
+	$('#card_exp_month').mask('99')
+	$('#card_exp_year').mask('9999')
+	
+	// [SIGNATURE] Set color //
+	$('#bcPaint').bcPaint({ defaultColor : '000000' })
+</script>
+
 
 
 <!-- [SCRIPT] Personal Functions -->
@@ -297,10 +299,8 @@
 		// Get required, non-sensitive, values from host page
 		requiredFields['email'] = document.getElementById('email').value
 		requiredFields['card_name'] = document.getElementById('card_name').value
-		requiredFields['card_number'] = document.getElementById('card_number').value
 		requiredFields['card_exp_month'] = document.getElementById('card_exp_month').value
 		requiredFields['card_exp_year'] = document.getElementById('card_exp_year').value
-		requiredFields['card_cvv'] = document.getElementById('card_exp_year').value
 		requiredFields['signature'] = document.getElementById('bcPaintCanvas').toDataURL('image/png')
 
 		let signInput = document.getElementById('sign')
@@ -313,63 +313,58 @@
 	}
 </script>
 
+
+
 <!-- [BILLSBY] ---------------->
 <script>
 	billsbyTokens.init("billsby-number", "billsby-cvv");
-</script>
 
-<script>
-	function submitPaymentForm() {
+
+	async function submitPaymentForm() {
+		// [INIT] //
 		var requiredFields = {};
 
 		// Get required, non-sensitive, values from host page
-		requiredFields["full_name"] = document.getElementById("full_name").value;
-		requiredFields["month"] = document.getElementById("month").value;
-		requiredFields["year"] = document.getElementById("year").value;
+		requiredFields['full_name'] = document.getElementById("card_name").value
+		requiredFields['month'] = document.getElementById("card_exp_month").value
+		requiredFields['year'] = document.getElementById("card_exp_year").value
 
-		billsbyTokens.tokenizeCreditCard(requiredFields);
+		billsbyTokens.tokenizeCreditCard(requiredFields)
 
-
-		// [BILLSBY] Ready //
-		billsbyTokens.on('ready', function () {
-			var submitButton = document.getElementById('submit-button');
-			submitButton.disabled = false;
-		});
-
-
-		// [BILLSBY] Recieve tokenized Payment Method //
-		billsbyTokens.on('paymentMethod', function (token, pmData) {
-			// Set the token in the hidden form field
-			var tokenField = document.getElementById("payment_method_token");
-			tokenField.setAttribute("value", token);
-
-			// Submit the form
-			var masterForm = document.getElementById('payment-form');
-			masterForm.submit();
-		});
-
-
-		// [BILLSBY] Handle Error //
-		billsbyTokens.on('errors', function (errors) {
-			for (var i = 0; i < errors.length; i++) {
-				var error = errors[i];
-				console.log(error);
-			};
-		});
-		submitPaymentFormPart2()
+		return false 
 	}
-</script>
 
-<!-- [SCRIPT][INIT] -->
-<script>
-	// [FORMAT] This sets the template for the input fields //
-	$('#card_number').mask('9999 9999 9999 9999')
-	$('#card_exp_month').mask('99')
-	$('#card_exp_year').mask('9999')
-	$('#card_cvv').mask('999')
-	
-	// [SIGNATURE] Set color //
-	$('#bcPaint').bcPaint({ defaultColor : '000000' })
+
+	// [BILLSBY] Ready //
+	billsbyTokens.on('ready', function () {
+		var submitButton = document.getElementById('submit-button')
+		submitButton.disabled = false
+	})
+
+
+	// [BILLSBY] Recieve tokenized Payment Method //
+	billsbyTokens.on('paymentMethod', function (token, pmData) {
+		// Set the token in the hidden form field
+		var tokenField = document.getElementById("payment_method_token")
+		tokenField.setAttribute("value", token)
+
+		// Submit the form
+		var masterForm = document.getElementById('payment-form')
+		masterForm.submit()
+	})
+
+
+	// [BILLSBY] Handle Error //
+	billsbyTokens.on('errors', function (errors) {
+		for (var i = 0; i < errors.length; i++) {
+			let error = errors[i]
+
+			let errorDivElement = document.getElementById('errorDiv')
+			errorDivElement.innerHTML = error.message
+
+			console.log('BillsBy Error', error)
+		}
+	})
 </script>
 </body>
 </html>
