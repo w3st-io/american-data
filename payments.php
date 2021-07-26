@@ -107,12 +107,11 @@
 				</div>
 				<hr>
 	
-				<!-- [FORM] billsby -->
+				<!-- [FORM] billsby   -->
 				<form
 					id="payment-form"
-					action="./payments-process.php"
 					onsubmit="submitPaymentForm(); return false;"
-					method="POST"
+					action="./payments-process.php" method="POST"
 				>
 					<!-- [HIDDEN] Billsby token -->
 					<input
@@ -121,6 +120,41 @@
 						id="payment_method_token"
 					>
 
+					<!-- [HIDDEN] full_name -->
+					<input
+						type="hidden"
+						name="full_name"
+						id="full_name"
+					>
+
+					<!-- [HIDDEN] first_name -->
+					<input
+						type="hidden"
+						name="first_name"
+						id="first_name"
+					>
+
+					<!-- [HIDDEN] last_name -->
+					<input
+						type="hidden"
+						name="last_name"
+						id="last_name"
+					>
+
+					<!-- [HIDDEN] last_four_digits -->
+					<input
+						type="hidden"
+						name="last_four_digits"
+						id="last_four_digits"
+					>
+
+					<!-- [HIDDEN] card_type -->
+					<input
+						type="hidden"
+						name="card_type"
+						id="card_type"
+					>
+					
 					<div class="row">
 						<!-- Email -->
 						<div class="col-12">
@@ -339,9 +373,38 @@
 
 	// [BILLSBY] Recieve tokenized Payment Method //
 	billsbyTokens.on('paymentMethod', function (token, pmData) {
+		// [INIT] //
+		let element
+
+
 		// Set the token in the hidden form field
-		var tokenField = document.getElementById("payment_method_token")
+		let tokenField = document.getElementById('payment_method_token')
 		tokenField.setAttribute("value", token)
+
+
+		// [FULL-NAME] Set the token in the hidden form field //
+		element = document.getElementById('full_name')
+		element.setAttribute('value', pmData.full_name)
+
+
+		// [FIRST-NAME] Set the token in the hidden form field //
+		element = document.getElementById('first_name')
+		element.setAttribute('value', pmData.first_name)
+
+
+		// [LAST-NAME] Set the token in the hidden form field //
+		element = document.getElementById('last_name')
+		element.setAttribute('value', pmData.last_name)
+
+
+		// [LAST-FOUR-DIGITS] Set the token in the hidden form field //
+		element = document.getElementById('last_four_digits')
+		element.setAttribute('value', pmData.last_four_digits)
+
+
+		// [CARD-TYPE] Set the token in the hidden form field //
+		element = document.getElementById('card_type')
+		element.setAttribute('value', pmData.card_type)
 
 		// Submit the form
 		var masterForm = document.getElementById('payment-form')
