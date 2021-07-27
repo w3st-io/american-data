@@ -2,61 +2,10 @@
 	include('header.php');
 	include('connection.php');
 
-	// [INIT] //
-	$user_details;
-	$f_name = '';
-	$l_name = '';
-	$city = '';
-	$country = '';
-	$postCode = '';
-	$state = '';
-	$addressLine1 = '';
-	$addressLine2 = '';
-	$paymentCardToken = '';
-	$fullName = '';
-	$expiryMonth = '';
-	$expiryYear = '';
-	$cardType = '';
-	$last4Digits = '';
-	$Useremail = '';
-	$email = '';
-	$vin = '';
-
 
 	// [POST] //
 	if (isset($_GET['emasil'])) { $email = strip_tags($_GET['email']); }
 	if (isset($_GET['vin'])) { $vin = strip_tags($_GET['vin']); }
-
-
-	// [READ] user // 
-	/*
-	$query = $conn->prepare("SELECT * FROM `users` WHERE `email` = ?");
-	$query->bindValue(1, $email);
-	$query->execute();
-
-	# If rows are found for query
-	if($query->rowCount() > 0) {
-		$status = 1;
-		$user_details = $query->fetch();
-
-		$f_name = $user_details['f_name'];
-		$l_name = $user_details['l_name'];
-		$city = $user_details['city'];
-		$country = $user_details['country'];
-		$postCode = $user_details['postCode'];
-		$state = $user_details['state'];
-		$addressLine1 = $user_details['addressLine1'];
-		$addressLine2 = $user_details['addressLine2'];
-		$paymentCardToken = $user_details['paymentCardToken'];
-		$fullName = $user_details['fullName'];
-		$expiryMonth = $user_details['expiryMonth'];
-		$expiryYear = $user_details['expiryYear'];
-		$cardType = $user_details['cardType'];
-		$last4Digits = $user_details['last4Digits'];
-		$Useremail = $user_details['Useremail'];
-	}
-	else { $status = 0; }
-	*/
 ?>
 
 <style type="text/css" media="screen">
