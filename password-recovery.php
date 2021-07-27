@@ -55,7 +55,6 @@
 
 
 		// [MAIL] Send the password reset //
-		// 
 		$send_to = 'aleem.ahmed1997@gmail.com';
 		$subject = 'Reset password';
 		$message = <<<BODY
