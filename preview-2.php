@@ -15,10 +15,16 @@
 			<!-- [IMG] col lg 3 -->
 			<div class="col-lg-3">
 				<div class="image-banner">
-					<img src="assets/images/checkoutrefundleft.png" alt="" style="margin-bottom: 20px;" class="img-fluid">
+					<img
+						src="assets/images/checkoutrefundleft.png"
+						alt=""
+						class="img-fluid"
+						style="margin-bottom: 20px;"
+					>
 					<img src="assets/images/ab1.jpg" alt="" class="img-fluid">
 				</div>
 			</div>
+
 
 			<!-- [MAIN] Col 6 -->
 			<div class="col-lg-6 mt-lg-0 mt-5 pl-lg-4 about-right-faq align-self">
@@ -26,10 +32,12 @@
 				<?php include('./components/loading/BuyWithConfidence.php'); ?>
 
 				<!-- [DISPLAY] Your Vin Number Here -->
-				<h5 class="mb-3 text-secondary">Your Vin Number: <?php echo $_GET['vin']; ?></h3>
+				<h5 class="mb-3 text-secondary">
+					Your Vin Number: <?php echo $_GET['vin']; ?>
+				</h3>
 
 				<!-- [SUBMIT] -->
-				<a href="./payments.php?vin=<?php echo $_GET['vin']; ?>&email=">
+				<a href="./payments.php?vin=<?php echo $_GET['vin']; ?>">
 					<button
 						type="submit"
 						class="btn btn-primary w-100 mb-3"
@@ -37,6 +45,7 @@
 				</a>
 			</div>
 
+			
 			<!-- [IMG] Col 3 -->
 			<div class="col-lg-3">
 				<img src="assets/images/placecheckoutonright.png" class="img-fluid">
