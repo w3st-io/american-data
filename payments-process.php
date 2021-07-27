@@ -194,6 +194,8 @@
 				style="max-width: 500px;"
 				placeholder="Password (Default is last 4 digits of your phone)"
 			>
+
+			<div class="btn btn-primary mb-3">Login</div>
 		
 		<?php else: ?>
 			
