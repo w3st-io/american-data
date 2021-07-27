@@ -1,3 +1,8 @@
+<?php // [INIT] session //
+	session_start();
+
+	if ($_SESSION['loggedin'] != true) $_SESSION['loggedin'] = false
+?>
 <!doctype html>
 <html lang="zxx">
 <head>
@@ -21,6 +26,12 @@
 	<!-- [BILLSBY] -->
 	<script src="https://tokenlib.billsby.com/tokenizer.min.js"></script>
 	<script src="https://checkoutlib.billsby.com/checkout.min.js" data-billsby-company="usadata"></script>
+
+
+	<!-- [POPPER] -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+	
 
 	<!-- Google Tag Manager -->
 	<script>
@@ -49,36 +60,52 @@
 
 <!--header-->
 <header id="site-header" class="fixed-top">
-	<div class="container">
+	<div class="container-fluid">
 		<nav class="navbar navbar-expand-lg navbar-light">
-		<h1>
-			<a class="navbar-brand" href="/">
-				<span>VIN</span> History reports America
-			</a>
-		</h1>
-		<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarNav"
-			aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="fa icon-expand fa-bars"></span>
-			<span class="fa icon-close fa-times"></span>
-		</button>
+			<h1>
+				<a class="navbar-brand" href="/">
+					<span>VIN</span> History reports America
+				</a>
+			</h1>
+			<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarNav"
+				aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="fa icon-expand fa-bars"></span>
+				<span class="fa icon-close fa-times"></span>
+			</button>
 
-		<div class="collapse navbar-collapse" id="navbarNav">
+			<div class="collapse navbar-collapse" id="navbarNav">
 
-			<ul class="navbar-nav search-right mt-lg-0 mt-2">
-			<li>
-				<span>email us at:</span>
-				<a href="mail:support@americanvinhistory.com" class="contact-method">
-				support@americanvinhistory.com
-			</a>
+				<ul class="navbar-nav text-dark search-right mt-lg-0 mt-2">
+					
+					<li class="nav-item">
+						<a
+							href="#contact"
+							class="btn btn-primary d-none d-lg-block mr-2"
+						>Contact Us</a>
+					</li>
 
-				</li>
-			<!-- <li class="nav-item mr-3" title="Search"><a href="#search" class="btn search-search">
-				<span class="fa fa-search" aria-hidden="true"></span></a></li> -->
-			<li class="nav-item"><a href="#contact" class="btn btn-primary d-none d-lg-block btn-style mr-2">Contact
-				Us</a></li>
-			</ul>         
-		</div>
-		
+					<?php if ($_SESSION['loggedin']): ?>
+
+						<li class="nav-item">
+							<a
+								href="./dashboard.php"
+								class="btn btn-primary d-none d-lg-block ml-auto"
+							>Dashboard</a>
+						</li>
+
+					<?php else: ?>
+
+						<li class="nav-item">
+							<a
+								href="./login.php"
+								class="btn btn-primary"
+							>Login</a>
+						</li>
+
+					<?php endif; ?>
+
+				</ul>
+			</div>
 		</nav>
 	</div>
 </header>

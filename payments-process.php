@@ -17,44 +17,41 @@
 
 	// [INIT] //
 	$status = 'good';
-	
 	$tokenObj = '';
+	$email = '';
+	$phone = '';
+	$card_name = '';
+	$card_number = '';
+	$card_exp_month = '';
+	$card_exp_year = '';
+	$card_cvv = '';
+	$sign = '';
 
-	$email = $_POST['email'];
 
-	$phone = $_POST['phone'];
 
-	$card_name = $_POST['card_name'];
 
-	$card_number = $_POST['card_number'];
-
-	$card_exp_month = $_POST['card_exp_month'];
-
-	$card_exp_year = $_POST['card_exp_year'];
-
-	$card_cvv = $_POST['card_cvv'];
-
-	$sign = $_POST['sign'];
+	// [POST-VALUES] //
+	if (isset($_POST['email'])) { $email = strip_tags($_POST['email']); }
+	if (isset($_POST['phone'])) { $phone = strip_tags($_POST['phone']); }
+	if (isset($_POST['card_name'])) { $card_name = strip_tags($_POST['card_name']); }
+	if (isset($_POST['card_number'])) { $card_number = strip_tags($_POST['card_number']); }
+	if (isset($_POST['card_exp_month'])) { $card_exp_month = strip_tags($_POST['card_exp_month']); }
+	if (isset($_POST['card_exp_year'])) { $card_exp_year = strip_tags($_POST['card_exp_year']); }
+	if (isset($_POST['card_cvv'])) { $card_cvv = strip_tags($_POST['card_cvv']); }
+	if (isset($_POST['sign'])) { $sign = strip_tags($_POST['sign']); }
 
 
 
 	// [SANTIZE] //
 	$email = filter_var($email, FILTER_SANITIZE_STRING);
-
 	$phone = filter_var($phone, FILTER_SANITIZE_NUMBER_INT);
 	$phone = preg_replace( '/\d[ *]\d/', '', $phone);
-
 	$card_name = filter_var($card_name, FILTER_SANITIZE_STRING);
-
 	$card_number = filter_var($card_number, FILTER_SANITIZE_NUMBER_INT);
 	$card_number = preg_replace( '/\d[ *]\d/', '', $card_number);
-
 	$card_exp_month = filter_var($card_exp_month, FILTER_SANITIZE_NUMBER_INT);
-
 	$card_exp_year = filter_var($card_exp_year, FILTER_SANITIZE_NUMBER_INT);
-
 	$card_cvv = filter_var($card_cvv, FILTER_SANITIZE_NUMBER_INT);
-
 	$sign = filter_var($sign, FILTER_SANITIZE_STRING);
 
 
@@ -110,7 +107,6 @@
 		
 		// [STRIPE] Charge Customer
 		$customerObj = $StripeWrapper->createOneDollarCharge($customerObj['id']);
-		
 		
 		
 		// [DATABASE] prepare and bind //
