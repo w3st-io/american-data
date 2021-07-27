@@ -142,14 +142,14 @@
 		
 		
 		
+		// [CLOSE] Query //
+		$stmt->close();
+		
+		
+		
 		// [STATUS] //
 		if ($stmt->error) { $status = 'Database Error: '.$stmt->error; }
 		else { $status = 'New records created successfully'; }
-		
-		
-		
-		// [CLOSE] Query //
-		$stmt->close();
 	}
 
 
@@ -210,8 +210,10 @@
 			<h3>Thank You! We have created an account for you.</h3>
 			
 		<?php endif; ?>
-			
+		
+		
 		<?php
+			/*
 			// [ADMIN][DEBUG] //
 			echo '<div class="p-2 border border-warning">';
 			echo '<h6 class="text-warning">Status: '.$status.'</h6>';
@@ -226,6 +228,7 @@
 			//echo '<h6 class="text-warning">signature: '.$sign.'</h6>';
 			echo '<h6 class="text-warning">tokenObj: '.$tokenObj.'</h6>';
 			echo '</div>';
+			*/
 		?>
 
 	</div>

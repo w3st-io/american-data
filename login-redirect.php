@@ -16,11 +16,11 @@
 
 
 	// Check if email is empty
-	if (empty(trim($_POST['email']))) { $error = "Please enter email"; }
+	if (empty($_POST['email'])) { $error = "Please enter email"; }
 	else { $email = trim($_POST["email"]); }
 
 	// Check if password is empty
-	if(empty(trim($_POST['password']))) { $error = "Please enter your password"; }
+	if(empty($_POST['password'])) { $error = "Please enter your password"; }
 	else { $password = trim($_POST["password"]); }
 	
 
