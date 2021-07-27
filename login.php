@@ -1,6 +1,6 @@
 <?php
 // Include config file
-require_once "config.php";
+require_once "connection.php";
 
 
 // [INIT] //
@@ -43,7 +43,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		// Prepare a select statement
 		$sql = "SELECT id, username, password FROM users WHERE username = ?";
 		
-		if ($stmt = $mysqli->prepare($sql)) {
+		if ($stmt = $conn->prepare($sql)) {
 			// Bind variables to the prepared statement as parameters
 			$stmt->bind_param('s', $param_username);
 			
@@ -93,7 +93,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	}
     
 	// Close connection
-	$mysqli->close();
+	$conn->close();
 }
 ?>
 
@@ -106,54 +106,61 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	<div class="breadcrumb-bg breadcrumb-bg-about py-sm-5 py-4"></div>
 </section>
 
-<div class="wrapper">
-	<h2>Login</h2>
-	<p>Please fill in your credentials to login.</p>
-
-	<?php 
-		if (!empty($login_err)) {
-			echo '<div class="alert alert-danger">' . $login_err . '</div>';
-		}        
-	?>
-
-	<form
-		action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"
-		method="post"
-	>
-		<div class="form-group">
-			<!-- Username -->
-			<label>Username</label>
-			<input
-				type="text"
-				name="username"
-				class="
-					form-control
-					<?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>
-				"
-				value="<?php echo $username; ?>"
-			>
-			<span class="invalid-feedback"><?php echo $username_err; ?></span>
-		</div>
-
-		<div class="form-group">
-				<!-- Password -->
-				<label>Password</label>
+<div class="container my-5">
+	<div class="card card-body mx-auto shadow" style="max-width: 500px;">
+		<h2>Login</h2>
+		<p>Please fill in your credentials to login.</p>
+	
+		<?php 
+			if (!empty($login_err)) {
+				echo '<div class="alert alert-danger">' . $login_err . '</div>';
+			}        
+		?>
+	
+		<form
+			action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"
+			method="post"
+		>
+			<div class="form-group">
+				<!-- Username -->
+				<label>Username</label>
 				<input
-					type="password"
-					name="password"
+					type="text"
+					name="username"
 					class="
 						form-control
-						<?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>
+						<?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>
 					"
+					value="<?php echo $username; ?>"
 				>
-				<span class="invalid-feedback"><?php echo $password_err; ?></span>
-		</div>
-
-		<div class="form-group">
-			<!-- Submit -->
-			<input type="submit" class="btn btn-primary" value="Login">
-		</div>
-	</form>
+				<span class="invalid-feedback"><?php echo $username_err; ?></span>
+			</div>
+	
+			<div class="form-group">
+					<!-- Password -->
+					<label>Password</label>
+					<input
+						type="password"
+						name="password"
+						class="
+							form-control
+							<?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>
+						"
+					>
+					<span class="invalid-feedback"><?php echo $password_err; ?></span>
+			</div>
+	
+			<div class="form-group">
+				<!-- Submit -->
+				<input type="submit" class="btn btn-primary" value="Login">
+			</div>
+		</form>
+	</div>
 </div>
+
+<!-- [FOOTER] -->
+<?php include('footer.php'); ?>
+
+<?php include('./common/bottom_script.php'); ?>
 </body>
 </html>
