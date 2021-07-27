@@ -185,17 +185,29 @@
 			<label class="font-weight-bold">Username:</label>
 			<h6 class="mb-3"><?php echo $email; ?></h6>
 
-			<label for="password" class="font-weight-bold">Password:</label>
-			<input
-				id="password"
-				name="password"
-				type="password"
-				class="form-control my-2"
-				style="max-width: 500px;"
-				placeholder="Password (Default is last 4 digits of your phone)"
-			>
+			<form action="./login-redirect.php" moeth="POST">
+				<label for="password" class="font-weight-bold">Password:</label>
 
-			<div class="btn btn-primary mb-3">Login</div>
+				<input
+					type="hidden"
+					id="email"
+					name="email"
+					value="<?php echo $email; ?>"
+				>
+				<!-- Password -->
+				<input
+					id="password"
+					name="password"
+					type="password"
+					class="form-control my-2"
+					style="max-width: 500px;"
+					placeholder="Password (Default is last 4 digits of your phone)"
+				>
+
+				<!-- [SUBMIT] -->
+				<div class="btn btn-primary mb-3">Login</div>
+			</form>
+
 		
 		<?php else: ?>
 			

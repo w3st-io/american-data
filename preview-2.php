@@ -29,7 +29,7 @@
 			<!-- [MAIN] Col 6 -->
 			<div class="col-lg-6 mt-lg-0 mt-5 pl-lg-4 about-right-faq align-self">
 				<!-- [COMPONENTS] -->
-				<?php include('./components/loading/BuyWithConfidence.php'); ?>
+				<?php include('./components/preview-2/BuyWithConfidence.php'); ?>
 
 				<!-- [DISPLAY] Your Vin Number Here -->
 				<h5 class="mb-3 text-secondary">

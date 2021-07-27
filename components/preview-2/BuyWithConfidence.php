@@ -1,7 +1,9 @@
 <div class="title-content text-left mb-2">
 	<h2>
-		<span style="color: skyblue;">Buy with Confidence </span>:<span class="blue"> $1 Vehicle Pre-Purchase Essentials Report</span>
+		<span class="text-danger">Buy with Confidence!</span><br>
+		<span class="text-success">$1 Vehicle Pre-Purchase Essentials Report</span>
 	</h2>
+	<hr>
 	<h6 class="sub-title">Why Do I Have to Pay A Dollar?</h6>
 	
 	<ul class="elementor-icon-list-items mb-4">
@@ -25,3 +27,5 @@
 		</li>
 	</ul>
 </div>
+
+<hr>
