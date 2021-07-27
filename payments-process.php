@@ -170,12 +170,21 @@
 </section>
 
 
+<div class="card card-body">
+
+<!-- User Found -->
 <?php if($fetched_email): ?>
 
-<h3>User Found</h3>
+	<h3>You already have an account!</h3>
+	<h6 class="text-secondary">Please enter your password to continue.</h6>
 
-<?php endif; ?>
+<?php else: ?>
 
+	<h3>Thank You! We have created an account for you.</h3>
+
+<?php endif: ?>
+
+<!-- [ADMIN] -->
 <?php
 	// [ECHO] //
 	echo '<h2>email: '.$email.'</h2>';
@@ -189,6 +198,8 @@
 	//echo '<h2>signature: '.$sign.'</h2>';
 	echo '<h2>tokenObj: '.$tokenObj.'</h2>';
 ?>
+
+</div>
 
 <!-- [FOOTER] -->
 <?php include('footer.php'); ?>
