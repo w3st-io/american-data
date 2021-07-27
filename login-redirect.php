@@ -75,15 +75,24 @@
 			$_SESSION['loggedin'] = true;
 			$_SESSION['id'] = $fetched_id;
 			$_SESSION['email'] = $fetched_email;
+			$_SESSION['fetched_stripe_customer_token'] = $fetched_stripe_customer_token;
+
+			header('Location: ./dashboard.php');
 		}
-	}
+		else {
+			// [REDIRECT] back to login page //
+			$error = 'invalid login';
+	
+			header('Location: ./login.php?error='.$error.'&email='.$email);
+		}
+	}	
 	else {
 		// [REDIRECT] back to login page //
 		echo $error;
+
+		header('Location: ./login.php?error='.$error);
 	}
-	
-	
-	
+
 	
 	// [CLOSE] Query //
 	$stmt->close();

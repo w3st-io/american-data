@@ -8,7 +8,13 @@
 	$password = '';
 	$username_err = '';
 	$password_err = '';
-	$login_err = '';
+	$error = '';
+
+
+	// [POST-VALUE] //
+	if (isset($_GET['email'])) { $email = strip_tags($_GET['email']); }
+	if (isset($_GET['error'])) { $error = strip_tags($_GET['error']); }
+
 	
 
 	// [USER-LOGGED] redirect to welcome page //
@@ -31,12 +37,6 @@
 	<div class="card card-body mx-auto shadow" style="max-width: 500px;">
 		<h2>Login</h2>
 		<p>Please fill in your credentials to login.</p>
-	
-		<?php 
-			if (!empty($error)) {
-				echo '<div class="alert alert-danger">' . $error . '</div>';
-			}        
-		?>
 	
 		<form
 			action="./login-redirect.php"
@@ -69,6 +69,16 @@
 			</div>
 		</form>
 	</div>
+
+	<?php 
+		if (!empty($error)) {
+			echo
+				'<div class="alert alert-danger mx-auto my-3" style="max-width: 500px;">'
+					.$error.
+				'</div>'
+			;
+		}        
+	?>
 </div>
 
 <!-- [FOOTER] -->

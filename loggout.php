@@ -1,7 +1,7 @@
 <?php
-	$_SESSION['loggedin'] = false;
-	$_SESSION['id'] = null;
-	$_SESSION['email'] = null;
+	if (!isset($_SESSION)) { session_start(); }
+
+	echo 'Logging Out..';
 
 	session_destroy();
 

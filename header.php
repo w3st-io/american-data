@@ -1,7 +1,11 @@
-<?php // [INIT] session //
-	session_start();
+<?php
+	$loggedin = false;
 
-	if ($_SESSION['loggedin'] != true) $_SESSION['loggedin'] = false
+	// [INIT] session //
+	if (!isset($_SESSION)) { session_start(); }
+	else {
+		if ($_SESSION['loggedin'] != true) { $loggedin = false; }
+	}
 ?>
 <!doctype html>
 <html lang="zxx">
@@ -84,7 +88,7 @@
 						>Contact Us</a>
 					</li>
 
-					<?php if ($_SESSION['loggedin']): ?>
+					<?php if ($loggedin): ?>
 
 						<li class="nav-item">
 							<a
