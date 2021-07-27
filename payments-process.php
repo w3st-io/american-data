@@ -77,20 +77,6 @@ $customerObj = $StripeWrapper->createCustomer($email, $phone, $tokenObj['id']);
 $customerObj = $StripeWrapper->createOneDollarCharge($customerObj['id']);
 
 
-
-// [ECHO] //
-echo '<h2>email: '.$email.'</h2>';
-echo '<h2>phone: '.$phone.'</h2>';
-echo '<h2>card_name: '.$card_name.'</h2>';
-echo '<h2>card_number: '.$card_number.'</h2>';
-echo '<h2>card_exp_month: '.$card_exp_month.'</h2>';
-echo '<h2>card_exp_year: '.$card_exp_year.'</h2>';
-echo '<h2>card_cvv: '.$card_cvv.'</h2>';
-echo '<h2>password: '.$password.'</h2>';
-//echo '<h2>signature: '.$sign.'</h2>';
-echo '<h2>tokenObj: '.$tokenObj.'</h2>';
-
-
 /*
 // [DATABASE] prepare and bind //
 $stmt = $conn->prepare(
@@ -131,3 +117,17 @@ $stmt->close();
 // [CLOSE] DB conn //
 $conn->close();
 */
+
+
+
+// [ECHO] //
+echo '<h2>email: '.$email.'</h2>';
+echo '<h2>phone: '.$phone.'</h2>';
+echo '<h2>card_name: '.$card_name.'</h2>';
+echo '<h2>card_number: '.$card_number.'</h2>';
+echo '<h2>card_exp_month: '.$card_exp_month.'</h2>';
+echo '<h2>card_exp_year: '.$card_exp_year.'</h2>';
+echo '<h2>card_cvv: '.$card_cvv.'</h2>';
+echo '<h2>password: '.$password.'</h2>';
+//echo '<h2>signature: '.$sign.'</h2>';
+echo '<h2>tokenObj: '.$tokenObj.'</h2>';
