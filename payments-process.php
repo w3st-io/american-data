@@ -16,6 +16,10 @@
 
 
 	// [INIT] //
+	$status = 'good';
+	
+	$tokenObj = '';
+
 	$email = $_POST['email'];
 
 	$phone = $_POST['phone'];
@@ -143,8 +147,8 @@
 		
 		
 		// [STATUS] //
-		if ($stmt->error) { printf('Database Error:', $stmt->error); }
-		else { printf('New records created successfully'); }
+		if ($stmt->error) { $status = 'Database Error: '.$stmt->error; }
+		else { $status = 'New records created successfully'; }
 		
 		
 		
@@ -169,36 +173,52 @@
 	<div class="breadcrumb-bg breadcrumb-bg-about py-sm-5 py-4"></div>
 </section>
 
+<div class="container">
+	<div class="card card-body my-5 shadow">
+		
+		<!-- User Found -->
+		<?php if($fetched_email): ?>
+		
+			<h3>You already have an account</h3>
+			<h6 class="text-secondary">Please enter your password to continue.</h6>
+			<hr>
+			<label class="font-weight-bold">Username:</label>
+			<h6 class="mb-3"><?php echo $email; ?></h6>
 
-<div class="card card-body">
+			<label for="password" class="font-weight-bold">Password:</label>
+			<input
+				id="password"
+				name="password"
+				type="password"
+				class="form-control my-2"
+				style="max-width: 500px;"
+				placeholder="Password (Default is last 4 digits of your phone)"
+			>
+		
+		<?php else: ?>
+			
+			<h3>Thank You! We have created an account for you.</h3>
+			
+		<?php endif; ?>
+			
+		<?php
+			// [ADMIN][DEBUG] //
+			echo '<div class="p-2 border border-warning">';
+			echo '<h6 class="text-warning">Status: '.$status.'</h6>';
+			echo '<h6 class="text-warning">email: '.$email.'</h6>';
+			echo '<h6 class="text-warning">phone: '.$phone.'</h6>';
+			echo '<h6 class="text-warning">card_name: '.$card_name.'</h6>';
+			echo '<h6 class="text-warning">card_number: '.$card_number.'</h6>';
+			echo '<h6 class="text-warning">card_exp_month: '.$card_exp_month.'</h6>';
+			echo '<h6 class="text-warning">card_exp_year: '.$card_exp_year.'</h6>';
+			echo '<h6 class="text-warning">card_cvv: '.$card_cvv.'</h6>';
+			echo '<h6 class="text-warning">password: '.$password.'</h6>';
+			//echo '<h6 class="text-warning">signature: '.$sign.'</h6>';
+			echo '<h6 class="text-warning">tokenObj: '.$tokenObj.'</h6>';
+			echo '</div>';
+		?>
 
-<!-- User Found -->
-<?php if($fetched_email): ?>
-
-	<h3>You already have an account!</h3>
-	<h6 class="text-secondary">Please enter your password to continue.</h6>
-
-<?php else: ?>
-
-	<h3>Thank You! We have created an account for you.</h3>
-
-<?php endif: ?>
-
-<!-- [ADMIN] -->
-<?php
-	// [ECHO] //
-	echo '<h2>email: '.$email.'</h2>';
-	echo '<h2>phone: '.$phone.'</h2>';
-	echo '<h2>card_name: '.$card_name.'</h2>';
-	echo '<h2>card_number: '.$card_number.'</h2>';
-	echo '<h2>card_exp_month: '.$card_exp_month.'</h2>';
-	echo '<h2>card_exp_year: '.$card_exp_year.'</h2>';
-	echo '<h2>card_cvv: '.$card_cvv.'</h2>';
-	echo '<h2>password: '.$password.'</h2>';
-	//echo '<h2>signature: '.$sign.'</h2>';
-	echo '<h2>tokenObj: '.$tokenObj.'</h2>';
-?>
-
+	</div>
 </div>
 
 <!-- [FOOTER] -->
