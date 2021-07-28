@@ -4,7 +4,7 @@
 	// [INIT] session //
 	if (!isset($_SESSION)) { session_start(); }
 	else {
-		if ($_SESSION['loggedin'] != true) { $loggedin = false; }
+		if ($_SESSION['loggedin'] == true) { $loggedin = true; }
 	}
 ?>
 <!doctype html>
