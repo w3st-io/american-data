@@ -9,28 +9,26 @@ $data = array();
 $date = date('l jS \of F Y h:i:s A');
 
 
+// [INIT] //
+$vin = 'undefined';
+$data['vin'] = 'undefined';
+$data['is_salvage'] = 'undefined';
+$data['vehicle_title'] = 'undefined';
+$data['loss_type'] = 'undefined';
+$data['mileage'] = 'undefined';
+$data['primary_damage'] = 'undefined';
+$data['secondary_damage'] = 'undefined';
+
+
 // [POST-VALUES] //
-/*
-$data['vin'] = $vin = $_POST['vin'];
-$data['email'] = $_POST['email'];
-$data['password'] = $_POST['password'];
-$data['is_salvage'] = $_POST['is_salvage'];
-$data['vehicle_title'] = $_POST['vehicle_title'];
-$data['loss_type'] = $_POST['loss_type'];
-$data['mileage'] = $_POST['mileage'];
-$data['primary_damage'] = $_POST['primary_damage'];
-$data['secondary_damage'] = $_POST['secondary_damage'];
-*/
-$vin = 'vin3';
-$data['vin'] = 'vin';
-$data['email'] = 'email';
-$data['password'] = 'password';
-$data['is_salvage'] = 'is_salvage';
-$data['vehicle_title'] = 'vehicle_title';
-$data['loss_type'] = 'loss_type';
-$data['mileage'] = 'mileage';
-$data['primary_damage'] = 'primary_damage';
-$data['secondary_damage'] = 'secondary_damage';
+if ($_POST['vin'] != '') { $vin = $_POST['vin']; }
+if ($_POST['vin'] != '') { $data['vin'] = $_POST['vin']; }
+if ($_POST['is_salvage'] != '') { $data['is_salvage'] = $_POST['is_salvage']; }
+if ($_POST['vehicle_title'] != '') { $data['vehicle_title'] = $_POST['vehicle_title']; }
+if ($_POST['loss_type'] != '') { $data['loss_type'] = $_POST['loss_type']; }
+if ($_POST['mileage'] != '') { $data['mileage'] = $_POST['mileage']; }
+if ($_POST['primary_damage'] != '') { $data['primary_damage'] = $_POST['primary_damage']; }
+if ($_POST['secondary_damage'] != '') { $data['secondary_damage'] = $_POST['secondary_damage']; }
 
 
 error_reporting(E_ALL);
@@ -98,62 +96,56 @@ if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
 
 
 // ---------------------------------------------------------
-
 // set font
 $pdf->SetFont('dejavusans', '', 10);
-
 
 // add a page
 $pdf->AddPage();
 
-
-// writeHTML($html, $ln=true, $fill=false, $reseth=false, $cell=false, $align='')
-// writeHTMLCell($w, $h, $x, $y, $html='', $border=0, $ln=0, $fill=0, $reseth=true, $align='', $autopadding=true)
-
 // create some HTML content
-$html .= '<h1>VIN HISTORY REPORTS AMARICA</h1>
+$html .= '
+<h1>VIN HISTORY REPORTS AMARICA</h1>
 Report Generated of VIN Number : <h2>' . $vin. '</h2>
-Date: '. $date;
+Date: '. $date
+;
 
 
 // create some HTML content
 
-$html .= '<h2>Essentials Report</h2>
-<table border="1" cellspacing="1" cellpadding="1">
-	<tr>
-		<th></th>
-		<th align="right"></th>
-	</tr>
-	<tr>
-		<td>VIN Number</td>	
-		<td>'.$data['vin'].'</td>
-	</tr>
-	<tr>
-		<td>Is salvage?</td>	
-		<td>'.$data['is_salvage'].'</td>
-	</tr>
-	<tr>
-		<td>Vehicle title</td>	
-		<td>'.$data['vehicle_title'].'</td>
-	</tr>
+$html .= '
+	<h2>Essentials Report</h2>
+	<table border="1" cellspacing="1" cellpadding="1">
+		<tr>
+			<td>VIN Number</td>	
+			<td>'.$data['vin'].'</td>
+		</tr>
+		<tr>
+			<td>Is salvage?</td>	
+			<td>'.$data['is_salvage'].'</td>
+		</tr>
+		<tr>
+			<td>Vehicle title</td>	
+			<td>'.$data['vehicle_title'].'</td>
+		</tr>
 
-	<tr>
-		<td>Loss type</td>	
-		<td>'.$data['loss_type'].'</td>
-	</tr>
-	<tr>
-		<td>Mileage</td>	
-		<td>'.$data['mileage'].'</td>
-	</tr>
-	<tr>
-		<td>Primary damage</td>	
-		<td>'.$data['primary_damage'].'</td>
-	</tr>
-	<tr>
-		<td>Secondary damage</td>	
-		<td>'.$data['secondary_damage'].'</td>
-	</tr>
-</table>';
+		<tr>
+			<td>Loss type</td>	
+			<td>'.$data['loss_type'].'</td>
+		</tr>
+		<tr>
+			<td>Mileage</td>	
+			<td>'.$data['mileage'].'</td>
+		</tr>
+		<tr>
+			<td>Primary damage</td>	
+			<td>'.$data['primary_damage'].'</td>
+		</tr>
+		<tr>
+			<td>Secondary damage</td>	
+			<td>'.$data['secondary_damage'].'</td>
+		</tr>
+	</table>
+';
 
 // output the HTML content
 $pdf->writeHTML($html, true, false, true, false, '');
@@ -169,8 +161,3 @@ $name = $data['vin'];
 
 //Close and output PDF document
 $pdf->Output('example_006.pdf', 'I');
-
-//============================================================+
-// END OF FILE
-//============================================================+
-
