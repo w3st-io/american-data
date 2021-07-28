@@ -1,4 +1,8 @@
 <?php
+	// [INCLUDE] //
+	include('./connection.php');
+
+
 	// [INIT] //
 	$email = '';
 	$v_code = '';
@@ -6,31 +10,31 @@
 
 
 	// Processing form data when form is submitted
-	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-		// [GET-VALUES] //
-		if (empty($_GET['email'])) { $error = "Please enter email"; }
+	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		// [POST-VALUES] //
+		if (empty($_POST['email'])) { $error = 'No email'; }
 		else {
-			$email = trim($_GET["email"]);
+			$email = trim($_POST['email']);
 		
 			// [SANITIZE] //
 			$email = filter_var($email, FILTER_SANITIZE_STRING);
 		}
 		
 		
-		// [GET-VALUES] //
-		if (empty($_GET['email'])) { $error = "Please enter email"; }
+		// [POST-VALUES] //
+		if (empty($_POST['v_code'])) { $error = 'No v_code'; }
 		else {
-			$email = trim($_GET["email"]);
+			$v_code = trim($_POST['v_code']);
 		
 			// [SANITIZE] //
 			$v_code = filter_var($v_code, FILTER_SANITIZE_STRING);
 		}
 		
 
-		// [GET-VALUES] //
-		if (empty($_POST['password'])) { $error = "Please enter password"; }
+		// [POST-VALUES] //
+		if (empty($_POST['password'])) { $error = 'Please enter password'; }
 		else {
-			$password = trim($_POST["password"]);
+			$password = trim($_POST['password']);
 		
 			// [SANITIZE] //
 			$password = filter_var($password, FILTER_SANITIZE_STRING);
@@ -39,12 +43,18 @@
 		
 		// Check if email is empty
 		if (empty($error)) {
+			// [VERIFY] //
+
+
+
+			echo 'sdfsdf'. $email . $v_code . $password;
+
 			// [DATABASE] prepare and bind //
-			$stmt = $conn->prepare("
+			$stmt = $conn->prepare('
 				UPDATE users
 				SET password = ?
 				WHERE email = ?;
-			");
+			');
 
 
 
@@ -66,12 +76,32 @@
 			$stmt->close();
 
 
+
 			echo 'password changed';
 		}
 	}
 ?>
 
 
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+	<input
+		type="hidden"
+		name="email"
+		id="email"
+		value="<?php echo $_GET['email']; ?>"
+	>
+
+	<input
+		type="hidden"
+		name="v_code"
+		id="v_code"
+		value="<?php echo $_GET['v_code']; ?>"
+	>
+
+	<!-- Password -->
+	<label for="password">Enter new password</label>
 	<input type="password" name="password" id="password">
+
+	<!-- [SUBMTI] -->
+	<button type="submit" class="btn btn-primary">Submit</button>
 </form>

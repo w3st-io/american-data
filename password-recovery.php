@@ -77,11 +77,15 @@
 		}
 	}
 ?>
+
+
+<!-- [HTML] -->
 <?php if (!$status): ?>
 
 	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
 		<input type="email" name="email" id="email">
 	
+		<!-- [SUBMIT] -->
 		<button type="submit" class="btn btn-primary">Submit</button>
 	</form>
 
@@ -89,6 +93,9 @@
 
 	<div class="card card-body">
 		Password Recover Email sent! Please check!
+
+	
+		<a href="<?php echo './password-reset.php?v_code='.$random_hex.'&email='.$email;?>">link</a>
 	</div>
 
 <?php endif; ?>
