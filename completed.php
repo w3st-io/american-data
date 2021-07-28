@@ -8,56 +8,12 @@
 
 	$key = "C8CC568F258216230569C0F8C0BFA7060D2C6BF5F84DB7D4A3D1290638E6330B";
 
-	//textbox name "txt_email"
 	// [INIT] //
 	$code = strip_tags($_POST['vin']);
 	$added_on = date('l jS \of F Y h:i:s A');
 
 
 	if (isset($_POST['user_id'])) {
-		//   $query = $conn->prepare( "SELECT * FROM `users`  `email` = ?" );
-		//   $query->bindValue( 1, $email );
-		//   $query->execute();
-			
-		//   $user_details = $query->fetch();
-		//   $user_id = $user_details->customerUniqueId;
-
-		//   $datapay = {
-		//     'customerUniqueId' =>  $user_id,
-		//     'currencyCode' => 'USD'
-		//     'amount' => '0.1',
-		//     'description' => 'payment of generating VIN:'. $code
-		//   }
-
-		//   $payloadpay = json_encode($datapay);
-
-		//   // Prepare new cURL resource
-		//   $ch = curl_init('https://public.billsby.com/api/v1/rest/core/companyDomain/customers/customerUniqueId/invoices');
-		//   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		//   curl_setopt($ch, CURLINFO_HEADER_OUT, true);
-		//   curl_setopt($ch, CURLOPT_POST, true);
-		//   curl_setopt($ch, CURLOPT_POSTFIELDS, $payloadpay);
-			
-		//   // Set HTTP Header for POST request 
-		//   curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		//       'Content-Type: application/json',
-		//       'ApiKey: usadata_0fa180de62a542bc84c85edbe69ad701',
-		//       'Content-Length: ' . strlen($payloadpay))
-		//   );
-			
-		//   // Submit the POST request
-		//   $resultpay = curl_exec($ch);
-
-
-
-		//   if ($resultpay == true) {        
-		//       $sql = "INSERT INTO reports (user_id, vin_no, added_on) VALUES (?,?,?)";
-		//       $stmt= $conn->prepare($sql);
-		//       $stmt->execute([$user_id, $code , $added_on]);  
-		//    } else {
-		//       $error_messages .=  "<p>". "Error on payment details" . "</p>";
-		//    }
-		
 	}
 	else {
 		$data = array();
@@ -105,10 +61,8 @@
 			'Content-Length: ' . strlen($payload))
 		);
 		
-		// Submit the POST request
 		$result = curl_exec($ch);
 		
-		// Close cURL session handle
 		curl_close($ch);
 
 		$res = json_decode($result);
@@ -117,75 +71,8 @@
 
 		$error_messages = "";
 
-		// $errors = $res->errors;
-
-
-		// if ($errors) {
-
-		//   foreach ($errors as $key => $error) {
-		//     $error_messages .=  "<p>". $error->description . "</p>";
-		//   }
-		// } else {
-
-		$sql = "INSERT INTO users (email, payment_token, customerUniqueId, jwtToken, billyby_token, fullname, added_on, sign) VALUES (?,?,?,?,?,?,?,?)";
-		$stmt= $conn->prepare($sql);
-		$stmt->execute([
-			$email,
-			$paymentCardToken,
-			$user_id,
-			$jwt,
-			$billyby_token,
-			$fullName,
-			$added_on,
-			$sign
-		]);  
-
-		//   $datapay = {
-		//   'customerUniqueId' =>  $user_id,
-		//   'currencyCode' => 'USD'
-		//   'amount' => '0.1',
-		//   'description' => 'payment of generating VIN:'. $code
-		// }
-
-		// $payloadpay = json_encode($datapay);
-	
-		// Prepare new cURL resource
-		// $ch = curl_init('https://public.billsby.com/api/v1/rest/core/companyDomain/customers/customerUniqueId/invoices');
-		// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		// curl_setopt($ch, CURLINFO_HEADER_OUT, true);
-		// curl_setopt($ch, CURLOPT_POST, true);
-		// curl_setopt($ch, CURLOPT_POSTFIELDS, $payloadpay);
 		
-		// // Set HTTP Header for POST request 
-		// curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-		//     'Content-Type: application/json',
-		//     'ApiKey: usadata_0fa180de62a542bc84c85edbe69ad701',
-		//     'Content-Length: ' . strlen($payloadpay))
-		// );
-		
-		// // Submit the POST request
-		// $resultpay = curl_exec($ch);
-
-		// if ($resultpay == true) {        
-		//     $sql = "INSERT INTO reports (user_id, vin_no, added_on) VALUES (?,?,?)";
-		//     $stmt= $conn->prepare($sql);
-		//     $stmt->execute([$user_id, $code , $added_on]);  
-		//  } else {
-		//     $error_messages .=  "<p>". "Error on payment details" . "</p>";
-		//  }
-
-
-	// }
-
 	}
-
-	// $userid = strip_tags($_REQUEST['cid']);  //textbox name "txt_email"
-	// $code    = strip_tags($_REQUEST['code']);   //textbox name "txt_email"
-	// $sid = strip_tags($_REQUEST['sid']);  //textbox name "txt_password"
-
-	// $sql = "INSERT INTO reports (user_id, vin_no, sid, added_on) VALUES (?,?,?,?)";
-	// $stmt= $conn->prepare($sql);
-	// $stmt->execute([$userid, $code, $sid, $added_on]);
 ?>
 
 

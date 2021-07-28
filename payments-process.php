@@ -82,6 +82,26 @@
 	
 
 	if ($fetched_email == null) {
+		// [STRIPE] Create Payment Method //
+		$tokenObj = $StripeWrapper->createPaymentMethod(
+			$card_number,
+			$card_exp_month,
+			$card_exp_year,
+			$card_cvv,
+		);
+		
+		// [STRIPE] Create Customer with default Payment Method //
+		$customerObj = $StripeWrapper->createCustomer(
+			$email,
+			$phone,
+			$tokenObj['id']
+		);
+
+
+		$stripe_customer_token = $customerObj['id'];
+
+
+
 		// [USER] Create //
 		$stmt = $conn->prepare(
 			"INSERT INTO users (
@@ -112,21 +132,6 @@
 		// [CLOSE] Query //
 		$stmt->close();
 
-
-		// [STRIPE] Create Payment Method //
-		$tokenObj = $StripeWrapper->createPaymentMethod(
-			$card_number,
-			$card_exp_month,
-			$card_exp_year,
-			$card_cvv,
-		);
-		
-		// [STRIPE] Create Customer with default Payment Method //
-		$customerObj = $StripeWrapper->createCustomer(
-			$email,
-			$phone,
-			$tokenObj['id']
-		);
 		
 		// [STRIPE] Create Charge //
 		$chargeObj = $StripeWrapper->createOneDollarCharge($customerObj['id']);
@@ -139,7 +144,7 @@
 		$current_period_end = $subObj['current_period_end'];
 		$current_period_reports_count = 0;
 
-		
+
 		// [CREATE] sub //
 		$stmt = $conn->prepare(
 			"INSERT INTO subs (
