@@ -46,30 +46,63 @@ class StripeWrapper {
 	}
 
 
-	public function createOneDollarCharge($customer) {
+	public function createOneDollarCharge($cus_id) {
 		$stripe = new \Stripe\StripeClient('sk_test_51INvnfCC0rHo3XXZxdgGXsFDstmtEnCGYux6ZA8XlySkrSsYqHAa5kOFptGb8k2w6TtyOAuJhiBpeeTkXShldA6E00XuTKIQ3h');
 
 
+		// [CUSTOMER] //
 		$customerObj = $stripe->customers->retrieve(
-			$customer,
+			$cus_id,
 			[]
 		);
+		
 
-
+		// [PAYMENT-INTENT] //
 		$paymentIntentsObj = $stripe->paymentIntents->create([
 			'amount' => 100,
 			'currency' => 'usd',
 			'payment_method' => $customerObj['invoice_settings']['default_payment_method'],
 			'payment_method_types' => ['card'],
-			'customer' => $customerObj['id']
+			'customer' => $cus_id
 		]);
 
 
+		// [PAYMENT-CONFIRM] //
 		$paymentCompleteObj = $stripe->paymentIntents->confirm(
 			$paymentIntentsObj['id'],
 		);
 		
 		
 		return $paymentCompleteObj;
+	}
+
+
+	public function createSubscription($cus_id) {
+		$stripe = new \Stripe\StripeClient('sk_test_51INvnfCC0rHo3XXZxdgGXsFDstmtEnCGYux6ZA8XlySkrSsYqHAa5kOFptGb8k2w6TtyOAuJhiBpeeTkXShldA6E00XuTKIQ3h');
+
+
+		// [SUBSCRIPTION] Create //
+		$subObj = $stripe->subscriptions->create([
+			'customer' => $cus_id,
+			'trial_period_days' => 30,
+			'items' => [
+				['price' => 'price_1JI4vPCC0rHo3XXZsvXKOQz2'],
+			],
+		]);
+
+
+		return $subObj;
+	}
+
+
+	public function retrieveSubscription($sub_id) {
+		$stripe = new \Stripe\StripeClient('sk_test_51INvnfCC0rHo3XXZxdgGXsFDstmtEnCGYux6ZA8XlySkrSsYqHAa5kOFptGb8k2w6TtyOAuJhiBpeeTkXShldA6E00XuTKIQ3h');
+
+
+		// [SUBSCRIPTION] Retrieve //
+		$subObj = $stripe->subscriptions->retrieve($sub_id, []);
+
+
+		return $subObj;
 	}
 }

@@ -82,24 +82,7 @@
 	
 
 	if ($fetched_email == null) {
-		// [STRIPE] //
-		$tokenObj = $StripeWrapper->createPaymentMethod(
-			$card_number,
-			$card_exp_month,
-			$card_exp_year,
-			$card_cvv,
-		);
-		
-		
-		// [STRIPE] Create Customer //
-		$customerObj = $StripeWrapper->createCustomer($email, $phone, $tokenObj['id']);
-		
-		
-		// [STRIPE] Charge Customer
-		$customerObj = $StripeWrapper->createOneDollarCharge($customerObj['id']);
-		
-		
-		// [DATABASE] prepare and bind //
+		// [USER] Create //
 		$stmt = $conn->prepare(
 			"INSERT INTO users (
 				email,
@@ -112,8 +95,6 @@
 			VALUES (?,?,?,?,?,?)"
 		);
 		
-		
-		
 		// [BIND] //
 		$stmt->bind_param(
 			'ssssss',
@@ -125,21 +106,67 @@
 			$payment_jwt
 		);
 		
-		
-		
 		// [EXECUTE] //
 		$stmt->execute();
 		
-		
-		
 		// [CLOSE] Query //
 		$stmt->close();
+
+
+		// [STRIPE] Create Payment Method //
+		$tokenObj = $StripeWrapper->createPaymentMethod(
+			$card_number,
+			$card_exp_month,
+			$card_exp_year,
+			$card_cvv,
+		);
 		
+		// [STRIPE] Create Customer with default Payment Method //
+		$customerObj = $StripeWrapper->createCustomer(
+			$email,
+			$phone,
+			$tokenObj['id']
+		);
 		
+		// [STRIPE] Create Charge //
+		$chargeObj = $StripeWrapper->createOneDollarCharge($customerObj['id']);
+
+		// [STRIPE] Create Free trial until Subscription //
+		$subObj = $StripeWrapper->createSubscription($customerObj['id']);
+	
+
+		$stripe_sub_id = $subObj['id'];
+		$current_period_end = $subObj['current_period_end'];
+		$current_period_reports_count = 0;
+
 		
-		// [STATUS] //
-		if ($stmt->error) { $status = 'Database Error: '.$stmt->error; }
-		else { $status = 'New records created successfully'; }
+		// [CREATE] sub //
+		$stmt = $conn->prepare(
+			"INSERT INTO subs (
+				email,
+				stripe_sub_id,
+				current_period_end,
+				current_period_reports_count
+			)
+			VALUES (?,?,?,?)"
+		);
+		
+		// [BIND] //
+		$stmt->bind_param(
+			'ssss',
+			$email,
+			$stripe_sub_id,
+			$current_period_end,
+			$current_period_reports_count,
+		);
+		
+
+		// [EXECUTE] //
+		$stmt->execute();
+		
+
+		// [CLOSE] Query //
+		$stmt->close();
 	}
 
 
