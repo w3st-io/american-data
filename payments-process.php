@@ -17,6 +17,7 @@
 
 	// [INIT] //
 	$status = 'good';
+	$vin = '';
 	$tokenObj = '';
 	$email = '';
 	$phone = '';
@@ -29,8 +30,8 @@
 
 
 
-
 	// [POST-VALUES] //
+	if (isset($_POST['vin'])) { $vin = strip_tags($_POST['vin']); }
 	if (isset($_POST['email'])) { $email = strip_tags($_POST['email']); }
 	if (isset($_POST['phone'])) { $phone = strip_tags($_POST['phone']); }
 	if (isset($_POST['card_name'])) { $card_name = strip_tags($_POST['card_name']); }
@@ -43,6 +44,7 @@
 
 
 	// [SANTIZE] //
+	$vin = filter_var($vin, FILTER_SANITIZE_STRING);
 	$email = filter_var($email, FILTER_SANITIZE_STRING);
 	$phone = filter_var($phone, FILTER_SANITIZE_NUMBER_INT);
 	$phone = preg_replace( '/\d[ *]\d/', '', $phone);

@@ -68,6 +68,16 @@
 						method="POST"
 					>					
 						<div class="row">
+							<!-- vin -->
+							<div class="col-12">
+								<input
+									type="hidden"
+									id="vin"
+									name="vin"
+									value="<?php echo $vin; ?>"
+								>
+							</div>
+
 							<!-- Email -->
 							<div class="col-12">
 								<label for="email">Email</label>

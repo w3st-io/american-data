@@ -11,68 +11,6 @@
 	// [INIT] //
 	$code = strip_tags($_POST['vin']);
 	$added_on = date('l jS \of F Y h:i:s A');
-
-
-	if (isset($_POST['user_id'])) {
-	}
-	else {
-		$data = array();
-		$data['firstName'] = $_POST['f_name'];
-		$data['lastName'] = $_POST['l_name'];
-		$data['city'] = $_POST['city'];
-		$data['country'] = $_POST['country'];
-		$data['postCode'] = $_POST['postCode'];
-		$data['state'] = $_POST['state'];
-		$data['addressLine1'] = $_POST['addressLine1'];
-		$data['addressLine2'] = $_POST['addressLine2'];
-
-		$email = $data['email'] = $_POST['email'];
-		$paymentCardToken = $cardDetails['paymentCardToken'] = $_POST['paymentCardToken'];
-		$fullName = $cardDetails['fullName'] = $_POST['fullName'];
-		$expiryMonth = $cardDetails['expiryMonth'] = $_POST['expiryMonth'];
-		$expiryYear = $cardDetails['expiryYear'] = $_POST['expiryYear'];
-		$cardType = $cardDetails['cardType'] = $_POST['cardType'];
-		$last4Digits = $cardDetails['last4Digits'] = $_POST['last4Digits'];
-
-
-		$sign = $data['sign'] = $_POST['sign'];
-
-		//print_r($data);
-
-		$payload = json_encode($data);
-
-		$data['cardDetails'] = $cardDetails;
-
-
-		$jwt = JWT::encode($payload, $key);
-		$billyby_token = JWT::encode($paymentCardToken, $key);
-
-		// Prepare new cURL resource
-		$ch = curl_init('https://public.billsby.com/api/v1/rest/core/usadata/customers');
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLINFO_HEADER_OUT, true);
-		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-		
-		// Set HTTP Header for POST request 
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-			'Content-Type: application/json',
-			'ApiKey: usadata_0fa180de62a542bc84c85edbe69ad701',
-			'Content-Length: ' . strlen($payload))
-		);
-		
-		$result = curl_exec($ch);
-		
-		curl_close($ch);
-
-		$res = json_decode($result);
-
-		$user_id = $res->customerUniqueId;
-
-		$error_messages = "";
-
-		
-	}
 ?>
 
 
