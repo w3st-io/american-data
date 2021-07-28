@@ -130,25 +130,49 @@
 ?>
 
 
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-	<input
-		type="hidden"
-		name="email"
-		id="email"
-		value="<?php echo $_GET['email']; ?>"
-	>
+<!-- [HTML] ------------------------------------------------------->
+<?php include('header.php'); ?>
 
-	<input
-		type="hidden"
-		name="v_code"
-		id="v_code"
-		value="<?php echo $_GET['v_code']; ?>"
-	>
 
-	<!-- Password -->
-	<label for="password">Enter new password</label>
-	<input type="password" name="password" id="password">
+<!-- about breadcrumb -->
+<section class="w3l-about-breadcrumb position-relative text-center">
+	<div class="breadcrumb-bg breadcrumb-bg-about py-sm-5 py-4"></div>
+</section>
 
-	<!-- [SUBMTI] -->
-	<button type="submit" class="btn btn-primary">Submit</button>
-</form>
+
+<div class="container">
+	<div class="card card-body mx-auto my-5 shadow" style="max-width: 500px;">
+		<h3 class="text-center text-dark">Password Recovery</h3>
+
+		<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+			<input
+				type="hidden"
+				name="email"
+				id="email"
+				value="<?php echo $_GET['email']; ?>"
+			>
+
+			<input
+				type="hidden"
+				name="v_code"
+				id="v_code"
+				
+				value="<?php echo $_GET['v_code']; ?>"
+			>
+
+			<!-- Password -->
+			<label for="password">Enter new password</label>
+			<input type="password" name="password" id="password" class="form-control w-100 mb-4">
+
+			<!-- [SUBMTI] -->
+			<button type="submit" class="btn btn-primary w-100">Submit</button>
+		</form>
+
+	</div>
+</div>
+
+
+<!-- Footer -->
+<?php include('footer.php'); ?>
+
+<?php include('./common/bottom_script.php'); ?>

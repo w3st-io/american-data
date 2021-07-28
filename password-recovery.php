@@ -42,7 +42,7 @@
 			// [CLOSE] //
 			$stmt->close();
 
-			
+
 			// [DATABASE] prepare and bind //
 			$stmt = $conn->prepare(
 				"INSERT INTO password_v_codes (
@@ -95,23 +95,42 @@
 ?>
 
 
-<!-- [HTML] -->
-<?php if (!$status): ?>
+<!-- [HTML] ------------------------------------------------------->
+<?php include('header.php'); ?>
 
-	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-		<input type="email" name="email" id="email">
-	
-		<!-- [SUBMIT] -->
-		<button type="submit" class="btn btn-primary">Submit</button>
-	</form>
 
-<?php else : ?>
+<!-- about breadcrumb -->
+<section class="w3l-about-breadcrumb position-relative text-center">
+	<div class="breadcrumb-bg breadcrumb-bg-about py-sm-5 py-4"></div>
+</section>
 
-	<div class="card card-body">
-		Password Recover Email sent! Please check!
 
-	
-		<a href="<?php echo './password-reset.php?v_code='.$random_hex.'&email='.$email;?>">link</a>
+<div class="container">
+	<div class="card card-body mx-auto my-5 shadow" style="max-width: 500px;">
+		<h3 class="text-center text-dark">Password Recovery</h3>
+
+		<?php if (!$status): ?>
+
+			<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+				<label for="email">Enter your email</label>
+				<input type="email" name="email" id="email" class="form-control mb-4">
+
+				<!-- [SUBMIT] -->
+				<button type="submit" class="btn btn-primary w-100">Submit</button>
+			</form>
+
+		<?php else : ?>
+
+			<h5 class="text-success my-5">Password Recover Email sent! Please check!</h5>
+
+			<a href="<?php echo './password-reset.php?v_code='.$random_hex.'&email='.$email;?>">link</a>
+			
+		<?php endif; ?>
 	</div>
+</div>
 
-<?php endif; ?>
+
+<!-- Footer -->
+<?php include('footer.php'); ?>
+
+<?php include('./common/bottom_script.php'); ?>
