@@ -1,7 +1,9 @@
-<?php 
+<?php
+	// [INCLUDE] //
 	include('./common/session.php');
 	include('connection.php');
 	
+
 	// [INIT] //
 	$vin = '';
 	$error = '';
@@ -17,10 +19,10 @@
 <?php include('header.php'); ?>
 
 
-<!-- [PHP] USER LOGGED -->
+<!-- [PHP][REDIRECT] USER LOGGED -->
 <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true): ?>
 		
-	<form id="myForm" action="./payments-process.php" method="post">
+	<form id="myForm" action="./payments-loggedin.php" method="post">
 		<!-- [INPUT][HIDDEN] vin -->
 		<input
 			type="hidden"
@@ -28,12 +30,6 @@
 			name="vin"
 			value="<?php echo $vin; ?>"
 		>
-
-		<button
-			type="submit"
-			class="btn btn-primary w-100"
-		>Try Again</button>
-		
 	</form>
 
 	<script type="text/javascript">
@@ -41,6 +37,7 @@
 	</script>
 
 <?php endif; ?>
+
 
 <style type="text/css" media="screen">
 	button#bcPaint-export,
@@ -51,7 +48,7 @@
 </style>
 
 
-<!-- about breadcrumb -->
+<!-- [SPACER] -->
 <section class="w3l-about-breadcrumb position-relative text-center">
 	<div class="breadcrumb-bg breadcrumb-bg-about py-sm-5 py-4"></div>
 </section>
@@ -258,13 +255,26 @@
 	<?php endif; ?>
 </div>
 
-<!-- Footer -->
 <?php include('footer.php'); ?>
 
 <?php include('./common/bottom_script.php'); ?>
 
-<?php include('./common/PaymentsScripts.php'); ?>
 
+<!-- [REQUIRE] -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"
+	type="text/javascript"
+	charset="utf-8"
+	async
+	defer
+></script>
+
+<!-- Needed for the credit card number field -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js"
+></script>
+
+<!-- [REQUIRE] Personal -->
+<script type="text/javascript" src="resources/js/bcPaint.js"></script>
 
 
 <!-- [SCRIPT][INIT] -->

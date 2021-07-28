@@ -55,7 +55,7 @@
 </style>
 
 
-<!-- about breadcrumb --> 
+<!-- [SPACER] --> 
 <section class="w3l-about-breadcrumb position-relative text-center">
 	<div class="breadcrumb-bg breadcrumb-bg-about py-sm-5 py-4">
 		<div class="container py-lg-5 py-3">
@@ -230,25 +230,6 @@
 <!-- [REQUIRE] -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
 
-<!-- [SCRIPT][INIT] -->
-<script type="text/javascript">
-	// Get value from form
-	$vin = $('#vin').val()
-
-	// [AXIOS] //
-	axios.request({
-		method: 'GET',
-		url: 'https://vindecoder.p.rapidapi.com/salvage_check',
-		params: { vin: $vin },
-		headers: {
-			'x-rapidapi-key': 'c404ea350amsh3a1bf345dd7386fp1bcde5jsnad8d954aa8d4',
-			'x-rapidapi-host': 'vindecoder.p.rapidapi.com'
-		}
-	})
-		.then(function (res) { console.log('res:', res.data) })
-		.catch(function (err) { console.error('error:', err) })
-</script>
-
 
 <!-- [SCRIPT][INIT] -->
 <script type="text/javascript">
@@ -266,8 +247,6 @@
 		}
 	})
 		.then(function (res) {
-			console.log('res:', res)
-
 			if (res.data.success) {
 				if (res.data.is_salvage == true) {
 					$('#is_salvage').html('<span class="badge success">' + res.data.is_salvage + '</span>');

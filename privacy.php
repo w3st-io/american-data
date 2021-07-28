@@ -5,7 +5,7 @@ include('header.php');
 ?>
 
 
-  <!-- about breadcrumb --> 
+  <!-- [SPACER] --> 
    <section class="w3l-about-breadcrumb position-relative text-center">
     <div class="breadcrumb-bg breadcrumb-bg-about py-sm-5 py-4">
       <div class="container py-lg-5 py-3">
@@ -13,7 +13,7 @@ include('header.php');
       </div>
     </div>
   </section>
-  <!-- //about breadcrumb -->
+  <!-- //[SPACER] -->
   <!-- /content-6-->
   <section class="w3l-content-6 report-section">
 
@@ -49,7 +49,6 @@ Alternatively you may request a refund from our live chat located at the bottom 
 
 
 <?php include('footer.php'); ?>
-
 
 <?php include('./common/bottom_script.php'); ?>
 

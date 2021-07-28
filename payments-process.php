@@ -208,13 +208,13 @@
 							$stmt->close();
 						}
 					}
-		
 				}
 			}
 		}
 	}
 	catch (\Throwable $err) {
-		header("Location: ./payments.php?vin=$vin&error=$err");
+		echo $err;
+		//header("Location: ./payments.php?vin=$vin&error=$err");
 	}
 	
 	// [CLOSE] DB conn //
@@ -226,7 +226,7 @@
 <?php include('header.php'); ?>
 
 
-<!-- about breadcrumb -->
+<!-- [SPACER] -->
 <section class="w3l-about-breadcrumb position-relative text-center">
 	<div class="breadcrumb-bg breadcrumb-bg-about py-sm-5 py-4"></div>
 </section>

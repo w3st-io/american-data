@@ -11,7 +11,7 @@
 <!-- [INPUT] Hidden -->
 <input type="hidden" id="vin" value="<?php echo $_GET['vin'] ?>">
 
-<!-- about breadcrumb -->
+<!-- [SPACER] -->
 <section class="w3l-about-breadcrumb position-relative text-center">
 	<div class="breadcrumb-bg breadcrumb-bg-about py-sm-5 py-4"></div>
 </section>

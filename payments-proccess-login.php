@@ -77,7 +77,7 @@
 <!-- [HEADER] -->
 <?php include('header.php'); ?>
 
-<!-- about breadcrumb -->
+<!-- [SPACER] -->
 <section class="w3l-about-breadcrumb position-relative text-center">
 	<div class="breadcrumb-bg breadcrumb-bg-about py-sm-5 py-4"></div>
 </section>
@@ -133,7 +133,6 @@
 
 </div>
 
-<!-- [FOOTER] -->
 <?php include('footer.php'); ?>
 
 <?php include('./common/bottom_script.php'); ?>
