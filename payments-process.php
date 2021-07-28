@@ -5,6 +5,9 @@
 	require_once('vendor/autoload.php');
 
 
+	// [USE] //
+	use Firebase\JWT\JWT;
+
 
 	// [INCLUDE] //
 	include('./connection.php');
@@ -14,9 +17,11 @@
 		// [STRIPE] //
 		$StripeWrapper = new StripeWrapper();
 	
+
 		// [INIT] Const //
 		$key="a54b94bc3b94d6a330a859f37b9231e571a0f7966d2c44557e219ad7440c80ef4d2";
 	
+
 		// [INIT] //
 		$status = 'good';
 		$vin = '';
@@ -30,6 +35,7 @@
 		$card_cvv = '';
 		$sign = '';
 	
+
 		// [POST-VALUES] //
 		if (isset($_POST['vin'])) { $vin = strip_tags($_POST['vin']); }
 		if (isset($_POST['email'])) { $email = strip_tags($_POST['email']); }
@@ -41,6 +47,7 @@
 		if (isset($_POST['card_cvv'])) { $card_cvv = strip_tags($_POST['card_cvv']); }
 		if (isset($_POST['sign'])) { $sign = strip_tags($_POST['sign']); }
 	
+
 		// [SANTIZE] //
 		$vin = filter_var($vin, FILTER_SANITIZE_STRING);
 		$email = filter_var($email, FILTER_SANITIZE_STRING);
@@ -54,26 +61,19 @@
 		$card_cvv = filter_var($card_cvv, FILTER_SANITIZE_NUMBER_INT);
 		$sign = filter_var($sign, FILTER_SANITIZE_STRING);
 	
+
 		// [PASSWORD] //
 		$password = substr($phone, -4);
+
 	
 		// [DATABASE][USER] Check if email exist in server //
 		$stmt = $conn->prepare("SELECT email, phone FROM users WHERE email=?");
-	
-		// [BIND] parameters for markers //
 		$stmt->bind_param("s", $email);
-	
-		// [EXECUTE] query //
 		$stmt->execute();
-	
-		// [BIND] result variables //
 		$stmt->bind_result($fetched_email, $fetched_phone);
-	
-		// [FETCH] value //
 		$stmt->fetch();
-	
-		// [CLOSE] Query //
 		$stmt->close();
+
 	
 		// [USER] Not Found //
 		if ($fetched_email == null) {
@@ -94,8 +94,10 @@
 				"card_cvv" => $card_cvv
 			);
 	
+			// [ENCODE] //
 			$payment_jwt = JWT::encode($payload, $key);
 			
+
 			// [STRIPE] Create Customer with default Payment Method //
 			$customerObj = $StripeWrapper->createCustomer(
 				$email,
@@ -105,6 +107,7 @@
 	
 			$stripe_customer_token = $customerObj['id'];
 	
+
 			// [USER] Create //
 			$stmt = $conn->prepare(
 				"INSERT INTO users (
@@ -117,8 +120,6 @@
 				)
 				VALUES (?,?,?,?,?,?)"
 			);
-			
-			// [BIND] //
 			$stmt->bind_param(
 				'ssssss',
 				$email,
@@ -128,17 +129,14 @@
 				$stripe_customer_token,
 				$payment_jwt
 			);
-			
-			// [EXECUTE] //
 			$stmt->execute();
-			
-			// [CLOSE] Query //
 			$stmt->close();
 	
 			
 			// [STRIPE] Create Charge //
 			$chargeObj = $StripeWrapper->createOneDollarCharge($customerObj['id']);
 	
+
 			// [STRIPE] Create Free trial until Subscription //
 			$subObj = $StripeWrapper->createSubscription($customerObj['id']);
 		
@@ -158,8 +156,6 @@
 				)
 				VALUES (?,?,?,?)"
 			);
-			
-			// [BIND] //
 			$stmt->bind_param(
 				'ssss',
 				$email,
@@ -167,19 +163,13 @@
 				$current_period_end,
 				$current_period_reports_count,
 			);
-			
-	
-			// [EXECUTE] //
 			$stmt->execute();
-			
-	
-			// [CLOSE] Query //
 			$stmt->close();
 	
 		}
 	}
 	catch (\Throwable $th) {
-		header('Location: ./payments.php?vin='.$vin.'&error='.$th);
+		header("Location: ./payments.php?vin=$vin&error=$th");
 	}
 	
 	// [CLOSE] DB conn //
