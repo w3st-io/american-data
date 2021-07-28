@@ -111,4 +111,16 @@ class StripeWrapper {
 	public function retrieveDefaultPaymentMethod($sub_id) {
 		$stripe = new \Stripe\StripeClient('sk_test_51INvnfCC0rHo3XXZxdgGXsFDstmtEnCGYux6ZA8XlySkrSsYqHAa5kOFptGb8k2w6TtyOAuJhiBpeeTkXShldA6E00XuTKIQ3h');
 	}
+
+
+	public function retrievePaymentIntent($pi_id) {
+		$stripe = new \Stripe\StripeClient('sk_test_51INvnfCC0rHo3XXZxdgGXsFDstmtEnCGYux6ZA8XlySkrSsYqHAa5kOFptGb8k2w6TtyOAuJhiBpeeTkXShldA6E00XuTKIQ3h');
+
+		$piObj = $stripe->paymentIntents->retrieve(
+			$pi_id,
+			[]
+		);
+
+		return $piObj;
+	}
 }
