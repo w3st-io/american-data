@@ -53,17 +53,11 @@
 				AND v_code=?
 			");
 
-
-
 			// [BIND] parameters for markers //
 			$stmt->bind_param("ss", $email, $v_code);
 
-
-
 			// [EXECUTE] query //
 			$stmt->execute();
-
-
 
 			// [BIND] result variables //
 			$stmt->bind_result(
@@ -71,12 +65,9 @@
 				$fetched_v_code
 			);
 
-
-
 			// [FETCH] value //
 			$stmt->fetch();
-
-
+			
 			// [CLOSE] //
 			$stmt->close();
 
