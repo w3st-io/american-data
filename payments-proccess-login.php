@@ -1,5 +1,6 @@
 <?php
 	// [INCLUDE] //
+	include('./common/session.php');
 	include('./connection.php');
 
 
@@ -66,9 +67,9 @@
 			$_SESSION['email'] = $fetched_email;
 			$_SESSION['stripe_cus_id'] = $fetched_stripe_cus_id;
 
-			headers(-1);
+			$authenticated = true;
 		}
-		else { $error = 'Invalid login'; }
+		else { $authenticated = false; }
 	}
 ?>
 
@@ -83,26 +84,54 @@
 
 <div class="container my-5">
 
-	<?php if($error): ?>
+	<!-- [PHP] Authentication -->
+	<?php if ($authenticated): ?>
 
 		<!-- [ERROR] -->
 		<div class="alert alert-danger mb-3 shadow">
 			<h4 class="text-danger"><?php echo $error; ?></h4>
 			<hr>
+
+			<form id="myForm" action="./payments-proccess.php" method="post">
+				<!-- [INPUT][HIDDEN] vin -->
+				<input
+					type="hidden"
+					id="vin"
+					name="vin"
+					value="<?php echo $vin; ?>"
+				>
 			
-			<a href="">
 				<button
+					type="submit"
 					class="btn btn-primary w-100"
 				>Try Again</button>
-			</a>
+				
+			</form>
+
+			<script type="text/javascript">
+				document.getElementById('myForm').submit();
+			</script>
 		</div>
+
+	<?php else: ?>
+
+		<form id="myForm" action="./payments-proccess.php" method="post">
+			<!-- [INPUT][HIDDEN] vin -->
+			<input
+				type="hidden"
+				id="vin"
+				name="vin"
+				value="<?php echo $vin; ?>"
+			>
+		</form>
+
+		<script type="text/javascript">
+			document.getElementById('myForm').submit();
+		</script>
 
 	<?php endif; ?>
 
 </div>
-
-
-
 
 <!-- [FOOTER] -->
 <?php include('footer.php'); ?>

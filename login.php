@@ -1,13 +1,14 @@
 <?php
+	// [INCLUDE] //
+	include('./common/session.php');
+	include("connection.php");
+
+
 	// [USER-LOGGED] redirect to welcome page //
-	if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+	if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
 		header("location: dashboard.php");
 		exit;
 	}
-
-	
-	// Include config file
-	require_once "connection.php";
 
 
 	// [INIT] //

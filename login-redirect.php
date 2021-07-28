@@ -1,7 +1,7 @@
 <?php
 	// [INCLUDE] //
+	include('./common/session.php');
 	include('./connection.php');
-
 
 
 	// [INIT] //
@@ -12,7 +12,6 @@
 	$fetched_phone = '';
 	$fetched_stripe_cus_id = '';
 	$error = '';
-
 
 
 	// Check if email is empty

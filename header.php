@@ -1,16 +1,4 @@
-<?php
-	$loggedin = false;
-
-	// [INIT] session //
-	session_start();
-
-	if (isset($_SESSION)) {
-		if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
-			$loggedin = true;
-		}
-	}
-?>
-
+<?php require('./common/session.php'); ?>
 
 <!doctype html>
 <html lang="zxx">

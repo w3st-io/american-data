@@ -1,20 +1,47 @@
 <?php 
-	include('header.php');
+	include('./common/session.php');
 	include('connection.php');
-
-
+	
 	// [INIT] //
 	$vin = '';
 	$error = '';
-
-
+	
+	
 	// [POST] //
 	if (isset($_GET['vin'])) { $vin = strip_tags($_GET['vin']); }
 	if (isset($_GET['error'])) { $error = strip_tags($_GET['error']); }
-?>
+	?>
 
 
 <!-- [HTML] ------------------------------------------------------->
+<?php include('header.php'); ?>
+
+
+<!-- [PHP] USER LOGGED -->
+<?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true): ?>
+		
+	<form id="myForm" action="./payments-process.php" method="post">
+		<!-- [INPUT][HIDDEN] vin -->
+		<input
+			type="hidden"
+			id="vin"
+			name="vin"
+			value="<?php echo $vin; ?>"
+		>
+
+		<button
+			type="submit"
+			class="btn btn-primary w-100"
+		>Try Again</button>
+		
+	</form>
+
+	<script type="text/javascript">
+		document.getElementById('myForm').submit();
+	</script>
+
+<?php endif; ?>
+
 <style type="text/css" media="screen">
 	button#bcPaint-export,
 	button#bcPaint-reset {

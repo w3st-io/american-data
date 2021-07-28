@@ -1,19 +1,20 @@
 <?php
+	// [REQUIRE] Personal //
+	require_once('./api/billsby/index.php');
+	require_once('./api/stripe/index.php');
+	require('vendor/autoload.php');
+
+
+	// [INCLUDE] //
+	include('./common/session.php');
+	include('./connection.php');
+
+	
+	// [USE] //
+	use Firebase\JWT\JWT;
+	
+	
 	try {
-		// [REQUIRE] Personal //
-		require_once('./api/billsby/index.php');
-		require_once('./api/stripe/index.php');
-		require_once('vendor/autoload.php');
-
-
-		// [INCLUDE] //
-		include('./connection.php');
-		
-		
-		// [USE] //
-		use Firebase\JWT\JWT;
-
-
 		// [STRIPE] //
 		$StripeWrapper = new StripeWrapper();
 	
@@ -23,6 +24,7 @@
 	
 
 		// [INIT] //
+		$paid = false;
 		$error = '';
 		$vin = '';
 		$email = '';
@@ -34,20 +36,22 @@
 		$card_cvv = '';
 		$sign = '';
 		$tokenObj = '';
+		$default_card = '';
 
 
 		// [POST-VALUES] //
 		if (isset($_POST['vin'])) { $vin = strip_tags($_POST['vin']); }
 		else { $error = 'No vin passed'; }
 
+
 		if ($error == '') {
 			// [USER-LOGGED] //
-			if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-				
+			if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+				// [STRIPE] //
+				// get default payment method
 			}
 			else {
 				// [POST-VALUES] // 
-				if (isset($_POST['email'])) { $email = strip_tags($_POST['email']); }
 				if (isset($_POST['phone'])) { $phone = strip_tags($_POST['phone']); }
 				if (isset($_POST['card_name'])) { $card_name = strip_tags($_POST['card_name']); }
 				if (isset($_POST['card_number'])) { $card_number = strip_tags($_POST['card_number']); }
@@ -102,7 +106,7 @@
 						"card_cvv" => $card_cvv
 					);
 			
-					// [ENCODE] //
+					// [JWT][ENCODE] //
 					$payment_jwt = JWT::encode($payload, $key);
 		
 					$decoded = JWT::decode($payment_jwt, $key, array('HS256'));
@@ -145,59 +149,66 @@
 					
 					// [STRIPE] Create Charge //
 					$chargeObj = $StripeWrapper->createOneDollarCharge(
-						$customerObj['id']
+						$customerObj['id'],
+						$vin
 					);
 		
 					$stripe_pi_id = $chargeObj['id'];
-		
-					// [DB][PAYMENTS] Create //
-					$stmt = $conn->prepare(
-						"INSERT INTO payments (
-							email,
-							stripe_pi_id
-						)
-						VALUES (?,?)"
-					);
-					$stmt->bind_param(
-						'ss',
-						$email,
-						$stripe_pi_id
-					);
-					$stmt->execute();
-					$stmt->close();
-			
-		
-					// [SUBSCRIPTION] //
-					if (0 == 1) {
-						// [STRIPE] Create Free trial until Subscription //
-						$subObj = $StripeWrapper->createSubscription($customerObj['id']);
-				
-						
-						$stripe_sub_id = $subObj['id'];
-						$current_period_end = $subObj['current_period_end'];
-						$current_period_reports_count = 0;
-						
-			
-						// [CREATE] sub //
+
+					// [PAYMENT][SUCCESS] //
+					if ($chargeObj['status'] = 'succeeded') {
+						$paid = true;
+
+						// [DB][PAYMENTS] Create //
 						$stmt = $conn->prepare(
-							"INSERT INTO subs (
+							"INSERT INTO payments (
 								email,
-								stripe_sub_id,
-								current_period_end,
-								current_period_reports_count
+								stripe_pi_id
 							)
-							VALUES (?,?,?,?)"
+							VALUES (?,?)"
 						);
 						$stmt->bind_param(
-							'ssss',
+							'ss',
 							$email,
-							$stripe_sub_id,
-							$current_period_end,
-							$current_period_reports_count,
+							$stripe_pi_id
 						);
 						$stmt->execute();
 						$stmt->close();
+				
+			
+						// [SUBSCRIPTION] //
+						if (0 == 1) {
+							// [STRIPE] Create Free trial until Subscription //
+							$subObj = $StripeWrapper->createSubscription($customerObj['id']);
+					
+							
+							$stripe_sub_id = $subObj['id'];
+							$current_period_end = $subObj['current_period_end'];
+							$current_period_reports_count = 0;
+							
+				
+							// [CREATE] sub //
+							$stmt = $conn->prepare(
+								"INSERT INTO subs (
+									email,
+									stripe_sub_id,
+									current_period_end,
+									current_period_reports_count
+								)
+								VALUES (?,?,?,?)"
+							);
+							$stmt->bind_param(
+								'ssss',
+								$email,
+								$stripe_sub_id,
+								$current_period_end,
+								$current_period_reports_count,
+							);
+							$stmt->execute();
+							$stmt->close();
+						}
 					}
+		
 				}
 			}
 		}
@@ -212,7 +223,6 @@
 
 
 <!-- [HTML] ------------------------------------------------------->
-<!-- [HEADER] -->
 <?php include('header.php'); ?>
 
 
@@ -221,76 +231,85 @@
 	<div class="breadcrumb-bg breadcrumb-bg-about py-sm-5 py-4"></div>
 </section>
 
+
 <div class="container my-5 ">
 
+	<!-- [ERROR] -->
 	<?php if($error): ?>
-		<!-- [ERROR] -->
+
 		<div class="alert alert-danger mb-3 shadow">
 			<h4 class="text-danger"><?php echo $error; ?></h4>
 		</div>
-		<?php endif; ?>
-		
-		<div class="card card-body shadow">
-			
-			<!-- [PHP] USER LOGGED -->
-			<?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true): ?>
-			
-				<div class="">
-					
-				</div>
 
-			<!-- [PHP] USER NOT LOGGED -->
+	<?php endif; ?>
+
+
+	<!-- [MAIN] -->
+	<div class="card card-body shadow">
+			
+		<!-- [PHP] USER LOGGED -->
+		<?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true): ?>
+		
+			<h3 class="text-center text-dark">
+				Which payment method would you like to use?
+			</h3>
+
+			<button >Default Card</button>
+
+			
+		<!-- [PHP] USER NOT LOGGED -->
+		<?php else: ?>
+				
+			<!-- [PHP] USER FOUND -->
+			<?php if($fetched_email): ?>
+			
+				<h3>You already have an account</h3>
+				<h6 class="text-secondary">Please enter your password to continue.</h6>
+				<hr>
+
+				<label class="font-weight-bold">Username:</label>
+				<h6 class="mb-3"><?php echo $email; ?></h6>
+
+				<form
+					action="./payments-proccess-login.php?vin=<?php echo $vin; ?>"
+					method="POST"
+				>
+					<label for="password" class="font-weight-bold">Password:</label>
+
+					<!-- [INPUT][HIDDEN] vin -->
+					<input
+						type="hidden"
+						id="vin"
+						name="vin"
+						value="<?php echo $vin; ?>"
+					>
+
+					<!-- [INPUT][HIDDEN] email -->
+					<input
+						type="hidden"
+						id="email"
+						name="email"
+						value="<?php echo $email; ?>"
+					>
+
+					<!-- [INPUT] Password -->
+					<input
+						id="password"
+						name="password"
+						type="password"
+						class="form-control my-2"
+						style="max-width: 500px;"
+						placeholder="Password (Default is last 4 digits of your phone)"
+					>
+
+					<!-- [SUBMIT] -->
+					<div class="btn btn-primary mb-3">Login</div>
+				</form>
+
+			
 			<?php else: ?>
 				
-				<!-- [PHP] USER FOUND -->
-				<?php if($fetched_email): ?>
-				
-					<h3>You already have an account</h3>
-					<h6 class="text-secondary">Please enter your password to continue.</h6>
-					<hr>
-
-					<label class="font-weight-bold">Username:</label>
-					<h6 class="mb-3"><?php echo $email; ?></h6>
-
-					<form
-						action="./payments-proccess-login.php?vin=<?php echo $vin; ?>"
-						method="POST"
-					>
-						<label for="password" class="font-weight-bold">Password:</label>
-
-						<!-- [HIDDEN] vin -->
-						<input
-							type="hidden"
-							id="vin"
-							name="vin"
-							value="<?php echo $vin; ?>"
-						>
-
-						<!-- [HIDDEN] email -->
-						<input
-							type="hidden"
-							id="email"
-							name="email"
-							value="<?php echo $email; ?>"
-						>
-
-						<!-- [INPUT] Password -->
-						<input
-							id="password"
-							name="password"
-							type="password"
-							class="form-control my-2"
-							style="max-width: 500px;"
-							placeholder="Password (Default is last 4 digits of your phone)"
-						>
-
-						<!-- [SUBMIT] -->
-						<div class="btn btn-primary mb-3">Login</div>
-					</form>
-
-				
-				<?php else: ?>
-					
+				<?php if ($paid == true): ?>
 					<!-- [SUCCESS] -->
 					<h3 class="text-center text-dark">
 						Thank You! You can now generate a report for the provided vin
@@ -304,29 +323,16 @@
 							Go to Generate Report Page
 						</button>
 					</a>
-				
+					
+				<?php else: ?>
+
+					<h1>Something went wrong</h1>
+
 				<?php endif; ?>
 
 			<?php endif; ?>
-		
-		<?php
-			/*
-			// [ADMIN][DEBUG] //
-			echo '<div class="p-2 border border-warning">';
-			echo '<h6 class="text-warning">email: '.$email.'</h6>';
-			echo '<h6 class="text-warning">phone: '.$phone.'</h6>';
-			echo '<h6 class="text-warning">card_name: '.$card_name.'</h6>';
-			echo '<h6 class="text-warning">card_number: '.$card_number.'</h6>';
-			echo '<h6 class="text-warning">card_exp_month: '.$card_exp_month.'</h6>';
-			echo '<h6 class="text-warning">card_exp_year: '.$card_exp_year.'</h6>';
-			echo '<h6 class="text-warning">card_cvv: '.$card_cvv.'</h6>';
-			echo '<h6 class="text-warning">password: '.$password.'</h6>';
-			//echo '<h6 class="text-warning">signature: '.$sign.'</h6>';
-			echo '<h6 class="text-warning">tokenObj: '.$tokenObj.'</h6>';
-			echo '</div>';
-			*/
-		?>
 
+		<?php endif; ?>
 	</div>
 </div>
 
@@ -337,3 +343,21 @@
 
 </body>
 </html>
+
+<?php
+/*
+// [ADMIN][DEBUG] //
+echo '<div class="p-2 border border-warning">';
+echo '<h6 class="text-warning">email: '.$email.'</h6>';
+echo '<h6 class="text-warning">phone: '.$phone.'</h6>';
+echo '<h6 class="text-warning">card_name: '.$card_name.'</h6>';
+echo '<h6 class="text-warning">card_number: '.$card_number.'</h6>';
+echo '<h6 class="text-warning">card_exp_month: '.$card_exp_month.'</h6>';
+echo '<h6 class="text-warning">card_exp_year: '.$card_exp_year.'</h6>';
+echo '<h6 class="text-warning">card_cvv: '.$card_cvv.'</h6>';
+echo '<h6 class="text-warning">password: '.$password.'</h6>';
+//echo '<h6 class="text-warning">signature: '.$sign.'</h6>';
+echo '<h6 class="text-warning">tokenObj: '.$tokenObj.'</h6>';
+echo '</div>';
+*/
+?>

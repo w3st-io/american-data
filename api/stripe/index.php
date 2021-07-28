@@ -46,7 +46,7 @@ class StripeWrapper {
 	}
 
 
-	public function createOneDollarCharge($cus_id) {
+	public function createOneDollarCharge($cus_id, $vin) {
 		$stripe = new \Stripe\StripeClient('sk_test_51INvnfCC0rHo3XXZxdgGXsFDstmtEnCGYux6ZA8XlySkrSsYqHAa5kOFptGb8k2w6TtyOAuJhiBpeeTkXShldA6E00XuTKIQ3h');
 
 
@@ -63,7 +63,8 @@ class StripeWrapper {
 			'currency' => 'usd',
 			'payment_method' => $customerObj['invoice_settings']['default_payment_method'],
 			'payment_method_types' => ['card'],
-			'customer' => $cus_id
+			'customer' => $cus_id,
+			"metadata" => ["vin" => $vin]
 		]);
 
 
@@ -104,5 +105,10 @@ class StripeWrapper {
 
 
 		return $subObj;
+	}
+
+
+	public function retrieveDefaultPaymentMethod($sub_id) {
+		$stripe = new \Stripe\StripeClient('sk_test_51INvnfCC0rHo3XXZxdgGXsFDstmtEnCGYux6ZA8XlySkrSsYqHAa5kOFptGb8k2w6TtyOAuJhiBpeeTkXShldA6E00XuTKIQ3h');
 	}
 }
