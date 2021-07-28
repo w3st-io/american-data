@@ -260,6 +260,7 @@
 <?php include('./common/bottom_script.php'); ?>
 
 
+<!-- [SCRIPT] ------------------------------------------------------->
 <!-- [REQUIRE] -->
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"
@@ -269,7 +270,6 @@
 	defer
 ></script>
 
-<!-- Needed for the credit card number field -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js"
 ></script>
 
@@ -277,7 +277,7 @@
 <script type="text/javascript" src="resources/js/bcPaint.js"></script>
 
 
-<!-- [SCRIPT][INIT] -->
+<!-- [INIT] -->
 <script>
 	// [FORMAT] This sets the template for the input fields //
 	$('#phone').mask('999 999 9999')
@@ -290,8 +290,7 @@
 	$('#bcPaint').bcPaint({ defaultColor : '000000' })
 </script>
 
-
-<!-- [SCRIPT] -->
+<!-- [SUBMIT] -->
 <script>
 	async function submitPaymentForm() {
 		let emailElement = document.getElementById('email')
