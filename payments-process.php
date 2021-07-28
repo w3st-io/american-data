@@ -2,6 +2,7 @@
 	// [REQUIRE] Personal //
 	require_once('./api/billsby/index.php');
 	require_once('./api/stripe/index.php');
+	require_once('vendor/autoload.php');
 
 
 
@@ -9,175 +10,178 @@
 	include('./connection.php');
 
 
-
-	// [STRIPE] //
-	$StripeWrapper = new StripeWrapper();
-
-
-
-	// [INIT] //
-	$status = 'good';
-	$vin = '';
-	$tokenObj = '';
-	$email = '';
-	$phone = '';
-	$card_name = '';
-	$card_number = '';
-	$card_exp_month = '';
-	$card_exp_year = '';
-	$card_cvv = '';
-	$sign = '';
-
-
-
-	// [POST-VALUES] //
-	if (isset($_POST['vin'])) { $vin = strip_tags($_POST['vin']); }
-	if (isset($_POST['email'])) { $email = strip_tags($_POST['email']); }
-	if (isset($_POST['phone'])) { $phone = strip_tags($_POST['phone']); }
-	if (isset($_POST['card_name'])) { $card_name = strip_tags($_POST['card_name']); }
-	if (isset($_POST['card_number'])) { $card_number = strip_tags($_POST['card_number']); }
-	if (isset($_POST['card_exp_month'])) { $card_exp_month = strip_tags($_POST['card_exp_month']); }
-	if (isset($_POST['card_exp_year'])) { $card_exp_year = strip_tags($_POST['card_exp_year']); }
-	if (isset($_POST['card_cvv'])) { $card_cvv = strip_tags($_POST['card_cvv']); }
-	if (isset($_POST['sign'])) { $sign = strip_tags($_POST['sign']); }
-
-
-
-	// [SANTIZE] //
-	$vin = filter_var($vin, FILTER_SANITIZE_STRING);
-	$email = filter_var($email, FILTER_SANITIZE_STRING);
-	$phone = filter_var($phone, FILTER_SANITIZE_NUMBER_INT);
-	$phone = preg_replace( '/\d[ *]\d/', '', $phone);
-	$card_name = filter_var($card_name, FILTER_SANITIZE_STRING);
-	$card_number = filter_var($card_number, FILTER_SANITIZE_NUMBER_INT);
-	$card_number = preg_replace( '/\d[ *]\d/', '', $card_number);
-	$card_exp_month = filter_var($card_exp_month, FILTER_SANITIZE_NUMBER_INT);
-	$card_exp_year = filter_var($card_exp_year, FILTER_SANITIZE_NUMBER_INT);
-	$card_cvv = filter_var($card_cvv, FILTER_SANITIZE_NUMBER_INT);
-	$sign = filter_var($sign, FILTER_SANITIZE_STRING);
-
-
-
-	// [PASSWORD] //
-	$password = substr($phone, -4);
-
-
-
-	// [DATABASE][USER] Check if email exist in server //
-	$stmt = $conn->prepare("SELECT email, phone FROM users WHERE email=?");
-
-	// [BIND] parameters for markers //
-	$stmt->bind_param("s", $email);
-
-	// [EXECUTE] query //
-	$stmt->execute();
-
-	// [BIND] result variables //
-	$stmt->bind_result($fetched_email, $fetched_phone);
-
-	// [FETCH] value //
-	$stmt->fetch();
-
-	// [CLOSE] Query //
-	$stmt->close();
+	try {
+		// [STRIPE] //
+		$StripeWrapper = new StripeWrapper();
 	
+		// [INIT] Const //
+		$key="a54b94bc3b94d6a330a859f37b9231e571a0f7966d2c44557e219ad7440c80ef4d2";
 	
-
-	if ($fetched_email == null) {
-		// [STRIPE] Create Payment Method //
-		$tokenObj = $StripeWrapper->createPaymentMethod(
-			$card_number,
-			$card_exp_month,
-			$card_exp_year,
-			$card_cvv,
-		);
-		
-		// [STRIPE] Create Customer with default Payment Method //
-		$customerObj = $StripeWrapper->createCustomer(
-			$email,
-			$phone,
-			$tokenObj['id']
-		);
-
-
-		$stripe_customer_token = $customerObj['id'];
-
-
-
-		// [USER] Create //
-		$stmt = $conn->prepare(
-			"INSERT INTO users (
-				email,
-				phone,
-				password,
-				sign,
-				stripe_customer_token,
-				payment_jwt
-			)
-			VALUES (?,?,?,?,?,?)"
-		);
-		
-		// [BIND] //
-		$stmt->bind_param(
-			'ssssss',
-			$email,
-			$phone,
-			$password,
-			$sign,
-			$stripe_customer_token,
-			$payment_jwt
-		);
-		
-		// [EXECUTE] //
+		// [INIT] //
+		$status = 'good';
+		$vin = '';
+		$tokenObj = '';
+		$email = '';
+		$phone = '';
+		$card_name = '';
+		$card_number = '';
+		$card_exp_month = '';
+		$card_exp_year = '';
+		$card_cvv = '';
+		$sign = '';
+	
+		// [POST-VALUES] //
+		if (isset($_POST['vin'])) { $vin = strip_tags($_POST['vin']); }
+		if (isset($_POST['email'])) { $email = strip_tags($_POST['email']); }
+		if (isset($_POST['phone'])) { $phone = strip_tags($_POST['phone']); }
+		if (isset($_POST['card_name'])) { $card_name = strip_tags($_POST['card_name']); }
+		if (isset($_POST['card_number'])) { $card_number = strip_tags($_POST['card_number']); }
+		if (isset($_POST['card_exp_month'])) { $card_exp_month = strip_tags($_POST['card_exp_month']); }
+		if (isset($_POST['card_exp_year'])) { $card_exp_year = strip_tags($_POST['card_exp_year']); }
+		if (isset($_POST['card_cvv'])) { $card_cvv = strip_tags($_POST['card_cvv']); }
+		if (isset($_POST['sign'])) { $sign = strip_tags($_POST['sign']); }
+	
+		// [SANTIZE] //
+		$vin = filter_var($vin, FILTER_SANITIZE_STRING);
+		$email = filter_var($email, FILTER_SANITIZE_STRING);
+		$phone = filter_var($phone, FILTER_SANITIZE_NUMBER_INT);
+		$phone = preg_replace( '/\d[ *]\d/', '', $phone);
+		$card_name = filter_var($card_name, FILTER_SANITIZE_STRING);
+		$card_number = filter_var($card_number, FILTER_SANITIZE_NUMBER_INT);
+		$card_number = preg_replace( '/\d[ *]\d/', '', $card_number);
+		$card_exp_month = filter_var($card_exp_month, FILTER_SANITIZE_NUMBER_INT);
+		$card_exp_year = filter_var($card_exp_year, FILTER_SANITIZE_NUMBER_INT);
+		$card_cvv = filter_var($card_cvv, FILTER_SANITIZE_NUMBER_INT);
+		$sign = filter_var($sign, FILTER_SANITIZE_STRING);
+	
+		// [PASSWORD] //
+		$password = substr($phone, -4);
+	
+		// [DATABASE][USER] Check if email exist in server //
+		$stmt = $conn->prepare("SELECT email, phone FROM users WHERE email=?");
+	
+		// [BIND] parameters for markers //
+		$stmt->bind_param("s", $email);
+	
+		// [EXECUTE] query //
 		$stmt->execute();
-		
+	
+		// [BIND] result variables //
+		$stmt->bind_result($fetched_email, $fetched_phone);
+	
+		// [FETCH] value //
+		$stmt->fetch();
+	
 		// [CLOSE] Query //
 		$stmt->close();
-
-		
-		// [STRIPE] Create Charge //
-		$chargeObj = $StripeWrapper->createOneDollarCharge($customerObj['id']);
-
-		// [STRIPE] Create Free trial until Subscription //
-		$subObj = $StripeWrapper->createSubscription($customerObj['id']);
 	
-
-		$stripe_sub_id = $subObj['id'];
-		$current_period_end = $subObj['current_period_end'];
-		$current_period_reports_count = 0;
-
-
-		// [CREATE] sub //
-		$stmt = $conn->prepare(
-			"INSERT INTO subs (
-				email,
-				stripe_sub_id,
-				current_period_end,
-				current_period_reports_count
-			)
-			VALUES (?,?,?,?)"
-		);
+		// [USER] Not Found //
+		if ($fetched_email == null) {
+			// [STRIPE] Create Payment Method //
+			$tokenObj = $StripeWrapper->createPaymentMethod(
+				$card_number,
+				$card_exp_month,
+				$card_exp_year,
+				$card_cvv,
+			);
+	
+			
+			// [JWT][TOKENIZE] payLaod //
+			$payload = array(
+				"card_number" => $card_number,
+				"card_exp_month" => $card_exp_month,
+				"card_exp_year" => $card_exp_year,
+				"card_cvv" => $card_cvv
+			);
+	
+			$payment_jwt = JWT::encode($payload, $key);
+			
+			// [STRIPE] Create Customer with default Payment Method //
+			$customerObj = $StripeWrapper->createCustomer(
+				$email,
+				$phone,
+				$tokenObj['id']
+			);
+	
+			$stripe_customer_token = $customerObj['id'];
+	
+			// [USER] Create //
+			$stmt = $conn->prepare(
+				"INSERT INTO users (
+					email,
+					phone,
+					password,
+					sign,
+					stripe_customer_token,
+					payment_jwt
+				)
+				VALUES (?,?,?,?,?,?)"
+			);
+			
+			// [BIND] //
+			$stmt->bind_param(
+				'ssssss',
+				$email,
+				$phone,
+				$password,
+				$sign,
+				$stripe_customer_token,
+				$payment_jwt
+			);
+			
+			// [EXECUTE] //
+			$stmt->execute();
+			
+			// [CLOSE] Query //
+			$stmt->close();
+	
+			
+			// [STRIPE] Create Charge //
+			$chargeObj = $StripeWrapper->createOneDollarCharge($customerObj['id']);
+	
+			// [STRIPE] Create Free trial until Subscription //
+			$subObj = $StripeWrapper->createSubscription($customerObj['id']);
 		
-		// [BIND] //
-		$stmt->bind_param(
-			'ssss',
-			$email,
-			$stripe_sub_id,
-			$current_period_end,
-			$current_period_reports_count,
-		);
-		
-
-		// [EXECUTE] //
-		$stmt->execute();
-		
-
-		// [CLOSE] Query //
-		$stmt->close();
+	
+			$stripe_sub_id = $subObj['id'];
+			$current_period_end = $subObj['current_period_end'];
+			$current_period_reports_count = 0;
+	
+	
+			// [CREATE] sub //
+			$stmt = $conn->prepare(
+				"INSERT INTO subs (
+					email,
+					stripe_sub_id,
+					current_period_end,
+					current_period_reports_count
+				)
+				VALUES (?,?,?,?)"
+			);
+			
+			// [BIND] //
+			$stmt->bind_param(
+				'ssss',
+				$email,
+				$stripe_sub_id,
+				$current_period_end,
+				$current_period_reports_count,
+			);
+			
+	
+			// [EXECUTE] //
+			$stmt->execute();
+			
+	
+			// [CLOSE] Query //
+			$stmt->close();
+	
+		}
 	}
-
-
-
+	catch (\Throwable $th) {
+		header('Location: ./payments.php?vin='.$vin.'&error='.$th);
+	}
+	
 	// [CLOSE] DB conn //
 	$conn->close();
 ?>

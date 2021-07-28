@@ -5,10 +5,12 @@
 
 	// [INIT] //
 	$vin = '';
+	$error = '';
 
 
 	// [POST] //
 	if (isset($_GET['vin'])) { $vin = strip_tags($_GET['vin']); }
+	if (isset($_GET['error'])) { $error = strip_tags($_GET['error']); }
 ?>
 
 
@@ -179,8 +181,15 @@
 								/>
 							</div>
 							
-							<div id="errorDiv" class="col-12 text-danger"></div>
-							
+							<?php if($error != ''): ?>
+								
+								<div class="col-12">
+									<h4 class="text-danger mb-3">
+										<?php echo $error; ?>
+									</h4>
+								</div>
+
+							<?php endif; ?>
 
 							<div class="col-12">
 								<!-- [SUBMIT] -->
@@ -193,6 +202,7 @@
 									By typing your name and clicking "pay now", that will constitute your electronic signature. This is your written authorization to charge your account, and agreement to be bound by our terms of use, and privacy policy.
 								</p>
 							</div>
+
 						</div>
 					</form>
 				</div>
