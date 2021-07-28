@@ -1,4 +1,11 @@
 <?php
+	// [USER-LOGGED] redirect to welcome page //
+	if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+		header("location: dashboard.php");
+		exit;
+	}
+
+	
 	// Include config file
 	require_once "connection.php";
 
@@ -14,14 +21,6 @@
 	// [POST-VALUE] //
 	if (isset($_GET['email'])) { $email = strip_tags($_GET['email']); }
 	if (isset($_GET['error'])) { $error = strip_tags($_GET['error']); }
-
-	
-
-	// [USER-LOGGED] redirect to welcome page //
-	if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-		header("location: dashboard.php");
-		exit;
-	}
 ?>
 
 <!-- [HTML] ------------------------------------------------------->

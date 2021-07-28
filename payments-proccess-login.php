@@ -1,4 +1,8 @@
 <?php
+	// [INCLUDE] //
+	include('./connection.php');
+
+
 	// [INIT] //
 	$authenticated = false;
 	$error = '';
@@ -31,6 +35,41 @@
 		// [SANITIZE] //
 		$password = filter_var($password, FILTER_SANITIZE_STRING);
 	}
+
+	// [LOGIN] //
+	if (empty($error)) {
+		// [DATABASE][USER] Check if email exist in server //
+		$stmt = $conn->prepare("
+			SELECT id, email, phone, stripe_cus_id
+			FROM users
+			WHERE email=?
+			AND password=?
+		");
+		$stmt->bind_param("ss", $email, $password);
+		$stmt->execute();
+		$stmt->bind_result(
+			$fetched_id,
+			$fetched_email,
+			$fetched_phone,
+			$fetched_stripe_cus_id,
+		);
+		$stmt->fetch();
+	
+		// [VALIDATE] //
+		if ($fetched_email != '') {
+			// Password is correct, so start a new session
+			session_start();
+
+			// Store data in session variables
+			$_SESSION['loggedin'] = true;
+			$_SESSION['id'] = $fetched_id;
+			$_SESSION['email'] = $fetched_email;
+			$_SESSION['stripe_cus_id'] = $fetched_stripe_cus_id;
+
+			headers(-1);
+		}
+		else { $error = 'Invalid login'; }
+	}
 ?>
 
 <!-- [HTML] ------------------------------------------------------->
@@ -42,10 +81,28 @@
 	<div class="breadcrumb-bg breadcrumb-bg-about py-sm-5 py-4"></div>
 </section>
 
-<div class="container">
-	<div class="card card-body my-5 shadow">
-	</div>
+<div class="container my-5">
+
+	<?php if($error): ?>
+
+		<!-- [ERROR] -->
+		<div class="alert alert-danger mb-3 shadow">
+			<h4 class="text-danger"><?php echo $error; ?></h4>
+			<hr>
+			
+			<a href="">
+				<button
+					class="btn btn-primary w-100"
+				>Try Again</button>
+			</a>
+		</div>
+
+	<?php endif; ?>
+
 </div>
+
+
+
 
 <!-- [FOOTER] -->
 <?php include('footer.php'); ?>
