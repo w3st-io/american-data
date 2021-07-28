@@ -1,3 +1,11 @@
+<?php
+	// [INCLUDE] //
+	include('./common/session.php');
+
+
+	// display button for logged in and button for not logged in below
+?>
+
 <?php include('header.php'); ?>
 
 <!-- [INPUT] Hidden -->
