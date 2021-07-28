@@ -59,14 +59,16 @@
 					<input
 						type="password"
 						name="password"
-						class="form-control"
+						class="form-control mb-5"
 					>
 			</div>
 	
 			<div class="form-group">
 				<!-- Submit -->
-				<input type="submit" class="btn btn-primary" value="Login">
+				<input type="submit" class="btn btn-primary w-100" value="Login">
 			</div>
+
+			<a href="./password-recovery.php" class="text-danger">Forgot Password?</a>
 		</form>
 	</div>
 
