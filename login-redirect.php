@@ -10,7 +10,7 @@
 	$fetched_id = '';
 	$fetched_email = '';
 	$fetched_phone = '';
-	$fetched_stripe_customer_token = '';
+	$fetched_stripe_cus_id = '';
 	$error = '';
 
 
@@ -37,38 +37,20 @@
 	if (empty($error)) {
 		// [DATABASE][USER] Check if email exist in server //
 		$stmt = $conn->prepare("
-			SELECT id, email, phone, stripe_customer_token
+			SELECT id, email, phone, stripe_cus_id
 			FROM users
 			WHERE email=?
 			AND password=?
 		");
-	
-	
-	
-		// [BIND] parameters for markers //
 		$stmt->bind_param("ss", $email, $password);
-	
-	
-	
-		// [EXECUTE] query //
 		$stmt->execute();
-	
-	
-	
-		// [BIND] result variables //
 		$stmt->bind_result(
 			$fetched_id,
 			$fetched_email,
 			$fetched_phone,
-			$fetched_stripe_customer_token,
+			$fetched_stripe_cus_id,
 		);
-	
-	
-	
-		// [FETCH] value //
 		$stmt->fetch();
-	
-	
 	
 		// [VALIDATE] //
 		if ($fetched_email != '') {
@@ -80,7 +62,7 @@
 			$_SESSION['loggedin'] = true;
 			$_SESSION['id'] = $fetched_id;
 			$_SESSION['email'] = $fetched_email;
-			$_SESSION['fetched_stripe_customer_token'] = $fetched_stripe_customer_token;
+			$_SESSION['stripe_cus_id'] = $fetched_stripe_cus_id;
 
 			header('Location: ./dashboard.php');
 		}

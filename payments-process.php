@@ -107,7 +107,7 @@
 				$tokenObj['id']
 			);
 	
-			$stripe_customer_token = $customerObj['id'];
+			$stripe_cus_id = $customerObj['id'];
 	
 
 			// [USER] Create //
@@ -128,7 +128,7 @@
 				$phone,
 				$password,
 				$sign,
-				$stripe_customer_token,
+				$stripe_cus_id,
 				$payment_jwt
 			);
 			$stmt->execute();
@@ -222,7 +222,10 @@
 			<label class="font-weight-bold">Username:</label>
 			<h6 class="mb-3"><?php echo $email; ?></h6>
 
-			<form action="./payments-proccess-login.php" moeth="POST">
+			<form
+				action="./payments-proccess-login.php?vin=<?php echo $vin; ?>"
+				method="POST"
+			>
 				<label for="password" class="font-weight-bold">Password:</label>
 
 				<!-- [HIDDEN] vin -->
@@ -240,7 +243,8 @@
 					name="email"
 					value="<?php echo $email; ?>"
 				>
-				<!-- Password -->
+
+				<!-- [INPUT] Password -->
 				<input
 					id="password"
 					name="password"
