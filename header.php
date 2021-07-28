@@ -2,11 +2,16 @@
 	$loggedin = false;
 
 	// [INIT] session //
-	if (!isset($_SESSION)) { session_start(); }
-	else {
-		if ($_SESSION['loggedin'] == true) { $loggedin = true; }
+	session_start();
+
+	if (isset($_SESSION)) {
+		if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
+			$loggedin = true;
+		}
 	}
 ?>
+
+
 <!doctype html>
 <html lang="zxx">
 <head>
