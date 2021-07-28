@@ -165,7 +165,6 @@
 			);
 			$stmt->execute();
 			$stmt->close();
-	
 		}
 	}
 	catch (\Throwable $th) {
