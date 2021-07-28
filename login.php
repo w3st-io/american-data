@@ -34,10 +34,13 @@
 </section>
 
 <div class="container my-5">
+	<div class="alert alert-warning mx-auto shadow" style="max-width: 500px;">
+	<p class="text-danger">If this is your first time logging in, the default password is the last 4 digits of the phone number u entered for ur account</p>
+	
+	</div>
 	<div class="card card-body mx-auto shadow" style="max-width: 500px;">
 		<h2>Login</h2>
-		<p>Please fill in your credentials to login.</p>
-	
+		
 		<form
 			action="./login-redirect.php"
 			method="POST"

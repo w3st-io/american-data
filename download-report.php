@@ -1,13 +1,17 @@
-<?php 
-error_reporting(E_ALL);
-error_reporting(-1);
-ini_set('error_reporting', E_ALL);
+<?php
+// [REQUIRE] //
+require_once('tcpdf/tcpdf_include.php');
 
+
+// [INIT] //
+$html = '';
 $data = array();
 $date = date('l jS \of F Y h:i:s A');
 
-$data['vin'] = $vin = $_POST['vin'];
 
+// [POST-VALUES] //
+/*
+$data['vin'] = $vin = $_POST['vin'];
 $data['email'] = $_POST['email'];
 $data['password'] = $_POST['password'];
 $data['is_salvage'] = $_POST['is_salvage'];
@@ -16,13 +20,35 @@ $data['loss_type'] = $_POST['loss_type'];
 $data['mileage'] = $_POST['mileage'];
 $data['primary_damage'] = $_POST['primary_damage'];
 $data['secondary_damage'] = $_POST['secondary_damage'];
+*/
+$vin = 'vin3';
+$data['vin'] = 'vin';
+$data['email'] = 'email';
+$data['password'] = 'password';
+$data['is_salvage'] = 'is_salvage';
+$data['vehicle_title'] = 'vehicle_title';
+$data['loss_type'] = 'loss_type';
+$data['mileage'] = 'mileage';
+$data['primary_damage'] = 'primary_damage';
+$data['secondary_damage'] = 'secondary_damage';
 
 
+error_reporting(E_ALL);
+error_reporting(-1);
 
-require_once('tcpdf/tcpdf_include.php');
+ini_set('error_reporting', E_ALL);
+
 
 // create new PDF document
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+$pdf = new TCPDF(
+	PDF_PAGE_ORIENTATION,
+	PDF_UNIT,
+	PDF_PAGE_FORMAT,
+	true,
+	'UTF-8',
+	false
+);
+
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
@@ -31,26 +57,38 @@ $pdf->SetTitle('VIN HISTORY REPORTS AMARICA');
 $pdf->SetSubject('VIN HISTORY REPORTS AMARICA');
 $pdf->SetKeywords('VIN, ISTORY REPORTS AMARICA');
 
+
 // set default header data
-$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 006', PDF_HEADER_STRING);
+$pdf->SetHeaderData(
+	PDF_HEADER_LOGO,
+	PDF_HEADER_LOGO_WIDTH,
+	PDF_HEADER_TITLE.' 006',
+	PDF_HEADER_STRING
+);
+
 
 // set header and footer fonts
 $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
 $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 
+
 // set default monospaced font
 $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
 
 // set margins
 $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
 $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
 $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
+
 // set auto page breaks
 $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
+
 // set image scale factor
 $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
 
 // set some language-dependent strings (optional)
 if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
@@ -58,13 +96,16 @@ if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
 	$pdf->setLanguageArray($l);
 }
 
+
 // ---------------------------------------------------------
 
 // set font
 $pdf->SetFont('dejavusans', '', 10);
 
+
 // add a page
 $pdf->AddPage();
+
 
 // writeHTML($html, $ln=true, $fill=false, $reseth=false, $cell=false, $align='')
 // writeHTMLCell($w, $h, $x, $y, $html='', $border=0, $ln=0, $fill=0, $reseth=true, $align='', $autopadding=true)

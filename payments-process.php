@@ -64,27 +64,17 @@
 	// [DATABASE][USER] Check if email exist in server //
 	$stmt = $conn->prepare("SELECT email, phone FROM users WHERE email=?");
 
-
-
 	// [BIND] parameters for markers //
 	$stmt->bind_param("s", $email);
-
-
 
 	// [EXECUTE] query //
 	$stmt->execute();
 
-
-
 	// [BIND] result variables //
 	$stmt->bind_result($fetched_email, $fetched_phone);
 
-
-
 	// [FETCH] value //
 	$stmt->fetch();
-
-
 
 	// [CLOSE] Query //
 	$stmt->close();

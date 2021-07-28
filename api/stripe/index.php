@@ -27,12 +27,14 @@ class StripeWrapper {
 		$stripe = new \Stripe\StripeClient('sk_test_51INvnfCC0rHo3XXZxdgGXsFDstmtEnCGYux6ZA8XlySkrSsYqHAa5kOFptGb8k2w6TtyOAuJhiBpeeTkXShldA6E00XuTKIQ3h');
 
 
+		// Create customer //
 		$customerObj = $stripe->customers->create([
 			'email' => $email,
 			'phone' => $phone,
 			'payment_method' => $payment_method,
 		]);
 
+		// Set Default payment method //
 		$i['invoice_settings']['default_payment_method'] = $payment_method;
 		
 		$stripe->customers->update(
