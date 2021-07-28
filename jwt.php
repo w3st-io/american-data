@@ -8,15 +8,15 @@ use Firebase\JWT\JWT;
 
 
 // [SECRET-KEY] //
-$key = "C8CC568F258216230569C0F8C0BFA7060D2C6BF5F84DB7D4A3D1290638E6330B";
+$key = "a54b94bc3b94d6a330a859f37b9231e571a0f7966d2c44557e219ad7440c80ef4d2";
 
 
 // [JWT][TOKENIZE] payLaod //
 $payload = array(
-    "iss" => "http://example.org",
-    "aud" => "http://example.com",
-    "iat" => 1356999524,
-    "nbf" => 1357000000
+    "card_number" => 4242424242424242,
+    "card_exp_month" => '12',
+    "card_exp_year" => '2067',
+    "card_cvv" => 123
 );
 
 

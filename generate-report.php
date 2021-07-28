@@ -1,18 +1,14 @@
-<?php 
-	require('vendor/autoload.php');
-
-	include('header.php');
+<?php
+	// [INCLUDE] //
 	include('connection.php');
-
-	use Firebase\JWT\JWT;
-
-	$key = "C8CC568F258216230569C0F8C0BFA7060D2C6BF5F84DB7D4A3D1290638E6330B";
 
 	// [INIT] //
 	$code = strip_tags($_POST['vin']);
 	$added_on = date('l jS \of F Y h:i:s A');
 ?>
 
+<!--- [HTML] ------------------------------------------------------->
+<?php include('header.php'); ?>
 
 <style type="text/css" media="screen">
 	.badge.badge-error.bg-primary {

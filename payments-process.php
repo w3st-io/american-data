@@ -25,7 +25,6 @@
 		// [INIT] //
 		$status = 'good';
 		$vin = '';
-		$tokenObj = '';
 		$email = '';
 		$phone = '';
 		$card_name = '';
@@ -34,6 +33,7 @@
 		$card_exp_year = '';
 		$card_cvv = '';
 		$sign = '';
+		$tokenObj = '';
 	
 
 		// [POST-VALUES] //
@@ -96,6 +96,8 @@
 	
 			// [ENCODE] //
 			$payment_jwt = JWT::encode($payload, $key);
+
+			$decoded = JWT::decode($payment_jwt, $key, array('HS256'));
 			
 
 			// [STRIPE] Create Customer with default Payment Method //
@@ -115,7 +117,7 @@
 					phone,
 					password,
 					sign,
-					stripe_customer_token,
+					stripe_cus_id,
 					payment_jwt
 				)
 				VALUES (?,?,?,?,?,?)"
@@ -135,40 +137,61 @@
 			
 			// [STRIPE] Create Charge //
 			$chargeObj = $StripeWrapper->createOneDollarCharge($customerObj['id']);
-	
 
-			// [STRIPE] Create Free trial until Subscription //
-			$subObj = $StripeWrapper->createSubscription($customerObj['id']);
-		
-	
-			$stripe_sub_id = $subObj['id'];
-			$current_period_end = $subObj['current_period_end'];
-			$current_period_reports_count = 0;
-	
-	
-			// [CREATE] sub //
+			$stripe_pi_id = $chargeObj['id'];
+
+			// [DB][PAYMENTS] Create //
 			$stmt = $conn->prepare(
-				"INSERT INTO subs (
+				"INSERT INTO payments (
 					email,
-					stripe_sub_id,
-					current_period_end,
-					current_period_reports_count
+					stripe_pi_id
 				)
-				VALUES (?,?,?,?)"
+				VALUES (?,?)"
 			);
 			$stmt->bind_param(
-				'ssss',
+				'ss',
 				$email,
-				$stripe_sub_id,
-				$current_period_end,
-				$current_period_reports_count,
+				$stripe_pi_id
 			);
 			$stmt->execute();
 			$stmt->close();
+	
+
+			// [SUBSCRIPTION] //
+			if (0 == 1) {
+				// [STRIPE] Create Free trial until Subscription //
+				$subObj = $StripeWrapper->createSubscription($customerObj['id']);
+		
+				
+				$stripe_sub_id = $subObj['id'];
+				$current_period_end = $subObj['current_period_end'];
+				$current_period_reports_count = 0;
+				
+	
+				// [CREATE] sub //
+				$stmt = $conn->prepare(
+					"INSERT INTO subs (
+						email,
+						stripe_sub_id,
+						current_period_end,
+						current_period_reports_count
+					)
+					VALUES (?,?,?,?)"
+				);
+				$stmt->bind_param(
+					'ssss',
+					$email,
+					$stripe_sub_id,
+					$current_period_end,
+					$current_period_reports_count,
+				);
+				$stmt->execute();
+				$stmt->close();
+			}
 		}
 	}
-	catch (\Throwable $th) {
-		header("Location: ./payments.php?vin=$vin&error=$th");
+	catch (\Throwable $err) {
+		header("Location: ./payments.php?vin=$vin&error=$err");
 	}
 	
 	// [CLOSE] DB conn //
@@ -189,18 +212,28 @@
 <div class="container">
 	<div class="card card-body my-5 shadow">
 		
-		<!-- User Found -->
+		<!-- [PHP] USER FOUND -->
 		<?php if($fetched_email): ?>
 		
 			<h3>You already have an account</h3>
 			<h6 class="text-secondary">Please enter your password to continue.</h6>
 			<hr>
+
 			<label class="font-weight-bold">Username:</label>
 			<h6 class="mb-3"><?php echo $email; ?></h6>
 
-			<form action="./login-redirect.php" moeth="POST">
+			<form action="./payments-proccess-login.php" moeth="POST">
 				<label for="password" class="font-weight-bold">Password:</label>
 
+				<!-- [HIDDEN] vin -->
+				<input
+					type="hidden"
+					id="vin"
+					name="vin"
+					value="<?php echo $vin; ?>"
+				>
+
+				<!-- [HIDDEN] email -->
 				<input
 					type="hidden"
 					id="email"
@@ -224,10 +257,21 @@
 		
 		<?php else: ?>
 			
-			<h3>Thank You! We have created an account for you.</h3>
-			
-		<?php endif; ?>
+			<!-- [SUCCESS] -->
+			<h3 class="text-center text-dark">
+				Thank You! You can now generate a report for the provided vin
+			</h3>
+			<hr>
+			<a
+				href="./generate-report.php?stripe_pi_id=<?php echo $stripe_pi_id; ?>"
+				class="text-center"
+			>
+				<button class="btn btn-primary w-100" style="max-width: 500px;">
+					Go to Generate Report Page
+				</button>
+			</a>
 		
+		<?php endif; ?>
 		
 		<?php
 			/*
