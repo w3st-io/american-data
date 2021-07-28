@@ -7,6 +7,8 @@
 	$email = '';
 	$v_code = '';
 	$password = '';
+	$fetched_email = '';
+	$fetched_v_code = '';
 
 
 	// Processing form data when form is submitted
@@ -43,41 +45,86 @@
 		
 		// Check if email is empty
 		if (empty($error)) {
-			// [VERIFY] //
+			// [DATABASE][USER] Check if pvc exist in server //
+			$stmt = $conn->prepare("
+				SELECT email, v_code
+				FROM password_v_codes
+				WHERE email=?
+				AND v_code=?
+			");
 
 
 
-			echo 'sdfsdf'. $email . $v_code . $password;
-
-			// [DATABASE] prepare and bind //
-			$stmt = $conn->prepare('
-				UPDATE users
-				SET password = ?
-				WHERE email = ?;
-			');
+			// [BIND] parameters for markers //
+			$stmt->bind_param("ss", $email, $v_code);
 
 
 
-			// [BIND] //
-			$stmt->bind_param(
-				'ss',
-				$password,
-				$email,
-			);
-		
-		
-		
-			// [EXECUTE] //
+			// [EXECUTE] query //
 			$stmt->execute();
-		
-		
-		
-			// [CLOSE] Query //
+
+
+
+			// [BIND] result variables //
+			$stmt->bind_result(
+				$fetched_email,
+				$fetched_v_code
+			);
+
+
+
+			// [FETCH] value //
+			$stmt->fetch();
+
+
+			// [CLOSE] //
 			$stmt->close();
 
 
+			// [VALIDATE] //
+			if ($fetched_email != '') {
+				// [DATABASE] prepare and bind //
+				$stmt = $conn->prepare('
+					UPDATE users
+					SET password = ?
+					WHERE email = ?
+				');
+	
+				// [BIND] //
+				$stmt->bind_param(
+					'ss',
+					$password,
+					$email
+				);
+			
+				// [EXECUTE] //
+				$stmt->execute();
+			
+				// [CLOSE] //
+				$stmt->close();
+	
+	
 
-			echo 'password changed';
+				// [DATABASE][DELETE] v_code //
+				$stmt = $conn->prepare('DELETE FROM password_v_codes WHERE email=?');
+	
+				// [BIND] //
+				$stmt->bind_param(
+					's',
+					$email
+				);
+			
+				// [EXECUTE] //
+				$stmt->execute();
+			
+				// [CLOSE] //
+				$stmt->close();
+
+
+				header('Location: ./login.php');
+			}
+			else { $error = 'wrong v_code'; }
+
 		}
 	}
 ?>

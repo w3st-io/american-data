@@ -17,19 +17,24 @@
 
 	// Check if email is empty
 	if (empty($_POST['email'])) { $error = "Please enter email"; }
-	else { $email = trim($_POST["email"]); }
+	else {
+		$email = trim($_POST["email"]);
+
+		// [SANITIZE] //
+		$email = filter_var($email, FILTER_SANITIZE_STRING);
+	}
 
 	// Check if password is empty
 	if(empty($_POST['password'])) { $error = "Please enter your password"; }
-	else { $password = trim($_POST["password"]); }
+	else {
+		$password = trim($_POST["password"]);
+
+		// [SANITIZE] //
+		$password = filter_var($password, FILTER_SANITIZE_STRING);
+	}
 	
 
 	if (empty($error)) {
-		// [SANITIZE] //
-		$email = filter_var($email, FILTER_SANITIZE_STRING);
-		$password = filter_var($password, FILTER_SANITIZE_STRING);
-
-
 		// [DATABASE][USER] Check if email exist in server //
 		$stmt = $conn->prepare("
 			SELECT id, email, phone, stripe_customer_token
