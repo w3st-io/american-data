@@ -45,7 +45,15 @@
 			<?php echo $pmDetailsObj['card']['last4'] ?>
 		</h4>
 
-		<button class="btn btn-outline-secondary btn-sm">Change Card</button>
+		<button class="btn btn-outline-secondary">Change Card</button>
+		<hr>
+
+		<h5>
+			If you wish to cancel your subscription contact
+			<a href="mailto:support@americanvinhistory.com" class="text-danger">
+				support@americanvinhistory.com
+			</a>
+		</h5>
 		<hr>
 
 		<a href="./loggout.php">
