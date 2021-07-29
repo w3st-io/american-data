@@ -8,6 +8,10 @@
 	require_once('./api/stripe/index.php');
 
 
+	// [REDIRECT] //
+	if ($_SESSION['loggedin'] != true) { header('Location: ./login.php'); }
+
+
 	// [STRIPE] //
 	$StripeWrapper = new StripeWrapper();
 

@@ -8,7 +8,8 @@ class StripeWrapper {
 		$stripe = new \Stripe\StripeClient('sk_test_51INvnfCC0rHo3XXZxdgGXsFDstmtEnCGYux6ZA8XlySkrSsYqHAa5kOFptGb8k2w6TtyOAuJhiBpeeTkXShldA6E00XuTKIQ3h');
 		
 
-		$tokenObj = $stripe->paymentMethods->create([
+		// [PAYMENT-METHOD][CREATE] //
+		$pmObj = $stripe->paymentMethods->create([
 			'type' => 'card',
 			'card' => [
 				'number' => $card_number,
@@ -19,7 +20,7 @@ class StripeWrapper {
 		]);
 
 
-		return $tokenObj;
+		return $pmObj;
 	}
 
 
@@ -27,7 +28,7 @@ class StripeWrapper {
 		$stripe = new \Stripe\StripeClient('sk_test_51INvnfCC0rHo3XXZxdgGXsFDstmtEnCGYux6ZA8XlySkrSsYqHAa5kOFptGb8k2w6TtyOAuJhiBpeeTkXShldA6E00XuTKIQ3h');
 
 
-		// Create customer //
+		// [CUSTOMER][CREATE] //
 		$customerObj = $stripe->customers->create([
 			'email' => $email,
 			'phone' => $phone,
@@ -108,8 +109,51 @@ class StripeWrapper {
 	}
 
 
-	public function retrieveDefaultPaymentMethod($sub_id) {
+	public function retrieveDefaultPaymentMethod($cus_id) {
 		$stripe = new \Stripe\StripeClient('sk_test_51INvnfCC0rHo3XXZxdgGXsFDstmtEnCGYux6ZA8XlySkrSsYqHAa5kOFptGb8k2w6TtyOAuJhiBpeeTkXShldA6E00XuTKIQ3h');
+
+		// [CUSTOMER] //
+		$customerObj = $stripe->customers->retrieve(
+			$cus_id,
+			[]
+		);
+
+		$currentPmObj = $customerObj['invoice_settings']['default_payment_method'];
+
+		$pmDetailsObj = $stripe->paymentMethods->retrieve(
+			$currentPmObj,
+			[]
+		);
+
+		return $pmDetailsObj;
+	}
+
+
+	public function updateDefaultPaymentMethod(
+		$cus_id,
+		$card_number,
+		$card_exp_month,
+		$card_exp_year,
+		$card_cvc
+	) {
+		// [PAYMENT-METHOD][CREATE] //
+		$pmObj = $stripe->paymentMethods->create([
+			'type' => 'card',
+			'card' => [
+				'number' => $card_number,
+				'exp_month' => $card_exp_month,
+				'exp_year' => $card_exp_year,
+				'cvc' => $card_cvc,
+			],
+		]);
+
+		// Set Default payment method //
+		$i['invoice_settings']['default_payment_method'] = $pmObj['id'];
+		
+		$stripe->customers->update(
+			$cus_id,
+			[$i]
+		);
 	}
 
 

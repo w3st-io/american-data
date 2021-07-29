@@ -1,6 +1,26 @@
 <?php
 	// [INCLUDE] //
 	include('./common/session.php');
+
+
+	// [REQUIRE] //
+	require_once('./api/stripe/index.php');
+
+
+	// [REDIRECT] //
+	if ($_SESSION['loggedin'] != true) { header('Location: ./login.php'); }
+
+
+	// [STRIPE] //
+	$StripeWrapper = new StripeWrapper();
+
+
+	// [STRIPE] Retrieve Payment method //
+	$pmDetailsObj = $StripeWrapper->retrieveDefaultPaymentMethod(
+		$_SESSION['stripe_cus_id']
+	);
+
+	print_r($pmDetailsObj['last4']);
 ?>
 
 <!-- [HTML] -->
@@ -15,8 +35,19 @@
 
 <div class="container">
 	<div class="card card-body my-5 shadow">
-		<h2><?php echo $_SESSION['email']; ?></h2>
+		<h2 class="text-center text-danger"><?php echo $_SESSION['email']; ?></h2>
 		<hr>
+
+		<h3 class="text-dark mb-3">Your payment Method:</h3>
+		<h4 class="text-secondary mb-3">
+			<?php echo $pmDetailsObj['card']['brand'] ?>
+			ending in
+			<?php echo $pmDetailsObj['card']['last4'] ?>
+		</h4>
+
+		<button class="btn btn-outline-secondary btn-sm">Change Card</button>
+		<hr>
+
 		<a href="./loggout.php">
 			<button class="btn btn-primary w-100">Loggout</button>
 		</a>
