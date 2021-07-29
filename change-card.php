@@ -32,18 +32,6 @@
 					method="POST"
 				>
 					<div class="row">
-						<!-- card_name -->
-						<div class="col-12 mb-3">
-							<label for="card_name">Name on Card</label>
-							<input
-								type="text"
-								name="card_name"
-								id="card_name"
-								class="form-control"
-								required
-							>
-						</div>
-	
 						<!-- card_number -->
 						<div class="col-12 mb-3">
 							<label for="card_number">Credit Card Number</label>

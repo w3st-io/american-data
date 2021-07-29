@@ -76,7 +76,7 @@
 		else { $error = 'No sign passed'; }
 
 
-		// [SANTIZE] //
+		// [SANITIZE] //
 		$vin = filter_var($vin, FILTER_SANITIZE_STRING);
 		$email = filter_var($email, FILTER_SANITIZE_STRING);
 		$phone = filter_var($phone, FILTER_SANITIZE_NUMBER_INT);

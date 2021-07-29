@@ -4,10 +4,11 @@ require_once('./vendor/autoload.php');
 
 
 class StripeWrapper {
-	public function createPaymentMethod($card_number, $card_exp_month, $card_exp_year, $card_cvc) {
+	public function createPaymentMethod($card_number, $card_exp_month, $card_exp_year, $card_cvv) {
 		$stripe = new \Stripe\StripeClient('sk_test_51INvnfCC0rHo3XXZxdgGXsFDstmtEnCGYux6ZA8XlySkrSsYqHAa5kOFptGb8k2w6TtyOAuJhiBpeeTkXShldA6E00XuTKIQ3h');
 		
 
+		
 		// [PAYMENT-METHOD][CREATE] //
 		$pmObj = $stripe->paymentMethods->create([
 			'type' => 'card',
@@ -15,7 +16,7 @@ class StripeWrapper {
 				'number' => $card_number,
 				'exp_month' => $card_exp_month,
 				'exp_year' => $card_exp_year,
-				'cvc' => $card_cvc,
+				'cvc' => $card_cvv,
 			],
 		]);
 
@@ -134,8 +135,13 @@ class StripeWrapper {
 		$card_number,
 		$card_exp_month,
 		$card_exp_year,
-		$card_cvc
+		$card_cvv
 	) {
+		$stripe = new \Stripe\StripeClient('sk_test_51INvnfCC0rHo3XXZxdgGXsFDstmtEnCGYux6ZA8XlySkrSsYqHAa5kOFptGb8k2w6TtyOAuJhiBpeeTkXShldA6E00XuTKIQ3h');
+
+		echo $card_exp_year;
+
+
 		// [PAYMENT-METHOD][CREATE] //
 		$pmObj = $stripe->paymentMethods->create([
 			'type' => 'card',
@@ -143,9 +149,16 @@ class StripeWrapper {
 				'number' => $card_number,
 				'exp_month' => $card_exp_month,
 				'exp_year' => $card_exp_year,
-				'cvc' => $card_cvc,
+				'cvc' => $card_cvv,
 			],
 		]);
+
+
+		$stripe->paymentMethods->attach(
+			$pmObj['id'],
+			['customer' => $cus_id]
+		);
+
 
 		// Set Default payment method //
 		$i['invoice_settings']['default_payment_method'] = $pmObj['id'];
