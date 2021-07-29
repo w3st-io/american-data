@@ -3,9 +3,12 @@
 require_once('./vendor/autoload.php');
 
 
+include('./config/index.php');
+
+
 class StripeWrapper {
 	public function createPaymentMethod($card_number, $card_exp_month, $card_exp_year, $card_cvv) {
-		$stripe = new \Stripe\StripeClient('sk_test_51INvnfCC0rHo3XXZxdgGXsFDstmtEnCGYux6ZA8XlySkrSsYqHAa5kOFptGb8k2w6TtyOAuJhiBpeeTkXShldA6E00XuTKIQ3h');
+		$stripe = new \Stripe\StripeClient(STRIPE_KEY);
 		
 
 		
@@ -26,7 +29,7 @@ class StripeWrapper {
 
 
 	public function createCustomer($email, $phone, $payment_method) {
-		$stripe = new \Stripe\StripeClient('sk_test_51INvnfCC0rHo3XXZxdgGXsFDstmtEnCGYux6ZA8XlySkrSsYqHAa5kOFptGb8k2w6TtyOAuJhiBpeeTkXShldA6E00XuTKIQ3h');
+		$stripe = new \Stripe\StripeClient(STRIPE_KEY);
 
 
 		// [CUSTOMER][CREATE] //
@@ -49,7 +52,7 @@ class StripeWrapper {
 
 
 	public function createOneDollarCharge($cus_id, $vin) {
-		$stripe = new \Stripe\StripeClient('sk_test_51INvnfCC0rHo3XXZxdgGXsFDstmtEnCGYux6ZA8XlySkrSsYqHAa5kOFptGb8k2w6TtyOAuJhiBpeeTkXShldA6E00XuTKIQ3h');
+		$stripe = new \Stripe\StripeClient(STRIPE_KEY);
 
 
 		// [CUSTOMER] //
@@ -81,7 +84,7 @@ class StripeWrapper {
 
 
 	public function createSubscription($cus_id) {
-		$stripe = new \Stripe\StripeClient('sk_test_51INvnfCC0rHo3XXZxdgGXsFDstmtEnCGYux6ZA8XlySkrSsYqHAa5kOFptGb8k2w6TtyOAuJhiBpeeTkXShldA6E00XuTKIQ3h');
+		$stripe = new \Stripe\StripeClient(STRIPE_KEY);
 
 
 		// [SUBSCRIPTION] Create //
@@ -99,7 +102,7 @@ class StripeWrapper {
 
 
 	public function retrieveSubscription($sub_id) {
-		$stripe = new \Stripe\StripeClient('sk_test_51INvnfCC0rHo3XXZxdgGXsFDstmtEnCGYux6ZA8XlySkrSsYqHAa5kOFptGb8k2w6TtyOAuJhiBpeeTkXShldA6E00XuTKIQ3h');
+		$stripe = new \Stripe\StripeClient(STRIPE_KEY);
 
 
 		// [SUBSCRIPTION] Retrieve //
@@ -111,7 +114,7 @@ class StripeWrapper {
 
 
 	public function retrieveDefaultPaymentMethod($cus_id) {
-		$stripe = new \Stripe\StripeClient('sk_test_51INvnfCC0rHo3XXZxdgGXsFDstmtEnCGYux6ZA8XlySkrSsYqHAa5kOFptGb8k2w6TtyOAuJhiBpeeTkXShldA6E00XuTKIQ3h');
+		$stripe = new \Stripe\StripeClient(STRIPE_KEY);
 
 		// [CUSTOMER] //
 		$customerObj = $stripe->customers->retrieve(
@@ -137,7 +140,7 @@ class StripeWrapper {
 		$card_exp_year,
 		$card_cvv
 	) {
-		$stripe = new \Stripe\StripeClient('sk_test_51INvnfCC0rHo3XXZxdgGXsFDstmtEnCGYux6ZA8XlySkrSsYqHAa5kOFptGb8k2w6TtyOAuJhiBpeeTkXShldA6E00XuTKIQ3h');
+		$stripe = new \Stripe\StripeClient(STRIPE_KEY);
 
 		echo $card_exp_year;
 
@@ -171,7 +174,7 @@ class StripeWrapper {
 
 
 	public function retrievePaymentIntent($pi_id) {
-		$stripe = new \Stripe\StripeClient('sk_test_51INvnfCC0rHo3XXZxdgGXsFDstmtEnCGYux6ZA8XlySkrSsYqHAa5kOFptGb8k2w6TtyOAuJhiBpeeTkXShldA6E00XuTKIQ3h');
+		$stripe = new \Stripe\StripeClient(STRIPE_KEY);
 
 		$piObj = $stripe->paymentIntents->retrieve(
 			$pi_id,

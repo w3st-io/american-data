@@ -1,13 +1,14 @@
 <?php 
+// [INCLUDE] //
+include('./config/index.php');
+
+
+// [INTI] //
 $conn = '';
 
-$servername = 'localhost';
-$dbname = 'vin_vehicles';
-$username = 'root';
-$password = '';
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 
 // Check connection
 if ($conn->connect_error) {
