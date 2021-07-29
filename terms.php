@@ -16,15 +16,6 @@
     <div class="container">
         <div class="content-info-in row">
           <div class="col-lg-12">
-			<h1>PRIVACY POLICY</h1>
-            <h2>Immediate, and No Questions Asked</h2>
-				<p>
-					We offer a full refund to all clients. No Questions asked.
-					You may use our automated support line to issue yourself a full refund.
-					refund Email: support@americanvinhistory.com Alternatively you may
-					request a refund from our live chat located at the bottom right of
-					the website.
-				</p>
           </div>
         </div>
     </div>
