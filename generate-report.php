@@ -1,11 +1,11 @@
 <?php
-	// [REQUIRE] //
-	require_once('./api/stripe/index.php');
-
-
 	// [INCLUDE] //
 	include('./common/session.php');
 	include('connection.php');
+	
+	
+	// [REQUIRE] //
+	require_once('./api/stripe/index.php');
 
 
 	// [STRIPE] //

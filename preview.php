@@ -1,3 +1,10 @@
+<?php
+	// [INCLUDE] //
+	include('./common/session.php');
+?>
+
+
+<!--- [HTML] ------------------------------------------------------->
 <?php include('header.php'); ?>
 
 <!-- [SPACER] --> 

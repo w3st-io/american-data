@@ -1,4 +1,8 @@
 <?php
+// [INCLUDE] //
+include('./common/session.php');
+
+
 // [REQUIRE] //
 require_once('tcpdf/tcpdf_include.php');
 

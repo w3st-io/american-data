@@ -1,3 +1,8 @@
+<?php
+	// [INCLUDE] //
+	include('./common/session.php');
+?>
+
 <?php include('header.php'); ?>
 
 <!-- [COMPONENTS] -->
