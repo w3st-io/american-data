@@ -35,12 +35,6 @@
 		$card_cvv = '';
 		$sign = '';
 		$error = '';
-		
-
-		// [GET-VALUES] //
-		if (isset($_GET['error'])) { $error = strip_tags($_GET['error']); }
-
-		if (isset($_GET['vin'])) { $vin = strip_tags($_GET['vin']); }
 
 
 		// [POST-VALUES] //

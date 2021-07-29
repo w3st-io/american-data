@@ -52,6 +52,8 @@
 			$_SESSION['id'] = $fetched_id;
 			$_SESSION['email'] = $fetched_email;
 			$_SESSION['stripe_cus_id'] = $fetched_stripe_cus_id;
+
+			$authenticated = true;
 		}
 	}
 ?>
@@ -70,22 +72,21 @@
 <div class="container my-5 ">
 	<div class="card card-body shadow">
 
-		<?php if ($authenticated): ?>
+		<?php if ($authenticated == true): ?>
 
-			<!-- [HIDDEMN] INVALID LOGIN -->
-			<form id="failed-form" action="./payments-proccess.php" method="GET">
+			<!-- [HIDDEMN] VALID LOGIN -->
+			<form id="pass-form" action="./payments-proccess-loggedin.php" method="GET">
 				<input type="hidden" name="vin" value="<?php echo $vin ?>">
-				<input type="hidden" name="error" value="<?php echo $error ?>">
 			</form>
 
 			<script type="text/javascript">
-				document.getElementById('failed-form').submit();
+				document.getElementById('pass-form').submit();
 			</script>
 
 		<?php else: ?>
 
 			<!-- [HIDDEMN] INVALID LOGIN -->
-			<form id="failed-form" action="./payments-proccess-login.php" method="GET">
+			<form id="failed-form" action="./invalid-login.php" method="GET">
 				<input type="hidden" name="vin" value="<?php echo $vin ?>">
 			</form>
 

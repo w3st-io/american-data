@@ -4,25 +4,53 @@
 	include('./connection.php');
 
 
+	// [REQUIRE] //
+	require_once('./api/stripe/index.php');
+
+
+	// [STRIPE] //
+	$StripeWrapper = new StripeWrapper();
+
+
 	// [INIT] //
 	$authenticated = false;
+	$paid = false;
 	$vin = '';
 	$error = '';
 
+	// Processing form data when form is submitted
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		// [GET-VALUES] //
+		if (empty($_POST['vin'])) { $error = 'no vin passed'; }
+		else {
+			$vin = trim($_POST['vin']);
 	
-	// [POST-VALUES] //
-	if (empty($_GET['vin'])) { $error = 'Please enter email'; }
+			// [SANITIZE] //
+			$vin = filter_var($vin, FILTER_SANITIZE_STRING);
+
+			// [STRIPE] //
+			$chargeObj = $StripeWrapper->createOneDollarCharge(
+				$_SESSION['stripe_cus_id'],
+				$vin
+			);
+
+			$stripe_pi_id = $chargeObj['id'];
+
+			if ($chargeObj['status'] = 'succeeded') { $paid = true; }
+			else { $error = 'Payment failed'; }
+		}
+	}
 	else {
-		$vin = trim($_GET['vin']);
-
-		// [SANITIZE] //
-		$vin = filter_var($vin, FILTER_SANITIZE_STRING);
-	}
-
-	// [LOGIN] //
-	if ($error == '') {
+		// [GET-VALUES] //
+		if (empty($_GET['vin'])) { $error = 'no vin passed'; }
+		else {
+			$vin = trim($_GET['vin']);
 	
+			// [SANITIZE] //
+			$vin = filter_var($vin, FILTER_SANITIZE_STRING);
+		}
 	}
+	
 ?>
 
 <!-- [HTML] ------------------------------------------------------->
@@ -35,39 +63,49 @@
 	<div class="breadcrumb-bg breadcrumb-bg-about py-sm-5 py-4"></div>
 </section>
 
-<!-- [ERROR] -->
-<?php if($error): ?>
-
-	<div class="alert alert-danger mb-3 shadow">
-		<h4 class="text-danger"><?php echo $error; ?></h4>
-	</div>
-
-<?php endif; ?>
-
 <div class="container my-5">
-	<div class="alert alert-danger mb-3 shadow">
-		<h4 class="text-danger"><?php echo $error; ?></h4>
-		<hr>
 
-		<form
-			action="./payments-proccess-login.php?vin=<?php echo $vin; ?>"
-			method="POST"
-		>
-			<label for="password" class="font-weight-bold">Password:</label>
+	<!-- [ERROR] -->
+	<?php if ($error): ?>
 
-			<!-- [INPUT][HIDDEN] vin -->
-			<input
-				type="hidden"
-				id="vin"
-				name="vin"
-				value="<?php echo $vin; ?>"
+		<div class="alert alert-danger mb-3 shadow">
+			<h4 class="text-danger"><?php echo $error; ?></h4>
+		</div>
+
+	<?php else: ?>
+
+		<?php if ($paid): ?>
+
+			<!-- [SUCCESS] -->
+			<h3 class="text-center text-dark">
+				Thank You! You can now generate a report for the provided vin
+			</h3>
+			<hr>
+			<a
+				href="./generate-report.php?stripe_pi_id=<?php echo $stripe_pi_id; ?>"
+				class="text-center"
 			>
+				<button class="btn btn-primary w-100">
+					Go to Generate Report Page
+				</button>
+			</a>
 
-			
-			<!-- [SUBMIT] -->
-			<div class="btn btn-primary mb-3">Login</div>
-		</form>
-	</div>
+		<?php else: ?>
+
+			<div class="card card-body mb-3 shadow">
+				<form
+					action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"
+					method="POST"
+				>
+					<input type="hidden" name="vin" value="<?php echo $vin ?>">
+					<button class="btn btn-primary w-100">Use Default Card</button>
+				</form>
+			</div>
+
+		<?php endif; ?>
+		
+	<?php endif; ?>
+
 </div>
 
 <?php include('footer.php'); ?>
