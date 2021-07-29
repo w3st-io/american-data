@@ -123,8 +123,6 @@
 		<?php else : ?>
 
 			<h5 class="text-success my-5">Password Recover Email sent! Please check!</h5>
-
-			<a href="<?php echo './password-reset.php?v_code='.$random_hex.'&email='.$email;?>">link</a>
 			
 		<?php endif; ?>
 	</div>
