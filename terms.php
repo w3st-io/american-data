@@ -1,3 +1,4 @@
+<!-- [HTML] ------------------------------------------------------->
 <?php include('header.php'); ?>
 
 
@@ -5,13 +6,12 @@
 <section class="w3l-about-breadcrumb position-relative text-center">
 	<div class="breadcrumb-bg breadcrumb-bg-about py-sm-5 py-4">
 		<div class="container py-lg-5 py-3">
-			<h2 class="title">Terms of use/ refunds</h2>
+			<h2 class="title">Terms of use/refunds</h2>
 		</div>
 	</div>
 </section>
 
 
-<!-- /content-6-->
 <section class="w3l-content-6 report-section">
 	<div class="container">
 		<div class="content-info-in row">

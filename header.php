@@ -1,4 +1,7 @@
-<?php require('./common/session.php'); ?>
+<?php
+	// [INCLUDE] //
+	include('./common/session.php');
+?>
 
 <!doctype html>
 <html lang="zxx">
@@ -81,7 +84,7 @@
 						>Contact Us</a>
 					</li>
 
-					<?php if ($loggedin): ?>
+					<?php if (isset($_SESSION) && $loggedin): ?>
 
 						<li class="nav-item">
 							<a

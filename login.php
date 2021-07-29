@@ -24,6 +24,7 @@
 	if (isset($_GET['error'])) { $error = strip_tags($_GET['error']); }
 ?>
 
+
 <!-- [HTML] ------------------------------------------------------->
 <?php include('header.php'); ?>
 

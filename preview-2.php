@@ -1,20 +1,21 @@
 <?php
 	// [INCLUDE] //
 	include('./common/session.php');
-
-
-	// display button for logged in and button for not logged in below
 ?>
 
+
+<!-- [HTML] ------------------------------------------------------->
 <?php include('header.php'); ?>
 
 <!-- [INPUT] Hidden -->
 <input type="hidden" id="vin" value="<?php echo $_GET['vin'] ?>">
 
+
 <!-- [SPACER] -->
 <section class="w3l-about-breadcrumb position-relative text-center">
 	<div class="breadcrumb-bg breadcrumb-bg-about py-sm-5 py-4"></div>
 </section>
+
 
 <!-- Checkout -->
 <section class="w3l-content-6 checkout">
@@ -44,13 +45,29 @@
 					Your Vin Number: <?php echo $_GET['vin']; ?>
 				</h3>
 
-				<!-- [SUBMIT] -->
-				<a href="./payments.php?vin=<?php echo $_GET['vin']; ?>">
-					<button
-						type="submit"
-						class="btn btn-primary w-100 mb-3"
-					>Proceed to Checkout</button>
-				</a>
+
+				<?php if ($loggedin): ?>
+				
+					<!-- [SUBMIT] -->
+					<a href="./payments-loggedin.php?vin=<?php echo $_GET['vin']; ?>">
+						<button
+							type="submit"
+							class="btn btn-primary w-100 mb-3"
+						>Proceed to Checkout</button>
+					</a>
+
+				<?php else: ?>
+				
+					<!-- [SUBMIT] -->
+					<a href="./payments.php?vin=<?php echo $_GET['vin']; ?>">
+						<button
+							type="submit"
+							class="btn btn-primary w-100 mb-3"
+						>Proceed to Checkout</button>
+					</a>
+
+				<?php endif; ?>
+
 			</div>
 
 			
@@ -67,27 +84,7 @@
 
 <?php include('./common/bottom_script.php'); ?>
 
-<!-- [REQUIRE] -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
 
-<!-- [SCRIPT][INIT] -->
-<script type="text/javascript">
-	// Get value from form
-	$vin = $('#vin').val()
-
-	// [AXIOS] //
-	axios.request({
-		method: 'GET',
-		url: 'https://vindecoder.p.rapidapi.com/salvage_check',
-		params: { vin: $vin },
-		headers: {
-			'x-rapidapi-key': 'c404ea350amsh3a1bf345dd7386fp1bcde5jsnad8d954aa8d4',
-			'x-rapidapi-host': 'vindecoder.p.rapidapi.com'
-		}
-	})
-		.then(function (res) { console.log('res:', res.data) })
-		.catch(function (err) { console.error('error:', err) })
-</script>
-
+<!-- [SCRIPT] ------------------------------------------------------->
 </body>
 </html>

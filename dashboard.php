@@ -1,5 +1,6 @@
-<?php 
-
+<?php
+	// [INCLUDE] //
+	include('./common/session.php');
 ?>
 
 <!-- [HTML] -->
@@ -14,7 +15,7 @@
 
 <div class="container">
 	<div class="card card-body my-5 shadow">
-		<h2 ><?php echo $_SESSION['email']; ?></h2>
+		<h2><?php echo $_SESSION['email']; ?></h2>
 		<hr>
 		<a href="./loggout.php">
 			<button class="btn btn-primary w-100">Loggout</button>

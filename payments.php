@@ -12,7 +12,7 @@
 	// [POST] //
 	if (isset($_GET['vin'])) { $vin = strip_tags($_GET['vin']); }
 	if (isset($_GET['error'])) { $error = strip_tags($_GET['error']); }
-	?>
+?>
 
 
 <!-- [HTML] ------------------------------------------------------->
@@ -21,7 +21,7 @@
 
 <!-- [PHP][REDIRECT] USER LOGGED -->
 <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true): ?>
-		
+
 	<form id="myForm" action="./payments-loggedin.php" method="post">
 		<!-- [INPUT][HIDDEN] vin -->
 		<input
@@ -55,9 +55,15 @@
 
 
 <div class="container">
-	<?php if ($vin != ''): ?>
+
+	<?php if ($error): ?>
+
+		<div class="alert alert-danger mb-3 shadow">
+			<h4 class="text-danger"><?php echo $error; ?></h4>
+		</div>
 	
-		<!-- Vin Passed -->
+	<?php else: ?>
+		
 		<section class="w3l-content-6 checkout">
 			<div class="content-info-in row">
 
@@ -238,21 +244,9 @@
 				</div>
 			</div>
 		</section>
-	
-	<?php else: ?>
-		
-		<!-- No Vin Passed -->
-		<div class="jumbotron my-5 text-center shadow">
-			<h1 class="display-4 text-danger">No Vin Passed :(</h1>
-
-			<hr class="my-4">
-
-			<div class="w-100">
-				<a class="btn btn-primary btn-lg" href="/" role="button">Go Home</a>
-			</div>
-		</div>
 
 	<?php endif; ?>
+
 </div>
 
 <?php include('footer.php'); ?>
