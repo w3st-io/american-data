@@ -28,45 +28,26 @@
 
 		// Check if email is empty
 		if (empty($error)) {
-			// [DATABASE][DELETE] v_code //
+			// [DATABASE][DELETE] password_v_codes //
 			$stmt = $conn->prepare('DELETE FROM password_v_codes WHERE email=?');
-	
-			// [BIND] //
 			$stmt->bind_param(
 				's',
 				$email
 			);
-		
-			// [EXECUTE] //
 			$stmt->execute();
-		
-			// [CLOSE] //
 			$stmt->close();
 
 
-			// [DATABASE] prepare and bind //
+			// [DATABASE][CREATE] pasword_v_code //
 			$stmt = $conn->prepare(
-				"INSERT INTO password_v_codes (
-					email,
-					v_code
-				)
-				VALUES (?,?)"
+				"INSERT INTO password_v_codes (email, v_code) VALUES (?,?)"
 			);
-		
-		
-			// [BIND] //
 			$stmt->bind_param(
 				'ss',
 				$email,
 				$random_hex,
 			);
-		
-		
-			// [EXECUTE] //
 			$stmt->execute();
-		
-		
-			// [CLOSE] Query //
 			$stmt->close();
 
 
