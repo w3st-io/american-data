@@ -19,10 +19,6 @@
 		$StripeWrapper = new StripeWrapper();
 	
 
-		// [INIT] Const //
-		$key="a54b94bc3b94d6a330a859f37b9231e571a0f7966d2c44557e219ad7440c80ef4d2";
-	
-
 		// [INIT] //
 		$paid = false;
 		$vin = '';
@@ -127,9 +123,9 @@
 				);
 		
 				// [JWT][ENCODE] //
-				$payment_jwt = JWT::encode($payload, $key);
+				$payment_jwt = JWT::encode($payload, SECRET_JWT_KEY);
 	
-				$decoded = JWT::decode($payment_jwt, $key, array('HS256'));
+				$decoded = JWT::decode($payment_jwt, SECRET_JWT_KEY, array('HS256'));
 				
 	
 				// [STRIPE] Create Customer with default Payment Method //

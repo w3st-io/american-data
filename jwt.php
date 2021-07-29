@@ -7,10 +7,6 @@ require('vendor/autoload.php');
 use Firebase\JWT\JWT;
 
 
-// [SECRET-KEY] //
-$key = "a54b94bc3b94d6a330a859f37b9231e571a0f7966d2c44557e219ad7440c80ef4d2";
-
-
 // [JWT][TOKENIZE] payLaod //
 $payload = array(
     "card_number" => 4242424242424242,
@@ -21,10 +17,10 @@ $payload = array(
 
 
 // [JWT][ENCODE] //
-$jwt = JWT::encode($payload, $key);
+$jwt = JWT::encode($payload, SECRET_JWT_KEY);
 print_r($jwt);
 
 
 // [JWT][DECODE] //
-$decoded = JWT::decode($jwt, $key, array('HS256'));
+$decoded = JWT::decode($jwt, SECRET_JWT_KEY, array('HS256'));
 print_r($decoded);
