@@ -156,7 +156,7 @@
 					Hyperlinking to our Content
 					The following organizations may link to our Website without prior written approval:
 
-					<h3>Government agencies;</h3>
+					Government agencies;
 					Search engines;
 					News organizations;
 					Online directory distributors may link to our Website in the same manner as they hyperlink to the Websites of other listed businesses; and

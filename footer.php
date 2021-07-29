@@ -56,10 +56,7 @@
 						<p>© 2021 VIN HISTORY REPORTS AMARICA. All rights reserved</p>
 					</div>
 					<ul class="columns text-lg-right">
-						<li><a href="terms.php">privacy policy</a>
-						</li>
-						<li>|</li>
-						<li><a href="terms.php">terms of use/ refunds</a></li>
+						<li><a href="terms.php">privacy policy & Terms</a></li>
 					</ul>
 				</div>
 			</div>
