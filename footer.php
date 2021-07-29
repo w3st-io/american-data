@@ -53,10 +53,10 @@
 			<div class="container">
 				<div class="copyright-footer">
 					<div class="columns text-lg-left">
-						<p>© 2021 VIN HISTORY REPORTS AMARICA. All rights reserved | Designed by <a href="https://futuredivision.co.uk">FutureDivision</a></p>
+						<p>© 2021 VIN HISTORY REPORTS AMARICA. All rights reserved</p>
 					</div>
 					<ul class="columns text-lg-right">
-						<li><a href="privacy.php">privacy policy</a>
+						<li><a href="terms.php">privacy policy</a>
 						</li>
 						<li>|</li>
 						<li><a href="terms.php">terms of use/ refunds</a></li>
