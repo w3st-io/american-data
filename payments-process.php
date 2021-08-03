@@ -68,8 +68,6 @@
 		}
 		else { $error = 'No card_cvv passed'; }
 
-		echo 'ASDFASDF'. $_POST['sign'];
-
 		if (isset($_POST['sign'])) { $sign = strip_tags($_POST['sign']); }
 		else { $error = 'No sign passed'; }
 
