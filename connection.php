@@ -1,6 +1,6 @@
 <?php 
 // [INCLUDE] //
-include('./config/index.php');
+include_once('./config/index.php');
 
 
 // [INTI] //

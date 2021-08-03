@@ -3,7 +3,7 @@
 require_once('./vendor/autoload.php');
 
 
-include('./config/index.php');
+include_once('./config/index.php');
 
 
 class StripeWrapper {
