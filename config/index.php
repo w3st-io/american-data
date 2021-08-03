@@ -1,6 +1,6 @@
 <?php
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'vin_vehicles2');
+define('DB_NAME', 'americandata');
 define('DB_USER', 'root');
 define('DB_PASSWORD', '');
 define('TITLE', 'sitetitle');
