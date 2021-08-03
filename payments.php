@@ -295,6 +295,10 @@
 		let cardExpYearElement = document.getElementById('card_exp_year')
 		let cardCvvElement = document.getElementById('card_cvv')
 
+		// Set Value for Signature
+		let sign = document.getElementById('bcPaintCanvas').toDataURL('image/png')
+		document.getElementById('sign').value = sign
+
 		return true
 	}
 </script>
