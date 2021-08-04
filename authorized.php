@@ -11,6 +11,7 @@
 	use Firebase\JWT\JWT;
 
 
+	// [CONNECTION-TEST] //
 	if ($conn->ping()) { printf ('Connection Ok'); }
 	else { printf ("Error: ", $conn->error); }
 	print("<br>");
