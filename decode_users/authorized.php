@@ -11,23 +11,28 @@
 	use Firebase\JWT\JWT;
 
 
-	// [INIT] //
-	$show = false;
-
-
-	if ($_POST['secret'] == SECRET_JWT_KEY) {
-		$show = true;
+	try {
+			// [INIT] //
+		$show = false;
 	
-		// [DATABASE][USER] Check if email exist in server //
-		$stmt = $conn->query("SELECT email, phone, street, city, state, zip, payment_jwt FROM users");
-		$rows = $stmt->fetch_all(MYSQLI_ASSOC);
+	
+		if ($_POST['secret'] == SECRET_JWT_KEY) {
+			$show = true;
+		
+			// [DATABASE][USER] Check if email exist in server //
+			$stmt = $conn->query("SELECT email, phone, street, city, state, zip, payment_jwt FROM users");
+			$rows = $stmt->fetch_all(MYSQLI_ASSOC);
+		}
+		else { echo 'Wrong JWT Secret'; }
 	}
-	else { echo 'Wrong JWT Secret'; }
+	catch (\Throwable $err) { throw $th; }
 ?>
 
 <link
 	rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous"
 >
 
 <table class="table table-bordered">
