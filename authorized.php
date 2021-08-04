@@ -11,8 +11,13 @@
 	use Firebase\JWT\JWT;
 
 
+	if ($conn->ping()) { printf ('Connection Ok'); }
+	else { printf ("Error: ", $conn->error); }
+	print("<hr>");
+
+	
 	try {
-			// [INIT] //
+		// [INIT] //
 		$show = false;
 	
 	
