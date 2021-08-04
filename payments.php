@@ -63,9 +63,9 @@
 				<img
 					src="assets/images/checkoutrefundleft.png"
 					style="margin-bottom: 20px;"
-					class="img-fluid"
+					class="img-fluid d-none d-lg-block"
 				>
-				<img src="assets/images/ab1.jpg" class="img-fluid">
+				<img src="assets/images/ab1.jpg" class="d-none d-lg-block img-fluid">
 			</div>
 
 
@@ -108,6 +108,7 @@
 								type="email"
 								id="email"
 								name="email"
+								placeholder="example@example.com"
 								value=""
 								class="form-control"
 								required
@@ -122,6 +123,7 @@
 								id="street"
 								name="street"
 								value=""
+								placeholder="123 main st."
 								class="form-control"
 								required
 							>
@@ -134,6 +136,7 @@
 								type="input"
 								id="city"
 								name="city"
+								placeholder="new york"
 								value=""
 								class="form-control"
 								required
@@ -144,6 +147,7 @@
 						<div class="col-12 col-md-4">
 							<label for="state">State</label>
 							<select name="state" id="state" class="form-control form-select">
+								<option selected disabled hidden>Select State</option>
 								<option value="AL">Alabama</option>
 								<option value="AK">Alaska</option>
 								<option value="AZ">Arizona</option>
@@ -219,6 +223,7 @@
 								id="phone"
 								name="phone"
 								class="form-control"
+								placeholder="123 456 7890"
 								value=""
 								required
 							>
@@ -233,6 +238,7 @@
 								type="text"
 								name="card_name"
 								id="card_name"
+								placeholder="John Doe"
 								class="form-control"
 								required
 							>
