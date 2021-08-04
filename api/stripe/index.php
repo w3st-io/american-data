@@ -28,9 +28,15 @@ class StripeWrapper {
 	}
 
 
-	public function createCustomer($email, $phone, $payment_method) {
+	public function createCustomer($email, $phone, $payment_method, $street, $city, $state, $zip) {
 		$stripe = new \Stripe\StripeClient(STRIPE_KEY);
 
+		// [INIT] //
+		$i['address']['line1'] = $street;
+		$i['address']['city'] = $city;
+		$i['address']['state'] = $state;
+		$i['address']['postal_code'] = $zip;
+		$i['address']['country'] = 'usa';
 
 		// [CUSTOMER][CREATE] //
 		$customerObj = $stripe->customers->create([

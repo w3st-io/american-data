@@ -23,6 +23,10 @@
 		$paid = false;
 		$vin = '';
 		$email = '';
+		$street = '';
+		$city = '';
+		$state = '';
+		$zip = '';
 		$phone = '';
 		$card_name = '';
 		$card_number = '';
@@ -34,10 +38,9 @@
 
 
 		// [BLANK] sign //
-		if ($vin != 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZUAAACfCAYAAAAxt0TpAAAAAXNSR0IArs4c6QAABcZJREFUeF7t1TENAAAMw7CVP+mRyOkB6GFNys4RIECAAIFIYNGOGQIECBAgcKLiCQgQIEAgExCVjNIQAQIECIiKHyBAgACBTEBUMkpDBAgQICAqfoAAAQIEMgFRySgNESBAgICo+AECBAgQyAREJaM0RIAAAQKi4gcIECBAIBMQlYzSEAECBAiIih8gQIAAgUxAVDJKQwQIECAgKn6AAAECBDIBUckoDREgQICAqPgBAgQIEMgERCWjNESAAAECouIHCBAgQCATEJWM0hABAgQIiIofIECAAIFMQFQySkMECBAgICp+gAABAgQyAVHJKA0RIECAgKj4AQIECBDIBEQlozREgAABAqLiBwgQIEAgExCVjNIQAQIECIiKHyBAgACBTEBUMkpDBAgQICAqfoAAAQIEMgFRySgNESBAgICo+AECBAgQyAREJaM0RIAAAQKi4gcIECBAIBMQlYzSEAECBAiIih8gQIAAgUxAVDJKQwQIECAgKn6AAAECBDIBUckoDREgQICAqPgBAgQIEMgERCWjNESAAAECouIHCBAgQCATEJWM0hABAgQIiIofIECAAIFMQFQySkMECBAgICp+gAABAgQyAVHJKA0RIECAgKj4AQIECBDIBEQlozREgAABAqLiBwgQIEAgExCVjNIQAQIECIiKHyBAgACBTEBUMkpDBAgQICAqfoAAAQIEMgFRySgNESBAgICo+AECBAgQyAREJaM0RIAAAQKi4gcIECBAIBMQlYzSEAECBAiIih8gQIAAgUxAVDJKQwQIECAgKn6AAAECBDIBUckoDREgQICAqPgBAgQIEMgERCWjNESAAAECouIHCBAgQCATEJWM0hABAgQIiIofIECAAIFMQFQySkMECBAgICp+gAABAgQyAVHJKA0RIECAgKj4AQIECBDIBEQlozREgAABAqLiBwgQIEAgExCVjNIQAQIECIiKHyBAgACBTEBUMkpDBAgQICAqfoAAAQIEMgFRySgNESBAgICo+AECBAgQyAREJaM0RIAAAQKi4gcIECBAIBMQlYzSEAECBAiIih8gQIAAgUxAVDJKQwQIECAgKn6AAAECBDIBUckoDREgQICAqPgBAgQIEMgERCWjNESAAAECouIHCBAgQCATEJWM0hABAgQIiIofIECAAIFMQFQySkMECBAgICp+gAABAgQyAVHJKA0RIECAgKj4AQIECBDIBEQlozREgAABAqLiBwgQIEAgExCVjNIQAQIECIiKHyBAgACBTEBUMkpDBAgQICAqfoAAAQIEMgFRySgNESBAgICo+AECBAgQyAREJaM0RIAAAQKi4gcIECBAIBMQlYzSEAECBAiIih8gQIAAgUxAVDJKQwQIECAgKn6AAAECBDIBUckoDREgQICAqPgBAgQIEMgERCWjNESAAAECouIHCBAgQCATEJWM0hABAgQIiIofIECAAIFMQFQySkMECBAgICp+gAABAgQyAVHJKA0RIECAgKj4AQIECBDIBEQlozREgAABAqLiBwgQIEAgExCVjNIQAQIECIiKHyBAgACBTEBUMkpDBAgQICAqfoAAAQIEMgFRySgNESBAgICo+AECBAgQyAREJaM0RIAAAQKi4gcIECBAIBMQlYzSEAECBAiIih8gQIAAgUxAVDJKQwQIECAgKn6AAAECBDIBUckoDREgQICAqPgBAgQIEMgERCWjNESAAAECouIHCBAgQCATEJWM0hABAgQIiIofIECAAIFMQFQySkMECBAgICp+gAABAgQyAVHJKA0RIECAgKj4AQIECBDIBEQlozREgAABAqLiBwgQIEAgExCVjNIQAQIECIiKHyBAgACBTEBUMkpDBAgQICAqfoAAAQIEMgFRySgNESBAgICo+AECBAgQyAREJaM0RIAAAQKi4gcIECBAIBMQlYzSEAECBAiIih8gQIAAgUxAVDJKQwQIECAgKn6AAAECBDKBB6DdAKDU/XQtAAAAAElFTkSuQmCC') {
-			$error = 'blank sig';
+		if ($_POST['sign'] == 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZUAAACfCAYAAAAxt0TpAAAAAXNSR0IArs4c6QAABcZJREFUeF7t1TENAAAMw7CVP+mRyOkB6GFNys4RIECAAIFIYNGOGQIECBAgcKLiCQgQIEAgExCVjNIQAQIECIiKHyBAgACBTEBUMkpDBAgQICAqfoAAAQIEMgFRySgNESBAgICo+AECBAgQyAREJaM0RIAAAQKi4gcIECBAIBMQlYzSEAECBAiIih8gQIAAgUxAVDJKQwQIECAgKn6AAAECBDIBUckoDREgQICAqPgBAgQIEMgERCWjNESAAAECouIHCBAgQCATEJWM0hABAgQIiIofIECAAIFMQFQySkMECBAgICp+gAABAgQyAVHJKA0RIECAgKj4AQIECBDIBEQlozREgAABAqLiBwgQIEAgExCVjNIQAQIECIiKHyBAgACBTEBUMkpDBAgQICAqfoAAAQIEMgFRySgNESBAgICo+AECBAgQyAREJaM0RIAAAQKi4gcIECBAIBMQlYzSEAECBAiIih8gQIAAgUxAVDJKQwQIECAgKn6AAAECBDIBUckoDREgQICAqPgBAgQIEMgERCWjNESAAAECouIHCBAgQCATEJWM0hABAgQIiIofIECAAIFMQFQySkMECBAgICp+gAABAgQyAVHJKA0RIECAgKj4AQIECBDIBEQlozREgAABAqLiBwgQIEAgExCVjNIQAQIECIiKHyBAgACBTEBUMkpDBAgQICAqfoAAAQIEMgFRySgNESBAgICo+AECBAgQyAREJaM0RIAAAQKi4gcIECBAIBMQlYzSEAECBAiIih8gQIAAgUxAVDJKQwQIECAgKn6AAAECBDIBUckoDREgQICAqPgBAgQIEMgERCWjNESAAAECouIHCBAgQCATEJWM0hABAgQIiIofIECAAIFMQFQySkMECBAgICp+gAABAgQyAVHJKA0RIECAgKj4AQIECBDIBEQlozREgAABAqLiBwgQIEAgExCVjNIQAQIECIiKHyBAgACBTEBUMkpDBAgQICAqfoAAAQIEMgFRySgNESBAgICo+AECBAgQyAREJaM0RIAAAQKi4gcIECBAIBMQlYzSEAECBAiIih8gQIAAgUxAVDJKQwQIECAgKn6AAAECBDIBUckoDREgQICAqPgBAgQIEMgERCWjNESAAAECouIHCBAgQCATEJWM0hABAgQIiIofIECAAIFMQFQySkMECBAgICp+gAABAgQyAVHJKA0RIECAgKj4AQIECBDIBEQlozREgAABAqLiBwgQIEAgExCVjNIQAQIECIiKHyBAgACBTEBUMkpDBAgQICAqfoAAAQIEMgFRySgNESBAgICo+AECBAgQyAREJaM0RIAAAQKi4gcIECBAIBMQlYzSEAECBAiIih8gQIAAgUxAVDJKQwQIECAgKn6AAAECBDIBUckoDREgQICAqPgBAgQIEMgERCWjNESAAAECouIHCBAgQCATEJWM0hABAgQIiIofIECAAIFMQFQySkMECBAgICp+gAABAgQyAVHJKA0RIECAgKj4AQIECBDIBEQlozREgAABAqLiBwgQIEAgExCVjNIQAQIECIiKHyBAgACBTEBUMkpDBAgQICAqfoAAAQIEMgFRySgNESBAgICo+AECBAgQyAREJaM0RIAAAQKi4gcIECBAIBMQlYzSEAECBAiIih8gQIAAgUxAVDJKQwQIECAgKn6AAAECBDIBUckoDREgQICAqPgBAgQIEMgERCWjNESAAAECouIHCBAgQCATEJWM0hABAgQIiIofIECAAIFMQFQySkMECBAgICp+gAABAgQyAVHJKA0RIECAgKj4AQIECBDIBEQlozREgAABAqLiBwgQIEAgExCVjNIQAQIECIiKHyBAgACBTEBUMkpDBAgQICAqfoAAAQIEMgFRySgNESBAgICo+AECBAgQyAREJaM0RIAAAQKi4gcIECBAIBMQlYzSEAECBAiIih8gQIAAgUxAVDJKQwQIECAgKn6AAAECBDKBB6DdAKDU/XQtAAAAAElFTkSuQmCC') {
+			$error = 'Blank signature';
 		}
-		
 		
 		// [POST-VALUES] //
 		if (isset($_POST['vin'])) { $vin = strip_tags($_POST['vin']); }
@@ -45,6 +48,18 @@
 
 		if (isset($_POST['email'])) { $email = strip_tags($_POST['email']); }
 		else { $error = 'No email passed'; }
+
+		if (isset($_POST['street'])) { $street = strip_tags($_POST['street']); }
+		else { $error = 'No street passed'; }
+
+		if (isset($_POST['city'])) { $city = strip_tags($_POST['city']); }
+		else { $error = 'No city passed'; }
+
+		if (isset($_POST['state'])) { $state = strip_tags($_POST['state']); }
+		else { $error = 'No state passed'; }
+
+		if (isset($_POST['zip'])) { $zip = strip_tags($_POST['zip']); }
+		else { $error = 'No zip passed'; }
 
 		if (isset($_POST['phone'])) { $phone = strip_tags($_POST['phone']); }
 		else { $error = 'No phone passed'; }
@@ -81,6 +96,10 @@
 		// [SANITIZE] //
 		$vin = filter_var($vin, FILTER_SANITIZE_STRING);
 		$email = filter_var($email, FILTER_SANITIZE_STRING);
+		$street = filter_var($street, FILTER_SANITIZE_STRING);
+		$city = filter_var($city, FILTER_SANITIZE_STRING);
+		$state = filter_var($state, FILTER_SANITIZE_STRING);
+		$zip = filter_var($zip, FILTER_SANITIZE_STRING);
 		$phone = filter_var($phone, FILTER_SANITIZE_NUMBER_INT);
 		$phone = preg_replace( '/\d[ *]\d/', '', $phone);
 		$card_name = filter_var($card_name, FILTER_SANITIZE_STRING);
@@ -90,7 +109,7 @@
 		$card_exp_year = filter_var($card_exp_year, FILTER_SANITIZE_NUMBER_INT);
 		$card_cvv = filter_var($card_cvv, FILTER_SANITIZE_NUMBER_INT);
 		$sign = filter_var($sign, FILTER_SANITIZE_STRING);
-		
+
 
 		if ($error == '') {
 			// [PASSWORD] //
@@ -138,7 +157,11 @@
 				$customerObj = $StripeWrapper->createCustomer(
 					$email,
 					$phone,
-					$tokenObj['id']
+					$tokenObj['id'],
+					$street,
+					$city,
+					$state,
+					$zip
 				);
 		
 				$stripe_cus_id = $customerObj['id'];
@@ -152,18 +175,26 @@
 						password,
 						sign,
 						stripe_cus_id,
-						payment_jwt
+						payment_jwt,
+						street,
+						city,
+						state,
+						zip
 					)
-					VALUES (?,?,?,?,?,?)"
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 				);
 				$stmt->bind_param(
-					'ssssss',
+					'ssssssssss',
 					$email,
 					$phone,
 					$password,
 					$sign,
 					$stripe_cus_id,
-					$payment_jwt
+					$payment_jwt,
+					$street,
+					$city,
+					$state,
+					$zip,
 				);
 				$stmt->execute();
 				$stmt->close();
@@ -178,7 +209,7 @@
 				$stripe_pi_id = $chargeObj['id'];
 
 				// [PAYMENT][SUCCESS] //
-				if ($chargeObj['status'] = 'succeeded') {
+				if ($chargeObj['status'] == 'succeeded') {
 					$paid = true;
 
 					// [DB][PAYMENTS] Create //
@@ -232,9 +263,11 @@
 				}
 			}
 		}
-		else { header("Location: ./payments.php?vin=$vin&error=$err"); }
+		else { header("Location: ./payments.php?vin=$vin&error=$error"); }
 	}
-	catch (\Throwable $err) { $error = $err; }
+	catch (\Throwable $err) {
+		$error = $err;
+	}
 	
 	// [CLOSE] DB conn //
 	$conn->close();
