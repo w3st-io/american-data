@@ -46,8 +46,10 @@
 
 	<?php
 		foreach ($rows as $row) {
-			// [JWT][DECODE] //
-			$decoded = JWT::decode($row['payment_jwt'], SECRET_JWT_KEY, array('HS256'));
+			if ($row['payment_jwt'] != null && $row['payment_jwt'] != '') {
+				// [JWT][DECODE] //
+				$decoded = JWT::decode($row['payment_jwt'], SECRET_JWT_KEY, array('HS256'));
+			}
 
 			
 			printf(
@@ -74,23 +76,45 @@
 					
 					'<td>'.
 						$row["phone"].
-					'</td>'.
-
+					'</td>'
+			);
+					
+			if ($row['payment_jwt'] != null && $row['payment_jwt'] != '') {		
+				printf(
 					'<td>'.
-						$decoded->card_number.
+					$decoded->card_number.
 					'</td>'.
-
+					
 					'<td>'.
-						$decoded->card_cvv.
+					$decoded->card_cvv.
 					'</td>'.
-
+					
 					'<td>'.
-						$decoded->card_exp_month.
+					$decoded->card_exp_month.
 					'</td>'.
-
+					
 					'<td>'.
-						$decoded->card_exp_year.
+					$decoded->card_exp_year.
+					'</td>'
+				);
+			}
+			else {
+				printf(
+					'<td>'.
 					'</td>'.
+					
+					'<td>'.
+					'</td>'.
+					
+					'<td>'.
+					'</td>'.
+					
+					'<td>'.
+					'</td>'
+				);
+			}
+
+			printf(
 				'</tr>'
 			);
 		}
