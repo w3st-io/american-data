@@ -114,8 +114,4 @@
 		catch (\Throwable $err) { echo $err; }
 	?>
 
-</table>
-
-<?php
-	$stmt->close();
-?>
+	</table>
