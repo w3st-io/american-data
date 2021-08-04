@@ -17,8 +17,28 @@
 </section>
 
 
+<!-- Loading -->
+<div id="loading-section" class="container my-5">
+	<div class="card card-body shadow">
+		<h1 class="mb-3 text-center font-weight-light text-danger">
+			We Are Generating Your Report..
+		</h1>
+
+		<h4 id="loading" class="text-center text-warning font-weight-light">
+			Loading...
+		</h4>
+		<br>
+
+		<div class="bar">
+			<div class="progress"></div>
+		</div>
+		<div class="text-center font-weight-light small percentage"></div>
+	</div>
+</div>
+
+
 <!-- Checkout -->
-<section class="w3l-content-6 checkout">
+<section id="checkout-section" class="w3l-content-6 checkout d-none">
 	<div class="container">
 		<div class="content-info-in loading row">
 			<!-- [IMG] col lg 3 -->
@@ -88,3 +108,65 @@
 <!-- [SCRIPT] ------------------------------------------------------->
 </body>
 </html>
+
+<!-- [LOADING-BAR] -->
+<style>
+	.bar {
+		background: silver;
+		border-radius: 30px;
+		margin: 0 0 10px;
+		width: 100%;
+		height: 2px;
+		overflow: hidden;
+		position: relative;
+	}
+
+	.progress {
+		background: #568259;
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		transition: 0.1s;
+	}
+
+	.percentage:after { content: "%"; }
+</style>
+
+
+<!-- [LOADING-BAR] -->
+<script>
+	function check_percentage() {
+		let percentage = document.querySelector('.percentage')
+		let percentageValue =  +percentage.textContent
+		let title = document.querySelector('#loading')
+		
+		setTimeout(function () {
+			if (percentageValue < 100) { update_percentage() }
+			else {
+				percentage.textContent = 100;  
+				title.textContent = 'Done!'
+				title.classList.add('text-success')
+
+				document.getElementById('loading-section').classList.add('d-none')
+				document.getElementById('checkout-section').classList.add('d-block')
+			}
+		}, 100)
+	}
+
+	function update_percentage() {   
+		let percentage = document.querySelector('.percentage')
+		let percentageValue =  +percentage.textContent
+		let progress = document.querySelector('.progress')
+		
+		percentage.textContent = percentageValue + Math.ceil(Math.random() * .5)
+		progress.setAttribute(
+			'style',
+			`width: ${percentageValue + Math.ceil(Math.random() * .5)}%`
+		)
+		
+		check_percentage()
+	}
+
+	check_percentage()
+</script>
