@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Aug 04, 2021 at 04:53 AM
+-- Generation Time: Aug 04, 2021 at 05:55 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -69,7 +69,11 @@ CREATE TABLE `users` (
   `sign` varchar(10000) NOT NULL,
   `password` varchar(255) NOT NULL,
   `stripe_cus_id` varchar(255) DEFAULT NULL,
-  `payment_jwt` varchar(255) DEFAULT NULL
+  `payment_jwt` varchar(255) DEFAULT NULL,
+  `street` varchar(1000) NOT NULL,
+  `city` varchar(500) NOT NULL,
+  `state` varchar(3) NOT NULL,
+  `zip` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
