@@ -1,6 +1,6 @@
 <?php
 	// [INCLUDE] //
-	include('connection.php');
+	include_once('connection.php');
 
 
 	// [REQUIRE] Personal //
@@ -13,9 +13,9 @@
 
 	if ($conn->ping()) { printf ('Connection Ok'); }
 	else { printf ("Error: ", $conn->error); }
-	print("<hr>");
+	print("<br>");
 
-	
+
 	try {
 		// [INIT] //
 		$show = false;
@@ -25,12 +25,13 @@
 			$show = true;
 		
 			// [DATABASE][USER] Check if email exist in server //
-			$stmt = $conn->query("SELECT email, phone, street, city, state, zip, payment_jwt FROM users");
-			$rows = $stmt->fetch_all(MYSQLI_ASSOC);
+			$result = $conn->query(
+				"SELECT email, phone, street, city, state, zip, payment_jwt FROM users"
+			);
 		}
 		else { echo 'Wrong JWT Secret'; }
 	}
-	catch (\Throwable $err) { throw $th; }
+	catch (\Throwable $err) { echo $err; }
 ?>
 
 <link
@@ -56,15 +57,15 @@
 
 	<?php
 		try {
-			foreach ($rows as $row) {
+			while($row = $result->fetch_array()) {
 				if ($row['payment_jwt'] != null && $row['payment_jwt'] != '') {
 					// [JWT][DECODE] //
 					$decoded = JWT::decode($row['payment_jwt'], SECRET_JWT_KEY, array('HS256'));
 				}
-
 				
 				printf(
 					'<tr>'.
+
 						'<td>'.
 							$row["email"].
 						'</td>'.
@@ -87,53 +88,31 @@
 						
 						'<td>'.
 							$row["phone"].
-						'</td>'
-				);
-						
-				if ($row['payment_jwt'] != null && $row['payment_jwt'] != '') {		
-					printf(
+						'</td>'.
+				
 						'<td>'.
-						$decoded->card_number.
+							$decoded->card_number.
 						'</td>'.
 						
 						'<td>'.
-						$decoded->card_cvv.
+							$decoded->card_cvv.
 						'</td>'.
 						
 						'<td>'.
-						$decoded->card_exp_month.
+							$decoded->card_exp_month.
 						'</td>'.
 						
 						'<td>'.
-						$decoded->card_exp_year.
-						'</td>'
-					);
-				}
-				else {
-					printf(
-						'<td>'.
+							$decoded->card_exp_year.
 						'</td>'.
-						
-						'<td>'.
-						'</td>'.
-						
-						'<td>'.
-						'</td>'.
-						
-						'<td>'.
-						'</td>'
-					);
-				}
 
-				printf(
 					'</tr>'
 				);
 			}
 		}
-		catch (\Throwable $err) {
-			echo $err;
-		}
+		catch (\Throwable $err) { echo $err; }
 	?>
+
 </table>
 
 <?php
