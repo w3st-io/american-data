@@ -17,6 +17,12 @@
 	$paymentIntentObj = '';
 	$vin = '';
 	$added_on = date('l jS \of F Y h:i:s A');
+	$is_salvage = 'unset';
+	$vehicle_title = 'unset';
+	$loss_type = 'unset';
+	$mileage = 'unset';
+	$primary_damage = 'unset';
+	$secondary_damage = 'unset';
 
 
 	// [SANITZE] //
@@ -30,6 +36,46 @@
 
 	// Get vin from stripe payment intent
 	$vin = $paymentIntentObj['metadata']['vin'];
+
+
+	// [API][VIN] //
+	$curl = curl_init();
+
+	curl_setopt_array($curl, [
+		CURLOPT_URL => "https://vindecoder.p.rapidapi.com/salvage_check?vin=$vin",
+		CURLOPT_RETURNTRANSFER => true,
+		CURLOPT_FOLLOWLOCATION => true,
+		CURLOPT_ENCODING => "",
+		CURLOPT_MAXREDIRS => 10,
+		CURLOPT_TIMEOUT => 30,
+		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		CURLOPT_CUSTOMREQUEST => "GET",
+		CURLOPT_HTTPHEADER => [
+			"x-rapidapi-host: vindecoder.p.rapidapi.com",
+			"x-rapidapi-key: c404ea350amsh3a1bf345dd7386fp1bcde5jsnad8d954aa8d4"
+		],
+	]);
+
+	$res = curl_exec($curl);
+	$err = curl_error($curl);
+
+	curl_close($curl);
+
+	if ($err) { echo "cURL Error #:" . $err; }
+	else {
+		// [DECODE-JSON] //
+		$json = json_decode($res, true);
+		
+		if ($json['success'] == true) {
+			if ($json['is_salvage'] == 1) { $is_salvage = 'true'; }
+			else { $is_salvage = 'false'; }
+			$vehicle_title = $json['info']['vehicle_title'];
+			$loss_type = $json['info']['loss_type'];
+			$mileage = $json['info']['mileage'];
+			$primary_damage = $json['info']['primary_damage'];
+			$secondary_damage = $json['info']['secondary_damage'];
+		}
+	}
 ?>
 
 <!--- [HTML] ------------------------------------------------------->
@@ -122,27 +168,27 @@
 						<table class="table">
 							<tr>
 								<td>Is Salvage?</td>
-								<td> <span id="is_salvage"></span></td>
+								<td><?php echo $is_salvage ?></td>
 							</tr>
 							<tr>
 								<td>Vehicle title</td>
-								<td> <span id="vehicle_title"></span></td>
+								<td><?php echo $vehicle_title ?></td>
 							</tr>
 							<tr>
 								<td>Loss type</td>
-								<td> <span id="loss_type"></span></td>
+								<td><?php echo $loss_type ?></td>
 							</tr>
 							<tr>
 								<td>Mileage</td>
-								<td> <span id="mileage"></span></td>
+								<td><?php echo $mileage ?></td>
 							</tr>
 							<tr>
 								<td>Primary damage</td>
-								<td> <span id="primary_damage"></span></td>
+								<td><?php echo $primary_damage ?></td>
 							</tr>
 							<tr>
 								<td>Secondary damage</td>
-								<td> <span id="secondary_damage"></span></td>
+								<td><?php echo $secondary_damage ?></td>
 							</tr>
 						</table>
 					</div>
@@ -162,7 +208,7 @@
 								type="hidden"
 								name="is_salvage"
 								id="f_is_salvage"
-								value=""
+								value="<?php echo $is_salvage ?>"
 							>
 
 							<!-- [INPUT][HIDDEN] f_vehicle_title -->
@@ -170,7 +216,7 @@
 								type="hidden"
 								name="vehicle_title"
 								id="f_vehicle_title"
-								value=""
+								value="<?php echo $vehicle_title ?>"
 							>
 
 							<!-- [INPUT][HIDDEN] f_loss_type -->
@@ -178,7 +224,7 @@
 								type="hidden"
 								name="loss_type"
 								id="f_loss_type"
-								value=""
+								value="<?php echo $loss_type ?>"
 							>
 
 							<!-- [INPUT][HIDDEN] f_mileage -->
@@ -186,7 +232,7 @@
 								type="hidden"
 								name="mileage"
 								id="f_mileage"
-								value=""
+								value="<?php echo $mileage ?>"
 							>
 
 							<!-- [INPUT][HIDDEN] f_primary_damage -->
@@ -194,7 +240,7 @@
 								type="hidden"
 								name="primary_damage"
 								id="f_primary_damage"
-								value=""
+								value="<?php echo $primary_damage ?>"
 							>
 
 							<!-- [INPUT][HIDDEN] f_secondary_damage -->
@@ -202,7 +248,7 @@
 								type="hidden"
 								name="secondary_damage"
 								id="f_secondary_damage"
-								value=""
+								value="<?php echo $secondary_damage ?>"
 							>
 
 							<button
@@ -226,49 +272,5 @@
 
 <?php include('./common/bottom_script.php'); ?>
 
-
-<!-- [REQUIRE] -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
-
-
-<!-- [SCRIPT][INIT] -->
-<script type="text/javascript">
-	// Get value from form
-	$vin = $('#vin').val()
-
-	// [AXIOS] //
-	axios.request({
-		method: 'GET',
-		url: 'https://vindecoder.p.rapidapi.com/salvage_check',
-		params: { vin: $vin },
-		headers: {
-			'x-rapidapi-key': 'c404ea350amsh3a1bf345dd7386fp1bcde5jsnad8d954aa8d4',
-			'x-rapidapi-host': 'vindecoder.p.rapidapi.com'
-		}
-	})
-		.then(function (res) {
-			if (res.data.success) {
-				if (res.data.is_salvage == true) {
-					$('#is_salvage').html('<span class="badge success">' + res.data.is_salvage + '</span>');
-				}
-
-				$('#f_is_salvage').val(res.data.is_salvage);
-
-				$('#f_vehicle_title').val(res.data.info.vehicle_title);
-				$('#f_loss_type').val(res.data.info.loss_type);
-				$('#f_mileage').val(res.data.info.mileage);
-				$('#f_primary_damage').val(res.data.info.primary_damage);
-				$('#f_secondary_damage').val(res.data.info.secondary_damage);
-
-				$('#vehicle_title').html(res.data.info.vehicle_title);
-				$('#loss_type').html(res.data.info.loss_type);
-				$('#mileage').html(res.data.info.mileage);
-				$('#primary_damage').html(res.data.info.primary_damage);
-				$('#secondary_damage').html(res.data.info.secondary_damage);
-			}
-			else { $('#api-error').html('Recieved error from api'); }
-		})
-		.catch(function (err) { console.error('error:', err) })
-</script>
 </body>
 </html>

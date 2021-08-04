@@ -17,6 +17,7 @@
 
 
 	// [INIT] //
+	$stripe_cus_id = $_SESSION['stripe_cus_id'];
 	$email = $_SESSION['email'];
 	$authenticated = false;
 	$paid = false;
@@ -35,7 +36,7 @@
 
 			// [STRIPE] //
 			$chargeObj = $StripeWrapper->createOneDollarCharge(
-				$_SESSION['stripe_cus_id'],
+				$stripe_cus_id,
 				$vin
 			);
 
