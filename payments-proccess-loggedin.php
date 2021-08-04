@@ -17,6 +17,7 @@
 
 
 	// [INIT] //
+	$email = $_SESSION['email'];
 	$authenticated = false;
 	$paid = false;
 	$vin = '';
@@ -40,7 +41,25 @@
 
 			$stripe_pi_id = $chargeObj['id'];
 
-			if ($chargeObj['status'] = 'succeeded') { $paid = true; }
+			if ($chargeObj['status'] = 'succeeded') {
+				$paid = true;
+
+				// [DB][PAYMENTS] Create //
+				$stmt = $conn->prepare(
+					"INSERT INTO payments (
+						email,
+						stripe_pi_id
+					)
+					VALUES (?,?)"
+				);
+				$stmt->bind_param(
+					'ss',
+					$email,
+					$stripe_pi_id
+				);
+				$stmt->execute();
+				$stmt->close();
+			}
 			else { $error = 'Payment failed'; }
 		}
 	}
