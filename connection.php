@@ -8,7 +8,7 @@ $conn = '';
 
 
 // Create connection
-$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+$conn = new mysqli(DB_HOST, DB_USER_, DB_PASSWORD_, DB_NAME_);
 
 // Check connection
 if ($conn->connect_error) {
