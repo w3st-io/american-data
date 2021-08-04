@@ -85,6 +85,7 @@
 		$card_cvv = filter_var($card_cvv, FILTER_SANITIZE_NUMBER_INT);
 		$sign = filter_var($sign, FILTER_SANITIZE_STRING);
 
+		echo 's'. $sign . '==========' . $_POST['sign'];
 
 		if ($error == '') {
 			// [PASSWORD] //
