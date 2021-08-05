@@ -1,5 +1,5 @@
 <?php
-define('PRODUCTION', false)
+define('PRODUCTION', false);
 define('TITLE', 'americandata');
 define('DB_HOST', 'localhost');
 define('VINDECODER_API_KEY', 'c404ea350amsh3a1bf345dd7386fp1bcde5jsnad8d954aa8d4');
