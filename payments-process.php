@@ -266,7 +266,9 @@
 		else { header("Location: ./payments.php?vin=$vin&error=$error"); }
 	}
 	catch (\Throwable $err) {
-		$error = $err;
+		header(
+			"Location: ./payments.php?vin=$vin&error=something%20went%20wrong%20please%20try%20again"
+		);
 	}
 	
 	// [CLOSE] DB conn //
