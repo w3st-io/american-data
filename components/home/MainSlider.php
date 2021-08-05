@@ -14,3 +14,45 @@
 		</div>
 	</div>
 </section>
+
+<style>
+    
+    <?php if ($_SERVER['SERVER_NAME'] == 'www.americanvinhistory.com'): ?>
+        
+        .w3l-main-slider .banner-view {
+            background: url('assets/images/banner1.jpg') no-repeat center;
+            background-size: cover;
+            min-height: calc(100vh - 30px);
+            position: relative;
+            z-index: 0;
+            display: grid;
+            align-items: center;
+        }
+    
+    <?php else if ($_SERVER['SERVER_NAME'] == 'www.vinvehiclehistoryreports.us.org'): ?>
+
+        .w3l-main-slider .banner-view {
+            background: url('assets/images/banner0.jpg') no-repeat center;
+            background-size: cover;
+            min-height: calc(100vh - 30px);
+            position: relative;
+            z-index: 0;
+            display: grid;
+            align-items: center;
+        }
+
+    <?php else: ?>
+
+        .w3l-main-slider .banner-view {
+            background: url('assets/images/banner1.jpg') no-repeat center;
+            background-size: cover;
+            min-height: calc(100vh - 30px);
+            position: relative;
+            z-index: 0;
+            display: grid;
+            align-items: center;
+        }
+
+    <?php endif; ?>
+
+</style>
