@@ -80,8 +80,8 @@
 </section>
 
 
-<!-- [LOADING-SCREEN] -->
-<?php if (PRODUCTION == 'false'): ?>
+<!-- [PRODUCTION][LOADING-SCREEN] -->
+<?php if (PRODUCTION == 'true'): ?>
 
 	<div id="loading-section" class="container my-5">
 		<div class="card card-body shadow">
