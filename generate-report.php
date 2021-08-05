@@ -1,7 +1,7 @@
 <?php
 	// [INCLUDE] //
 	include('./common/session.php');
-	include('connection.php');
+	include('./connection.php');
 	
 	
 	// [REQUIRE] //
@@ -10,6 +10,10 @@
 
 	// [STRIPE] //
 	$StripeWrapper = new StripeWrapper();
+
+
+	// [INIT] Const //
+	$vindecoder_api_key = VINDECODER_API_KEY;
 
 
 	// [INIT] //
@@ -41,6 +45,7 @@
 	// [API][VIN] //
 	$curl = curl_init();
 
+
 	curl_setopt_array($curl, [
 		CURLOPT_URL => "https://vindecoder.p.rapidapi.com/salvage_check?vin=$vin",
 		CURLOPT_RETURNTRANSFER => true,
@@ -52,7 +57,7 @@
 		CURLOPT_CUSTOMREQUEST => "GET",
 		CURLOPT_HTTPHEADER => [
 			"x-rapidapi-host: vindecoder.p.rapidapi.com",
-			"x-rapidapi-key: c404ea350amsh3a1bf345dd7386fp1bcde5jsnad8d954aa8d4"
+			"x-rapidapi-key: $vindecoder_api_key"
 		],
 	]);
 
