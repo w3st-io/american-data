@@ -336,7 +336,7 @@
 			
 			<!-- Col lg 3 -->
 			<div class="col-lg-3">
-				<img src="assets/images/placecheckoutonright.png" class="img-fluid">
+				<img src="assets/images/payments-right.png" class="img-fluid">
 			</div>
 		</div>
 	</section>
