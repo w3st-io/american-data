@@ -29,7 +29,7 @@
             align-items: center;
         }
     
-    <?php else if ($_SERVER['SERVER_NAME'] == 'www.vinvehiclehistoryreports.us.org'): ?>
+    <?php elseif ($_SERVER['SERVER_NAME'] == 'www.vinvehiclehistoryreports.us.org'): ?>
 
         .w3l-main-slider .banner-view {
             background: url('assets/images/banner0.jpg') no-repeat center;
