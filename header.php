@@ -10,7 +10,7 @@
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<title>VIN History reports America</title>
+	<title><?php echo TITLE; ?></title>
 
 	<!-- Template CSS -->
 	<link href="//fonts.googleapis.com/css?family=Poppins:300,400,400i,500,600,700&display=swap" rel="stylesheet">
@@ -70,9 +70,10 @@
 		<nav class="navbar navbar-expand-lg navbar-light">
 			<h1>
 				<a class="navbar-brand" href="/">
-					<span>VIN</span> History reports America
+					<span>VIN</span> <?php echo TITLE; ?>
 				</a>
 			</h1>
+			
 			<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarNav"
 				aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="fa icon-expand fa-bars"></span>
