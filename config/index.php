@@ -15,12 +15,18 @@ else { define('PRODUCTION', 'false'); }
 
 
 // [PRODUCTION-VAR] //
-if (PRODUCTION == 'true' && $_SERVER['SERVER_NAME'] == 'www.americanvinhistory.com') {
+if (
+	$_SERVER['SERVER_NAME'] == 'www.americanvinhistory.com' ||
+	$_SERVER['SERVER_NAME'] == 'americanvinhistory.com'
+) {
 	define('DATABASE_USER', 'vin_vehicles');
 	define('DATABASE_PASSWORD', 'E$&FR-6AJ)xw');
 	define('STRIPE_KEY', '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');
 }
-else if (PRODUCTION == 'true' && $_SERVER['SERVER_NAME'] == 'www.vinvehiclehistoryreports.us.org') {
+else if (
+	$_SERVER['SERVER_NAME'] == 'www.vinvehiclehistoryreports.us.org' ||
+	$_SERVER['SERVER_NAME'] == 'vinvehiclehistoryreports.us.org'
+) {
 	define('DATABASE_USER', 'root');
 	define('DATABASE_PASSWORD', '');
 	define('STRIPE_KEY', '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');
