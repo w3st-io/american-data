@@ -1,5 +1,6 @@
 <?php
 	// [INCLUDE] //
+	include('./connection.php');
 	include('./common/session.php');
 ?>
 

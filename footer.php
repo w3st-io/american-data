@@ -34,9 +34,7 @@
 								</div>
 							</div>
 							<div class="col-lg-4 col-md-6 sub-one-left">
-	<div class="mid-footer-gd sub-two-right">
-
-										</div>
+								<div class="mid-footer-gd sub-two-right"></div>
 							</div>
 							<div class="col-lg-4 col-md-6 sub-one-left">
 								<h6>Contact Us</h6>
@@ -54,6 +52,10 @@
 				<div class="copyright-footer">
 					<div class="columns text-lg-left">
 						<p>© 2021 VIN HISTORY REPORTS AMARICA. All rights reserved</p>
+						<p>
+							Server Name: <?php echo $_SERVER['SERVER_NAME']; ?><br>
+							PRODUCTION: <?php echo PRODUCTION; ?>
+						</p>
 					</div>
 					<ul class="columns text-lg-right">
 						<li><a href="terms.php">privacy policy & Terms</a></li>
